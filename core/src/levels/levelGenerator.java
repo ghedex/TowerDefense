@@ -33,7 +33,7 @@ public class levelGenerator extends ApplicationAdapter {
         batch.begin();
         //last both params allow to scale image to window size
         batch.draw(img, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(scorp, 0,0);
+        batch.draw(scorp, 0,125, 90, 90); //need to create algorithm to compute size and position
         batch.end();
     }
 
