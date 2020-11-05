@@ -1,4 +1,4 @@
-package enemy.Scorpion;
+package enemy.scorpionEntity;
 
 import enemy.Entity;
 
