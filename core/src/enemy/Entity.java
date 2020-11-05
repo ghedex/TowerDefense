@@ -1,15 +1,14 @@
 package enemy;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 public class Entity {
 
     public final String entityFile;
-    public int damage = 0;
-    public int speed;
 
-    public Entity(String entityFile, int damage, int speed){
+    public Entity(String entityFile){
         this.entityFile = entityFile;
-        this.damage = damage;
-        this.speed = speed;
     }
 
 }
