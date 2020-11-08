@@ -47,6 +47,7 @@ public class levelGenerator extends ApplicationAdapter {
         }
 
         /* Path for Enemy-Map1 (oberer Weg): [197, 563]
+
         [356, 553]
         [413, 507]
         [432, 419]
