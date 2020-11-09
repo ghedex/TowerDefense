@@ -2,73 +2,113 @@ package levels;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import enemy.scorpionEntity.Scorpion;
+import com.badlogic.gdx.utils.Array;
 
-import java.util.ArrayList;
-import java.util.Vector;
+
+
+
 
 public class levelGenerator extends ApplicationAdapter {
     private final String level;
 
+    private ShapeRenderer sr;
+
     SpriteBatch batch;
     Texture img;
-    Texture scorp;
+    Sprite scorp;
+    private Array<AISprite> aiSprites;
+
+    private Sprite sprite;
+
+
     public levelGenerator(String level){
         this.level = level;
     }
 
     Scorpion scorpionMob = new Scorpion();
+
     @Override
     public void create () {
+        sr = new ShapeRenderer();
         batch = new SpriteBatch();
         img = new Texture(level);
-        scorp = new Texture(scorpionMob.entityFile);
+        scorp = new Sprite(new Texture(scorpionMob.entityFile));
+        scorp.setSize(50, 50);
+        scorp.setOrigin(0, 0);
+        aiSprites = new Array<AISprite>();
+        aiSprites.add(new AISprite(scorp, levelOnePath()));
 
     }
-    @Override
+    private Array<Vector2> levelOnePath(){
+        Array<Vector2> path = new Array<Vector2>();
+        path.add(new Vector2(250, 150));
+        path.add(new Vector2(400, 150));
+        path.add(new Vector2(290, 563));
+        path.add(new Vector2(369, 552));
+        path.add(new Vector2(417, 498));
+        path.add(new Vector2(436, 424));
+        path.add(new Vector2(462, 373));
+        path.add(new Vector2(541, 343));
+        path.add(new Vector2(612, 351));
+        path.add(new Vector2(667, 394));
+        /*for(int i = 0; i < MathUtils.random(5, 10); i++){
+            path.add(new Vector2(MathUtils.random(0, Gdx.graphics.getWidth()), MathUtils.random(0, Gdx.graphics.getHeight())));
+        }
+        */
+        return path;
+    }
     public void render () {
+
         batch.begin();
         //last both params allow to scale image to window size
         batch.draw(img, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(scorp, 0,125, 90, 90); //need to create algorithm to compute size and position
+        //scorp.draw(batch);
+        for(AISprite aiSprite: aiSprites)
+            aiSprite.draw(batch);
         batch.end();
-        /*Following Code is just for pathfinding)*/
-        if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-            Array<Integer> coords = new Array<>();
-            int x = Gdx.input.getX();
-            int y = Gdx.input.getY();
+        for(AISprite aiSprite: aiSprites){
 
-            coords.add(x, y);
-            System.out.println(coords);
+            sr.setColor(Color.CYAN);
+            sr.begin(ShapeRenderer.ShapeType.Line);
+            sr.line(new Vector2(aiSprite.getX(), aiSprite.getY()), aiSprite.getPath().get(aiSprite.getWaypoint()) );
+            sr.end();
+
+            Vector2 previous = aiSprite.getPath().first();
+            for(Vector2 waypoint: aiSprite.getPath()){
+                sr.setColor(Color.WHITE);
+                sr.begin(ShapeRenderer.ShapeType.Line);
+                sr.line(previous, waypoint);
+
+                sr.end();
+                sr.begin(ShapeRenderer.ShapeType.Filled);
+                sr.circle(waypoint.x, waypoint.y, 5);
+
+                sr.end();
+                previous = waypoint;
+            }
+
         }
 
-        /* Path for Enemy-Map1 (oberer Weg): [197, 563]
 
-        [356, 553]
-        [413, 507]
-        [432, 419]
-        [501, 353]
-        [605, 352]
-        [692, 402]
-        [770, 374]
-        [801, 316]
-        [816, 233]
-        [893, 170]
-        [1009, 158]
-        [1109, 165]
-        [1193, 202]
-        [1261, 229]*/
+
+        //scorp.setPosition(xPosition, 0);
 
     }
 
     @Override
     public void dispose () {
         batch.dispose();
+        sr.dispose();
         img.dispose();
-        scorp.dispose();
+        sprite.getTexture().dispose();
+
+
     }
 }
