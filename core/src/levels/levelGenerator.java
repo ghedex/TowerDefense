@@ -42,5 +42,5 @@ public class levelGenerator extends ApplicationAdapter {
         batch.dispose();
         img.dispose();
         scorp.dispose();
-    }
+    }//Troll
 }
