@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.Array;
 public class AISprite extends Sprite {
 
     private Vector2 velocity = new Vector2();
-    private float speed = 50, tolerance = 3;
+    private float speed = 100, tolerance = 3;
 
     public Array<Vector2> getPath() {
         return path;
@@ -38,7 +38,7 @@ public class AISprite extends Sprite {
         velocity.set((float) Math.cos(angle) * speed, (float) Math.sin(angle) * speed);
 
         setPosition(getX() + velocity.x * delta, getY() + velocity.y * delta);
-        setRotation(angle * MathUtils.radiansToDegrees);
+        //setRotation(angle * MathUtils.radiansToDegrees);
 
         if(isWaypointReached()){
             setPosition(path.get(waypoint).x, path.get(waypoint).y);
