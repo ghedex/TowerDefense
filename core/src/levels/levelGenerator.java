@@ -85,7 +85,6 @@ public class levelGenerator extends ApplicationAdapter {
     public void dispose () {
         batch.dispose();
         img.dispose();
-
         scorpion.disposeImage();
 
     }
