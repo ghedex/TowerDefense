@@ -1,0 +1,146 @@
+
+scorpionPack.png
+size: 2048,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+1_enemies_1_run
+  rotate: false
+  xy: 2, 230
+  size: 192, 226
+  orig: 192, 226
+  offset: 0, 0
+  index: 4
+1_enemies_1_run
+  rotate: false
+  xy: 2, 2
+  size: 192, 226
+  orig: 192, 226
+  offset: 0, 0
+  index: 17
+1_enemies_1_run
+  rotate: false
+  xy: 196, 230
+  size: 192, 226
+  orig: 192, 226
+  offset: 0, 0
+  index: 9
+1_enemies_1_run
+  rotate: false
+  xy: 196, 2
+  size: 192, 226
+  orig: 192, 226
+  offset: 0, 0
+  index: 1
+1_enemies_1_run
+  rotate: false
+  xy: 390, 230
+  size: 192, 226
+  orig: 192, 226
+  offset: 0, 0
+  index: 14
+1_enemies_1_run
+  rotate: false
+  xy: 390, 2
+  size: 192, 226
+  orig: 192, 226
+  offset: 0, 0
+  index: 6
+1_enemies_1_run
+  rotate: false
+  xy: 584, 230
+  size: 192, 226
+  orig: 192, 226
+  offset: 0, 0
+  index: 19
+1_enemies_1_run
+  rotate: false
+  xy: 584, 2
+  size: 192, 226
+  orig: 192, 226
+  offset: 0, 0
+  index: 11
+1_enemies_1_run
+  rotate: false
+  xy: 778, 230
+  size: 192, 226
+  orig: 192, 226
+  offset: 0, 0
+  index: 3
+1_enemies_1_run
+  rotate: false
+  xy: 778, 2
+  size: 192, 226
+  orig: 192, 226
+  offset: 0, 0
+  index: 16
+1_enemies_1_run
+  rotate: false
+  xy: 972, 230
+  size: 192, 226
+  orig: 192, 226
+  offset: 0, 0
+  index: 8
+1_enemies_1_run
+  rotate: false
+  xy: 972, 2
+  size: 192, 226
+  orig: 192, 226
+  offset: 0, 0
+  index: 0
+1_enemies_1_run
+  rotate: false
+  xy: 1166, 230
+  size: 192, 226
+  orig: 192, 226
+  offset: 0, 0
+  index: 13
+1_enemies_1_run
+  rotate: false
+  xy: 1166, 2
+  size: 192, 226
+  orig: 192, 226
+  offset: 0, 0
+  index: 5
+1_enemies_1_run
+  rotate: false
+  xy: 1360, 230
+  size: 192, 226
+  orig: 192, 226
+  offset: 0, 0
+  index: 18
+1_enemies_1_run
+  rotate: false
+  xy: 1360, 2
+  size: 192, 226
+  orig: 192, 226
+  offset: 0, 0
+  index: 10
+1_enemies_1_run
+  rotate: false
+  xy: 1554, 230
+  size: 192, 226
+  orig: 192, 226
+  offset: 0, 0
+  index: 2
+1_enemies_1_run
+  rotate: false
+  xy: 1554, 2
+  size: 192, 226
+  orig: 192, 226
+  offset: 0, 0
+  index: 15
+1_enemies_1_run
+  rotate: false
+  xy: 1748, 230
+  size: 192, 226
+  orig: 192, 226
+  offset: 0, 0
+  index: 7
+1_enemies_1_run
+  rotate: false
+  xy: 1748, 2
+  size: 192, 226
+  orig: 192, 226
+  offset: 0, 0
+  index: 12

@@ -37,5 +37,8 @@ task dist(type: Jar) {
 
 
 dist.dependsOn classes
+dependencies {
+    compile "com.badlogicgames.gdx:gdx-ai:1.8.0"
 
+}
 eclipse.project.name = appName + "-desktop"
