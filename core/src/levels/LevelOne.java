@@ -1,13 +1,37 @@
 package levels;
 
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-public class LevelOne extends levelGenerator {
+public class LevelOne extends ApplicationAdapter {
 
-    public LevelOne(String level) {
-        super(level);
+    public String LEVELPATH = "game_background_1.png";
+    Texture levelBackground;
+    SpriteBatch batch;
+    Sprite img;
+
+    public void createBackground(){
+        batch = new SpriteBatch();
+        levelBackground = new Texture(Gdx.files.internal(LEVELPATH));
+        img = new Sprite(levelBackground, levelBackground.getWidth(), levelBackground.getHeight());
     }
+
+    public void renderBackground(){
+        batch.begin();
+        batch.draw(img, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.end();
+    }
+
+    public void disposeBackground(){
+        batch.dispose();
+        levelBackground.dispose();
+    }
+
 
     public static Array<Vector2> levelOnePath(){
         Array<Vector2> path = new Array<Vector2>();

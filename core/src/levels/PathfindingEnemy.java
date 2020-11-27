@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import enemy.Entity;
 
-public class AISprite extends Sprite {
+public class PathfindingEnemy extends Sprite {
 
     private Vector2 velocity = new Vector2();
     private float speed = 100, tolerance = 3;
@@ -23,7 +23,7 @@ public class AISprite extends Sprite {
 
     private int waypoint = 0;
 
-    public AISprite(Sprite sprite, Array<Vector2> path){
+    public PathfindingEnemy(Sprite sprite, Array<Vector2> path){
         super(sprite);
         this.path = path;
     }
