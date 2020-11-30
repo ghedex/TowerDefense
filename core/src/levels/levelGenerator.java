@@ -13,7 +13,7 @@ public class levelGenerator extends ApplicationAdapter {
     SpriteBatch batch;
     Scorpion scorpion;
     LevelOne level;
-    Vector2 position = new Vector2(0, 0);
+    Vector2 position = LevelOne.levelOnePath().first(); /* BUG FIXEN, POSITION FUNKTIONIERT NICHT */
     Vector2 size = new Vector2(95, 95);
 
 
@@ -23,8 +23,8 @@ public class levelGenerator extends ApplicationAdapter {
     public void create(){
         batch = new SpriteBatch();
         level = new LevelOne();
-        level.createBackground();
         scorpion = new Scorpion(position, size, "assetsPack/scorpions/scorpionRunning/scorpionPack.atlas");
+        level.createBackground();
         scorpion.create();
     }
     @Override
@@ -34,5 +34,11 @@ public class levelGenerator extends ApplicationAdapter {
         scorpion.animate();
         batch.end();
     }
+
+    /*
+    Es muss das Movement eingefügt werden, also in etwa das was unter PathfindingEnemy zu finden ist
+    Außerdem ist ein Zugriff auf den LevelOnePath notwendig.
+    als Position wird der erste Vektor im levelOnepath() benötigt
+     */
 
 }
