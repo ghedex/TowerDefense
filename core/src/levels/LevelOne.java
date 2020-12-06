@@ -10,10 +10,12 @@ import com.badlogic.gdx.utils.Array;
 
 public class LevelOne extends ApplicationAdapter {
 
+    private static Array<Vector2> path;
     public String LEVELPATH = "game_background_1.png";
     Texture levelBackground;
     SpriteBatch batch;
     Sprite img;
+
 
     public void createBackground(){
         batch = new SpriteBatch();
@@ -34,7 +36,7 @@ public class LevelOne extends ApplicationAdapter {
 
 
     public static Array<Vector2> levelOnePath(){
-        Array<Vector2> path = new Array<Vector2>();
+        path = new Array<Vector2>();
         path.add(new Vector2(0, 150));
         path.add(new Vector2(250, 150));
         path.add(new Vector2(360, 175));

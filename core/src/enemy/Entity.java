@@ -33,7 +33,7 @@ public class Entity extends Actor {
         return position;
     }
 
-    public void setPosition(Vector2 position) {
+    public void setPosition() {
         this.position = position;
     }
 

@@ -1,5 +1,6 @@
 package enemy.scorpionEntity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import enemy.AnimationEntity;
@@ -26,7 +27,9 @@ public class Scorpion extends Entity {
     public void animate(){
         animation.renderAnimation(0, 0);
 
-
+    }
+    public void movePosition(Entity entity, int speed){
+        setPosition(entity.getX() + (speed * Gdx.graphics.getDeltaTime()), entity.getY() + (speed * Gdx.graphics.getDeltaTime()));
     }
 
 
