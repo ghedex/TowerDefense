@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class Entity extends Actor {
+public class Entity extends Sprite {
 
     Vector2 position, size;
     Texture monster;
@@ -60,5 +60,7 @@ public class Entity extends Actor {
     public void setBounds(Rectangle bounds) {
         this.bounds = bounds;
     }
+
+
 
 }

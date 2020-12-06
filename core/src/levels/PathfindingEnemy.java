@@ -6,15 +6,15 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import enemy.AnimationEntity;
 import enemy.Entity;
+import enemy.scorpionEntity.Scorpion;
 
 public class PathfindingEnemy extends Sprite {
 
     private Vector2 velocity = new Vector2();
     private float speed = 100, tolerance = 3;
-
-
-
+    
     public Array<Vector2> getPath() {
         return path;
     }
@@ -23,12 +23,12 @@ public class PathfindingEnemy extends Sprite {
 
     private int waypoint = 0;
 
-    public PathfindingEnemy(Sprite sprite, Array<Vector2> path){
-        super(sprite);
+    public PathfindingEnemy(Sprite entity, Array<Vector2> path){
+        //super(entity);
         this.path = path;
     }
 
-    public void draw(SpriteBatch spriteBatch){
+    public void draw(Batch spriteBatch){
         update(Gdx.graphics.getDeltaTime());
         super.draw(spriteBatch);
     }

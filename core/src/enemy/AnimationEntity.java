@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.g2d.*;
 
 public class AnimationEntity {
     String atlasPath;
+
+
+
     private Animation<TextureRegion> animation;
     private TextureAtlas entityAtlas;
     private float timePassed = 0;

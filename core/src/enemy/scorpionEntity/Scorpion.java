@@ -1,7 +1,5 @@
 package enemy.scorpionEntity;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import enemy.AnimationEntity;
 import enemy.Entity;
@@ -9,6 +7,7 @@ import enemy.Entity;
 
 
 public class Scorpion extends Entity {
+
     AnimationEntity animation;
 
     public final String ATLASPATH = "assetsPack/scorpions/scorpionRunning/scorpionPack.atlas";
@@ -28,17 +27,10 @@ public class Scorpion extends Entity {
         animation.renderAnimation(0, 0);
 
     }
-    public void movePosition(Entity entity, int speed){
-        setPosition(entity.getX() + (speed * Gdx.graphics.getDeltaTime()), entity.getY() + (speed * Gdx.graphics.getDeltaTime()));
+
+
+    public AnimationEntity getEnemy() {
+        animation.renderAnimation(0,0);
+        return animation;
     }
-
-
-
-
-
-
-
-
-
-
 }
