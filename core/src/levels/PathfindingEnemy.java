@@ -23,8 +23,8 @@ public class PathfindingEnemy extends Sprite {
 
     private int waypoint = 0;
 
-    public PathfindingEnemy(Sprite entity, Array<Vector2> path){
-        //super(entity);
+    public PathfindingEnemy(TextureRegion entity, Array<Vector2> path){
+        super(entity);
         this.path = path;
     }
 

@@ -1,6 +1,7 @@
 package enemy;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Rectangle;
@@ -14,6 +15,11 @@ public class Entity extends Sprite {
     Rectangle bounds;
     SpriteBatch batch;
     String atlasPath;
+
+    private Animation<TextureRegion> animation;
+    private TextureAtlas entityAtlas;
+    private float timePassed = 0;
+
 
     public Entity(Vector2 position, Vector2 size, String atlasPath) {
         this.position = position;
@@ -61,6 +67,25 @@ public class Entity extends Sprite {
         this.bounds = bounds;
     }
 
+    public void createAnimation(){
+        entityAtlas = new TextureAtlas(Gdx.files.internal(atlasPath));
+        animation = new Animation<TextureRegion>(1/40f, entityAtlas.getRegions());
+    }
+    public void renderAnimation(){
+        batch = new SpriteBatch();
+        timePassed += Gdx.graphics.getDeltaTime();
+        TextureRegion currentIdleFrame = animation.getKeyFrame(timePassed, true);
+
+    }
+
+    public TextureRegion idleFrame(float time){
+        return animation.getKeyFrame(time, true);
+    }
+
+    public void disposeAnimation(){
+        entityAtlas.dispose();
+        batch.dispose();
+    }
 
 
 }

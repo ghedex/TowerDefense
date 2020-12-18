@@ -21,15 +21,15 @@ public class AnimationEntity {
         entityAtlas = new TextureAtlas(Gdx.files.internal(atlasPath));
         animation = new Animation<TextureRegion>(1/40f, entityAtlas.getRegions());
     }
-    public void renderAnimation(int x, int y){
+    public void renderAnimation(){
         batch = new SpriteBatch();
         timePassed += Gdx.graphics.getDeltaTime();
         TextureRegion currentIdleFrame = animation.getKeyFrame(timePassed, true);
-        batch.begin();
-        batch.draw(currentIdleFrame, x, y);
-        batch.end();
+
 
     }
+
+
     public void disposeAnimation(){
         entityAtlas.dispose();
         batch.dispose();
