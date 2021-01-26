@@ -21,11 +21,14 @@ public class Entity extends Sprite {
     private float timePassed = 0;
 
 
-    public Entity(Vector2 position, Vector2 size, String atlasPath) {
-        this.position = position;
+    public Entity(Vector2 size, String atlasPath) {
+
+
         this.size = size;
         bounds = new Rectangle(position.x, position.y, size.x, size.y);
         this.atlasPath = atlasPath;
+
+
     }
 
     public void update () {
@@ -71,15 +74,12 @@ public class Entity extends Sprite {
         entityAtlas = new TextureAtlas(Gdx.files.internal(atlasPath));
         animation = new Animation<TextureRegion>(1/40f, entityAtlas.getRegions());
     }
-    public void renderAnimation(){
+
+
+    public TextureRegion idleFrame(){
         batch = new SpriteBatch();
         timePassed += Gdx.graphics.getDeltaTime();
-        TextureRegion currentIdleFrame = animation.getKeyFrame(timePassed, true);
-
-    }
-
-    public TextureRegion idleFrame(float time){
-        return animation.getKeyFrame(time, true);
+        return animation.getKeyFrame(timePassed, true);
     }
 
     public void disposeAnimation(){

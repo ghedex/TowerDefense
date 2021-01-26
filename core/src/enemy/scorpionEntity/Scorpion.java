@@ -1,47 +1,30 @@
 package enemy.scorpionEntity;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.*;
 import enemy.AnimationEntity;
-import enemy.Entity;
+import levels.LevelOne;
+import levels.PathfindingEnemy;
+
+
+public class Scorpion extends Sprite {
+
+    LevelOne level;
+    PathfindingEnemy scorpionEnemy;
+    Scorpion scorpion;
+    private float timePassed;
+    private TextureAtlas scorpionAtlas;
+    private Animation<TextureRegion> animation;
+    TextureAtlas atlas;
+
+    public final String PATH = "assetsPack/scorpions/scorpionRunning/scorpionPack.atlas";
+
+    public Scorpion(){
+
+        //scorpionEnemy.setPosition(-100, 150);
 
 
 
-public class Scorpion extends Entity {
-
-    AnimationEntity animation; //die hier entfernen
-
-    private Animation<TextureRegion> animation2;
-    private TextureAtlas entityAtlas;
-    private float timePassed = 0;
-    SpriteBatch batch;
-
-
-    public final String ATLASPATH = "assetsPack/scorpions/scorpionRunning/scorpionPack.atlas";
-
-
-
-    public Scorpion(Vector2 position, Vector2 size, String ATLASPATH){
-        super(position, size, ATLASPATH);
-
-    }
-    public void create(){
-        animation = new AnimationEntity(ATLASPATH);
-        animation.createAnimation();
-    }
-
-    public void animate(){
-        animation.renderAnimation();
-
-    }
-
-
-    public AnimationEntity getEnemy() {
-        animation.renderAnimation();
-        return animation;
     }
 
 }

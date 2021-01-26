@@ -1,40 +1,18 @@
 package enemy;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AnimationEntity {
-    String atlasPath;
 
+    private TextureAtlas atlas;
 
-
-    private Animation<TextureRegion> animation;
-    private TextureAtlas entityAtlas;
-    private float timePassed = 0;
-    SpriteBatch batch;
-
-    public AnimationEntity(String atlasPath) {
-        this.atlasPath = atlasPath;
+    public AnimationEntity(String path){
+        atlas = new TextureAtlas(Gdx.files.internal(path));
+        Animation animation = new Animation(1 / 30f, atlas.getRegions());
     }
-
-    public void createAnimation(){
-        entityAtlas = new TextureAtlas(Gdx.files.internal(atlasPath));
-        animation = new Animation<TextureRegion>(1/40f, entityAtlas.getRegions());
-    }
-    public void renderAnimation(){
-        batch = new SpriteBatch();
-        timePassed += Gdx.graphics.getDeltaTime();
-        TextureRegion currentIdleFrame = animation.getKeyFrame(timePassed, true);
-
-
-    }
-
-
-    public void disposeAnimation(){
-        entityAtlas.dispose();
-        batch.dispose();
-    }
-
 
 
 }

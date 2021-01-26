@@ -2,31 +2,23 @@ package levels;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.CatmullRomSpline;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
-import enemy.AnimationEntity;
+
+import com.badlogic.gdx.graphics.g2d.*;
+
 import enemy.scorpionEntity.Scorpion;
+
 
 
 public class levelGenerator extends ApplicationAdapter {
     SpriteBatch batch;
-    Scorpion scorpion;
+
     LevelOne level;
-    Vector2 size = new Vector2(15, 15);
-    private int waypoint = 0;
-    private CatmullRomSpline<Vector2> levelPath;
-    private ShapeRenderer shapeRenderer;
-    PathfindingEnemy pathFinding;
-    Texture tex;
-    private float SPEED = 100;
-    private float timePassed = 0;
+    PathfindingEnemy scorpionEnemy;
+    Scorpion scorpion;
+    private float timePassed;
+    private TextureAtlas scorpionAtlas;
+    private Animation<TextureRegion> animation;
+
 
     public levelGenerator() {
     }
@@ -34,15 +26,16 @@ public class levelGenerator extends ApplicationAdapter {
     public void create(){
         batch = new SpriteBatch();
         level = new LevelOne();
-        scorpion = new Scorpion(new Vector2(), size, "assetsPack/scorpions/scorpionRunning/scorpionPack.atlas");
         level.createBackground();
-        scorpion.createAnimation();
 
-        timePassed += Gdx.graphics.getDeltaTime();
-        pathFinding = new PathfindingEnemy(scorpion.idleFrame(timePassed), LevelOne.levelOnePath());
+        scorpion = new Scorpion();
+        scorpionAtlas = new TextureAtlas(Gdx.files.internal("assetsPack/scorpions/scorpionRunning/scorpionPack.atlas"));
+        animation = new Animation(1/30f, scorpionAtlas.getRegions());
 
-        //1. methode erstellen, die aus dem scorpion eine textur zurückgibt
-        //2. als Argument in Zeile 41 übergeben
+        scorpionEnemy = new PathfindingEnemy(animation.getKeyFrame(timePassed), LevelOne.levelOnePath());
+
+        scorpionEnemy.setSize(90, 90);
+        scorpionEnemy.setPosition(-100, 150);
 
     }
     @Override
@@ -50,19 +43,22 @@ public class levelGenerator extends ApplicationAdapter {
         batch.begin();
 
         level.renderBackground();
-        //scorpion.animate();
-        //scorpion.getKeyframe();
-        pathFinding.draw(batch);
+        timePassed += Gdx.graphics.getDeltaTime();
+
+        scorpionEnemy.update(batch, timePassed);
         batch.end();
 
     }
+
+
 
     @Override
     public void dispose(){
         batch.dispose();
         scorpion.getTexture().dispose();
-        pathFinding.getTexture().dispose();
+        scorpionEnemy.getTexture().dispose();
         level.dispose();
+        scorpionAtlas.dispose();
     }
 
 
