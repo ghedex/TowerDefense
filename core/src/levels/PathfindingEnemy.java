@@ -3,18 +3,14 @@ package levels;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import enemy.Entity;
 
 public class PathfindingEnemy extends Sprite {
 
     private Vector2 velocity = new Vector2();
-    private float speed = 100, tolerance = 3;
-
-
-
+    private float speed = 500, tolerance = 3;
+    private TextureRegion entity;
     public Array<Vector2> getPath() {
         return path;
     }
@@ -23,17 +19,14 @@ public class PathfindingEnemy extends Sprite {
 
     private int waypoint = 0;
 
-    public PathfindingEnemy(Sprite sprite, Array<Vector2> path){
-        super(sprite);
+    public PathfindingEnemy(TextureRegion entity, Array<Vector2> path){
+        super(entity);
         this.path = path;
     }
 
-    public void draw(SpriteBatch spriteBatch){
-        update(Gdx.graphics.getDeltaTime());
-        super.draw(spriteBatch);
-    }
-    public void update(float delta){
 
+    public void update(SpriteBatch batch, float delta){
+        super.draw(batch);
         float angle = (float) Math.atan2(path.get(waypoint).y - getY(), path.get(waypoint).x - getX());
         velocity.set((float) Math.cos(angle) * speed, (float) Math.sin(angle) * speed);
 
@@ -49,6 +42,9 @@ public class PathfindingEnemy extends Sprite {
             }
         }
 
+    }
+    public void setPosition(){
+        setPosition(getX() + velocity.x * Gdx.graphics.getDeltaTime(), getY() + velocity.y * Gdx.graphics.getDeltaTime());
     }
     public boolean isWaypointReached(){
         return path.get(waypoint).x - getX() <= speed / tolerance * Gdx.graphics.getDeltaTime() && path.get(waypoint).y - getY() <= speed / tolerance * Gdx.graphics.getDeltaTime() ;

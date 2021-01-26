@@ -1,20 +1,23 @@
 package levels;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.Gdx;
+
+import com.badlogic.gdx.graphics.g2d.*;
+
 import enemy.scorpionEntity.Scorpion;
 
-import java.util.logging.Level;
 
 
 public class levelGenerator extends ApplicationAdapter {
     SpriteBatch batch;
-    Scorpion scorpion;
+
     LevelOne level;
-    Vector2 position = new Vector2(0, 0);
-    Vector2 size = new Vector2(95, 95);
+    PathfindingEnemy scorpionEnemy;
+    Scorpion scorpion;
+    private float timePassed;
+    private TextureAtlas scorpionAtlas;
+    private Animation<TextureRegion> animation;
 
 
     public levelGenerator() {
@@ -24,15 +27,40 @@ public class levelGenerator extends ApplicationAdapter {
         batch = new SpriteBatch();
         level = new LevelOne();
         level.createBackground();
-        scorpion = new Scorpion(position, size, "assetsPack/scorpions/scorpionRunning/scorpionPack.atlas");
-        scorpion.create();
+
+        scorpion = new Scorpion();
+        scorpionAtlas = new TextureAtlas(Gdx.files.internal("assetsPack/scorpions/scorpionRunning/scorpionPack.atlas"));
+        animation = new Animation(1/30f, scorpionAtlas.getRegions());
+
+        scorpionEnemy = new PathfindingEnemy(animation.getKeyFrame(timePassed), LevelOne.levelOnePath());
+
+        scorpionEnemy.setSize(90, 90);
+        scorpionEnemy.setPosition(-100, 150);
+
     }
     @Override
     public void render(){
         batch.begin();
+
         level.renderBackground();
-        scorpion.animate();
+        timePassed += Gdx.graphics.getDeltaTime();
+
+        scorpionEnemy.update(batch, timePassed);
         batch.end();
+
     }
+
+
+
+    @Override
+    public void dispose(){
+        batch.dispose();
+        scorpion.getTexture().dispose();
+        scorpionEnemy.getTexture().dispose();
+        level.dispose();
+        scorpionAtlas.dispose();
+    }
+
+
 
 }

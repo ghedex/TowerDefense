@@ -14,6 +14,7 @@ public class DesktopLauncher {
 		config.fullscreen = false;
 		config.resizable = false;
 		config.vSyncEnabled = true;
+		config.foregroundFPS = 75;
 		new LwjglApplication(new levelGenerator(), config);
 	}
 }
