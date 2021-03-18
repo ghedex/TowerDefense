@@ -6,7 +6,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.*;
 
 import enemy.scorpionEntity.Scorpion;
-
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class levelGenerator extends ApplicationAdapter {
@@ -18,7 +19,7 @@ public class levelGenerator extends ApplicationAdapter {
     private float timePassed;
     private TextureAtlas scorpionAtlas;
     private Animation<TextureRegion> animation;
-
+    private float waveTimer = 2f;
 
     public levelGenerator() {
     }
@@ -28,14 +29,15 @@ public class levelGenerator extends ApplicationAdapter {
         level = new LevelOne();
         level.createBackground();
 
+
         scorpion = new Scorpion();
         scorpionAtlas = new TextureAtlas(Gdx.files.internal("assetsPack/scorpions/scorpionRunning/scorpionPack.atlas"));
         animation = new Animation(1/30f, scorpionAtlas.getRegions());
 
         scorpionEnemy = new PathfindingEnemy(animation.getKeyFrame(timePassed), LevelOne.levelOnePath());
 
-        scorpionEnemy.setSize(90, 90);
         scorpionEnemy.setPosition(-100, 150);
+
 
     }
     @Override
@@ -44,8 +46,14 @@ public class levelGenerator extends ApplicationAdapter {
 
         level.renderBackground();
         timePassed += Gdx.graphics.getDeltaTime();
+        if(timePassed > waveTimer){
+            scorpion = new Scorpion();
+        }
 
         scorpionEnemy.update(batch, timePassed);
+
+
+
         batch.end();
 
     }

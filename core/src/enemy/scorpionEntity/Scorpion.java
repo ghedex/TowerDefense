@@ -20,11 +20,13 @@ public class Scorpion extends Sprite {
     public final String PATH = "assetsPack/scorpions/scorpionRunning/scorpionPack.atlas";
 
     public Scorpion(){
-
-        //scorpionEnemy.setPosition(-100, 150);
-
-
+        this.setSize(90, 90);
 
     }
+
+    public void startingPosition(){
+        this.setPosition(-100, 150);
+    }
+
 
 }
