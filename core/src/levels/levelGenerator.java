@@ -3,6 +3,7 @@ package levels;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.*;
 
 import enemy.scorpionEntity.Scorpion;
@@ -19,7 +20,7 @@ public class levelGenerator extends ApplicationAdapter {
     private float timePassed;
     private TextureAtlas scorpionAtlas;
     private Animation<TextureRegion> animation;
-    private float waveTimer = 2f;
+
 
     public levelGenerator() {
     }
@@ -31,24 +32,22 @@ public class levelGenerator extends ApplicationAdapter {
 
 
         scorpion = new Scorpion();
-        scorpionAtlas = new TextureAtlas(Gdx.files.internal("assetsPack/scorpions/scorpionRunning/scorpionPack.atlas"));
+        scorpionAtlas = new TextureAtlas((FileHandle) scorpion.returnPath());
         animation = new Animation(1/30f, scorpionAtlas.getRegions());
 
-        scorpionEnemy = new PathfindingEnemy(animation.getKeyFrame(timePassed), LevelOne.levelOnePath());
 
-        scorpionEnemy.setPosition(-100, 150);
+
+        //scorpionEnemy.setPosition(-100, 150);
 
 
     }
     @Override
     public void render(){
         batch.begin();
-
+        scorpionEnemy = new PathfindingEnemy(animation.getKeyFrame(timePassed, true), LevelOne.levelOnePath());
         level.renderBackground();
         timePassed += Gdx.graphics.getDeltaTime();
-        if(timePassed > waveTimer){
-            scorpion = new Scorpion();
-        }
+
 
         scorpionEnemy.update(batch, timePassed);
 
@@ -63,7 +62,7 @@ public class levelGenerator extends ApplicationAdapter {
     @Override
     public void dispose(){
         batch.dispose();
-        scorpion.getTexture().dispose();
+        scorpion.getStage().dispose();
         scorpionEnemy.getTexture().dispose();
         level.dispose();
         scorpionAtlas.dispose();
