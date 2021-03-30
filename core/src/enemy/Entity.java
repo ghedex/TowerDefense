@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class Entity extends Sprite {
+public class Entity extends Actor {
 
     Vector2 position, size;
     Texture monster;
@@ -19,17 +19,35 @@ public class Entity extends Sprite {
     private Animation<TextureRegion> animation;
     private TextureAtlas entityAtlas;
     private float timePassed = 0;
+    private float lifeCount;
 
 
-    public Entity(Vector2 size, String atlasPath) {
-
-
-        this.size = size;
-        bounds = new Rectangle(position.x, position.y, size.x, size.y);
-        this.atlasPath = atlasPath;
-
+    public Entity(int width, int height, float lifeCount, String atlasPath) {
+        //Größe
+        this.setSize(width, height);
+        //Anzahl Leben, später benötigt für den Schaden
+        this.lifeCount = lifeCount;
+        //Rectangle für Collision Detection
+        //bounds = new Rectangle(position.x, position.y, size.x, size.y);
+        //Atlas für die Darstellung der Entity
+        entityAtlas = new TextureAtlas(Gdx.files.internal(atlasPath));
+        //Animationsdarstellung bzw. Darstellung des Sprites
+        animation = new Animation(1/30f, entityAtlas.getRegions());
 
     }
+/*
+    public FileHandle returnPath(FileHandle PATH){
+        return Gdx.files.internal(PATH);
+    }
+
+ */
+    /*
+    public TextureRegion getKeyFrame(float time, boolean loop){
+        return this.getKeyFrame(time, loop);
+    }
+
+     */
+
 
     public void update () {
         bounds.set(position.x, position.y, size.x, size.y);

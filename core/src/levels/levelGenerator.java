@@ -18,8 +18,6 @@ public class levelGenerator extends ApplicationAdapter {
     PathfindingEnemy scorpionEnemy;
     Scorpion scorpion;
     private float timePassed;
-    private TextureAtlas scorpionAtlas;
-    private Animation<TextureRegion> animation;
 
 
     public levelGenerator() {
@@ -30,11 +28,11 @@ public class levelGenerator extends ApplicationAdapter {
         level = new LevelOne();
         level.createBackground();
 
-
         scorpion = new Scorpion();
-        scorpionAtlas = new TextureAtlas((FileHandle) scorpion.returnPath());
-        animation = new Animation(1/30f, scorpionAtlas.getRegions());
+        //scorpionAtlas = new TextureAtlas((FileHandle) scorpion.returnPath());
+        //animation = new Animation(1/30f, scorpionAtlas.getRegions());
 
+        scorpionEnemy = new PathfindingEnemy(scorpion.idleFrame(), LevelOne.levelOnePath());
 
 
         //scorpionEnemy.setPosition(-100, 150);
@@ -44,10 +42,10 @@ public class levelGenerator extends ApplicationAdapter {
     @Override
     public void render(){
         batch.begin();
-        scorpionEnemy = new PathfindingEnemy(animation.getKeyFrame(timePassed, true), LevelOne.levelOnePath());
+
         level.renderBackground();
         timePassed += Gdx.graphics.getDeltaTime();
-
+        scorpionEnemy = new PathfindingEnemy(scorpion.idleFrame(), LevelOne.levelOnePath());
 
         scorpionEnemy.update(batch, timePassed);
 
@@ -65,7 +63,7 @@ public class levelGenerator extends ApplicationAdapter {
         scorpion.getStage().dispose();
         scorpionEnemy.getTexture().dispose();
         level.dispose();
-        scorpionAtlas.dispose();
+
     }
 
 

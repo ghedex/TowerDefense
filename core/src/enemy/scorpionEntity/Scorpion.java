@@ -4,27 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import enemy.AnimationEntity;
+import enemy.Entity;
 import levels.LevelOne;
 import levels.PathfindingEnemy;
 
 
-public class Scorpion extends Actor {
+public class Scorpion extends Entity {
 
-    AnimationEntity ae;
-
-    public final String PATH = "assetsPack/scorpions/scorpionRunning/scorpionPack.atlas";
-
-    public Scorpion(){
-
-
-
-        this.setSize(90, 90);
+    public Scorpion() {
+        super(90, 90, 100, "assetsPack/scorpions/scorpionRunning/scorpionPack.atlas");
     }
-
-    public Object returnPath(){
-        return Gdx.files.internal(this.PATH);
-    }
-
-
-
 }
