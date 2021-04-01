@@ -4,6 +4,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import levels.LevelOne;
 import levels.levelGenerator;
+import levels.menu.mainMenu;
+import levels.menu.mainMenuGenerator;
 
 
 public class DesktopLauncher {
@@ -15,6 +17,7 @@ public class DesktopLauncher {
 		config.resizable = false;
 		config.vSyncEnabled = true;
 		config.foregroundFPS = 75;
-		new LwjglApplication(new levelGenerator(), config);
+		config.title = "JEM, MEM, CAN'T PROGRAM";
+		new LwjglApplication(new mainMenuGenerator(), config);
 	}
 }
