@@ -6,6 +6,7 @@ import levels.LevelOne;
 import levels.levelGenerator;
 import levels.menu.mainMenu;
 import levels.menu.mainMenuGenerator;
+import levels.menu.testMainMenu;
 
 
 public class DesktopLauncher {
@@ -18,6 +19,6 @@ public class DesktopLauncher {
 		config.vSyncEnabled = true;
 		config.foregroundFPS = 75;
 		config.title = "JEM, MEM, CAN'T PROGRAM";
-		new LwjglApplication(new mainMenuGenerator(), config);
+		new LwjglApplication(new testMainMenu(), config);
 	}
 }
