@@ -3,6 +3,7 @@ package levels.menu;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -14,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
-public class mainMenu extends ApplicationAdapter {
+public class mainMenu extends ApplicationAdapter{
 
     public String BACKGROUNDPATH = "menuAssets/mainMenuAssets/placeholder_mainMenuBackground.png";
     // TODO
@@ -36,6 +37,7 @@ public class mainMenu extends ApplicationAdapter {
     }
 
     public void renderBackground() {
+        super.render();
         batch.begin();
         batch.draw(img, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();

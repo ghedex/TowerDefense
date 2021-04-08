@@ -1,12 +1,13 @@
 package levels.menu;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import modularAssets.Button;
 
-public class mainMenuGenerator extends ApplicationAdapter {
+public class mainMenuGenerator extends Game {
     Stage stage;
     SpriteBatch batch;
     mainMenu menu;

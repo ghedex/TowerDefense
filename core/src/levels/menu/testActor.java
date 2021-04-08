@@ -28,7 +28,6 @@ public class testActor extends Actor {
         setBounds(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
     }
 
-
     @Override
     protected void positionChanged(){
         super.positionChanged();
