@@ -3,10 +3,13 @@ package levels;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.*;
 
+import com.badlogic.gdx.math.Vector2;
 import enemy.scorpionEntity.Scorpion;
-
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class levelGenerator extends ApplicationAdapter {
@@ -16,8 +19,6 @@ public class levelGenerator extends ApplicationAdapter {
     PathfindingEnemy scorpionEnemy;
     Scorpion scorpion;
     private float timePassed;
-    private TextureAtlas scorpionAtlas;
-    private Animation<TextureRegion> animation;
 
 
     public levelGenerator() {
@@ -29,13 +30,14 @@ public class levelGenerator extends ApplicationAdapter {
         level.createBackground();
 
         scorpion = new Scorpion();
-        scorpionAtlas = new TextureAtlas(Gdx.files.internal("assetsPack/scorpions/scorpionRunning/scorpionPack.atlas"));
-        animation = new Animation(1/30f, scorpionAtlas.getRegions());
+        //scorpionAtlas = new TextureAtlas((FileHandle) scorpion.returnPath());
+        //animation = new Animation(1/30f, scorpionAtlas.getRegions());
 
-        scorpionEnemy = new PathfindingEnemy(animation.getKeyFrame(timePassed), LevelOne.levelOnePath());
+        //scorpionEnemy = new PathfindingEnemy(scorpion.idleFrame(), LevelOne.levelOnePath());
 
-        scorpionEnemy.setSize(90, 90);
-        scorpionEnemy.setPosition(-100, 150);
+
+        //scorpionEnemy.setPosition(-100, 150);
+
 
     }
     @Override
@@ -44,8 +46,16 @@ public class levelGenerator extends ApplicationAdapter {
 
         level.renderBackground();
         timePassed += Gdx.graphics.getDeltaTime();
+        scorpionEnemy = new PathfindingEnemy(scorpion.idleFrame(), LevelOne.levelOnePath());
+        // m = (y2 - y1) / (x2 - x1)
+        //for(Vector2 i: scorpionEnemy.getPath()){
+            //scorpionEnemy.setPosition(scorpionEnemy.getPath().first().y); }
 
+        scorpionEnemy.setPosition();
         scorpionEnemy.update(batch, timePassed);
+
+
+
         batch.end();
 
     }
@@ -55,10 +65,10 @@ public class levelGenerator extends ApplicationAdapter {
     @Override
     public void dispose(){
         batch.dispose();
-        scorpion.getTexture().dispose();
+        scorpion.getStage().dispose();
         scorpionEnemy.getTexture().dispose();
         level.dispose();
-        scorpionAtlas.dispose();
+
     }
 
 

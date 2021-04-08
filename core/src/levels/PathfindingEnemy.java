@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.Array;
 public class PathfindingEnemy extends Sprite {
 
     private Vector2 velocity = new Vector2();
-    private float speed = 500, tolerance = 3;
+    private float speed = 100, tolerance = 3;
     private TextureRegion entity;
     public Array<Vector2> getPath() {
         return path;
