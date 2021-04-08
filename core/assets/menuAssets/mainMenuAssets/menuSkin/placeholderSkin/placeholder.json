@@ -1,0 +1,29 @@
+
+placeholder.png
+size: 512, 128
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+optiButton(FINAL_VERSION)
+  rotate: false
+  xy: 340, 10
+  size: 156, 61
+  split: 0, 0, 0, 0
+  pad: -1, -1, -1, -1
+  orig: 156, 61
+  offset: 0, 0
+  index: -1
+placeholder_button
+  rotate: false
+  xy: 2, 2
+  size: 167, 69
+  orig: 167, 69
+  offset: 0, 0
+  index: -1
+placeholder_button_exit
+  rotate: false
+  xy: 171, 2
+  size: 167, 69
+  orig: 167, 69
+  offset: 0, 0
+  index: -1

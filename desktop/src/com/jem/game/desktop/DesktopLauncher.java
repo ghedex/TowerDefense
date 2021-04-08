@@ -2,10 +2,7 @@ package com.jem.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import levels.LevelOne;
-import levels.levelGenerator;
-import levels.menu.mainMenu;
-import levels.menu.mainMenuGenerator;
+import MainRef.TowerDefense;
 
 
 public class DesktopLauncher {
@@ -16,8 +13,8 @@ public class DesktopLauncher {
 		config.fullscreen = false;
 		config.resizable = false;
 		config.vSyncEnabled = true;
-		config.foregroundFPS = 75;
-		config.title = "JEM, MEM, CAN'T PROGRAM";
-		new LwjglApplication(new mainMenuGenerator(), config);
+		config.foregroundFPS = 60;
+		config.title = "HIPPITY, HOPPETY, OPTI IS NOW MY PROPERTY";
+		new LwjglApplication(new TowerDefense(), config);
 	}
 }

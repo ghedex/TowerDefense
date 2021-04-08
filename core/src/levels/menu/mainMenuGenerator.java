@@ -1,23 +1,25 @@
 package levels.menu;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import modularAssets.Button;
 
-public class mainMenuGenerator extends ApplicationAdapter {
+public class mainMenuGenerator extends Game {
     Stage stage;
     SpriteBatch batch;
     mainMenu menu;
     Button button;
     Button buttonExit;
     final private int WINDOW_HEIGHT = 720;
+    final private int WINDOW_WIDTH = 1280;
     final private int size_width = 100;
     final private int size_height = 50;
-    private int pos_start_x = 430 - size_width/2;
+    private int pos_start_x = (WINDOW_WIDTH/100*45) - size_width/2;
     private int pos_y = 260 - size_height/2;
-    private int pos_exit_x = 560 - size_width/2;
+    private int pos_exit_x = (WINDOW_WIDTH/100*60) - size_width/2;
     private String IMAGEPATH_START = "menuAssets/mainMenuAssets/buttonAssets/placeholder_button.png";
     private String IMAGEPATH_EXIT = "menuAssets/mainMenuAssets/buttonAssets/placeholder_button_exit.png";
 
