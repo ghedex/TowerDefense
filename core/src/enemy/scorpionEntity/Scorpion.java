@@ -2,29 +2,16 @@ package enemy.scorpionEntity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import enemy.AnimationEntity;
+import enemy.Entity;
 import levels.LevelOne;
 import levels.PathfindingEnemy;
 
 
-public class Scorpion extends Sprite {
+public class Scorpion extends Entity {
 
-    LevelOne level;
-    PathfindingEnemy scorpionEnemy;
-    Scorpion scorpion;
-    private float timePassed;
-    private TextureAtlas scorpionAtlas;
-    private Animation<TextureRegion> animation;
-    TextureAtlas atlas;
-
-    public final String PATH = "assetsPack/scorpions/scorpionRunning/scorpionPack.atlas";
-
-    public Scorpion(){
-
-        //scorpionEnemy.setPosition(-100, 150);
-
-
-
+    public Scorpion() {
+        super(90, 90, 100, "assetsPack/scorpions/scorpionRunning/scorpionPack.atlas");
     }
-
 }
