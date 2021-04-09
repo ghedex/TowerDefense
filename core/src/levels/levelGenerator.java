@@ -3,13 +3,11 @@ package levels;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.g2d.*;
 
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 import enemy.scorpionEntity.Scorpion;
-import java.util.Timer;
-import java.util.TimerTask;
+import enemy.wizardEntity.Wizard;
 
 
 public class levelGenerator extends ApplicationAdapter {
@@ -17,26 +15,31 @@ public class levelGenerator extends ApplicationAdapter {
 
     LevelOne level;
     PathfindingEnemy scorpionEnemy;
+    PathfindingEnemy wizardEnemy;
     Scorpion scorpion;
-    private float timePassed;
-
+    Wizard wizard;
 
     public levelGenerator() {
     }
 
+    /*
+    To create new enemies edit the following functions:
+    1. createAllEnemies
+    2. setUpEnemies (for pathfinding)
+
+     */
+
+
+    @Override
     public void create(){
         batch = new SpriteBatch();
         level = new LevelOne();
+        //load all Enemies
+        this.createAllEnemies();
+        //creates the first level background
         level.createBackground();
-
-        scorpion = new Scorpion();
-        //scorpionAtlas = new TextureAtlas((FileHandle) scorpion.returnPath());
-        //animation = new Animation(1/30f, scorpionAtlas.getRegions());
-
-        //scorpionEnemy = new PathfindingEnemy(scorpion.idleFrame(), LevelOne.levelOnePath());
-
-
-        //scorpionEnemy.setPosition(-100, 150);
+        //edit setUpEnemies to create new ones
+        this.setUpEnemies();
 
 
     }
@@ -45,21 +48,31 @@ public class levelGenerator extends ApplicationAdapter {
         batch.begin();
 
         level.renderBackground();
-        timePassed += Gdx.graphics.getDeltaTime();
-        scorpionEnemy = new PathfindingEnemy(scorpion.idleFrame(), LevelOne.levelOnePath());
-        // m = (y2 - y1) / (x2 - x1)
-        //for(Vector2 i: scorpionEnemy.getPath()){
-            //scorpionEnemy.setPosition(scorpionEnemy.getPath().first().y); }
-
-        scorpionEnemy.setPosition();
-        scorpionEnemy.update(batch, timePassed);
-
-
+        this.updateAllEntites();
 
         batch.end();
 
     }
+    public void createAllEnemies(){
+        scorpion = new Scorpion();
+        wizard = new Wizard();
+    }
 
+    public void setUpEnemies(){
+        //velocity not quite working yet, origin too
+        scorpionEnemy = new PathfindingEnemy(scorpion.idleFrame(), LevelOne.levelOnePath());
+        scorpionEnemy.setOrigin(-150, 150);
+        scorpionEnemy.setSize(scorpion.getWIDTH(), scorpion.getHEIGHT());
+        //velocity not quite working yet, origin too
+        wizardEnemy = new PathfindingEnemy(wizard.idleFrame(), LevelOne.levelOnePath());
+        wizardEnemy.setOrigin(-150, 150);
+        wizardEnemy.setSize(wizard.getWIDTH(), wizard.getHEIGHT());
+    }
+
+    public void updateAllEntites(){
+        scorpionEnemy.update(batch);
+        wizardEnemy.update(batch);
+    }
 
 
     @Override
@@ -67,9 +80,13 @@ public class levelGenerator extends ApplicationAdapter {
         batch.dispose();
         scorpion.getStage().dispose();
         scorpionEnemy.getTexture().dispose();
+        wizard.getStage().dispose();
+        wizardEnemy.getTexture().dispose();
         level.dispose();
 
     }
+
+
 
 
 

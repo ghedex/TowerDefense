@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Entity extends Actor {
 
+
     Vector2 position, size;
     Texture monster;
     Rectangle bounds;
@@ -17,14 +18,26 @@ public class Entity extends Actor {
     String atlasPath;
 
     private Animation<TextureRegion> animation;
+
+
     private TextureAtlas entityAtlas;
     private float timePassed = 0;
     private float lifeCount;
 
 
-    public Entity(int width, int height, float lifeCount, String atlasPath) {
-        //Größe
-        this.setSize(width, height);
+    private int WIDTH;
+    private int HEIGHT;
+
+
+
+    private float velocity;
+
+
+    public Entity(int WIDTH, int HEIGHT, float velocity, float lifeCount, String atlasPath) {
+
+        this.WIDTH = WIDTH;
+        this.HEIGHT = HEIGHT;
+        this.velocity = velocity;
         //Anzahl Leben, später benötigt für den Schaden
         this.lifeCount = lifeCount;
         //Rectangle für Collision Detection
@@ -32,8 +45,37 @@ public class Entity extends Actor {
         //Atlas für die Darstellung der Entity
         entityAtlas = new TextureAtlas(Gdx.files.internal(atlasPath));
         //Animationsdarstellung bzw. Darstellung des Sprites
-        animation = new Animation(1/30f, entityAtlas.getRegions());
+        animation = new Animation(1 / 30f, entityAtlas.getRegions());
 
+
+    }
+
+    public float getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(float velocity) {
+        this.velocity = velocity;
+    }
+
+    public int getWIDTH() {
+        return WIDTH;
+    }
+
+    public void setWIDTH(int WIDTH) {
+        this.WIDTH = WIDTH;
+    }
+
+    public int getHEIGHT() {
+        return HEIGHT;
+    }
+
+    public void setHEIGHT(int HEIGHT) {
+        this.HEIGHT = HEIGHT;
+    }
+
+    public TextureAtlas getEntityAtlas() {
+        return entityAtlas;
     }
 /*
     public FileHandle returnPath(FileHandle PATH){
@@ -49,11 +91,11 @@ public class Entity extends Actor {
      */
 
 
-    public void update () {
+    public void update() {
         bounds.set(position.x, position.y, size.x, size.y);
     }
 
-    public void draw (SpriteBatch batch){
+    public void draw(SpriteBatch batch) {
         batch.draw(monster, position.x, position.y, size.x, size.y);
     }
     public Vector2 getPosition() {
@@ -88,19 +130,19 @@ public class Entity extends Actor {
         this.bounds = bounds;
     }
 
-    public void createAnimation(){
+    public void createAnimation() {
         entityAtlas = new TextureAtlas(Gdx.files.internal(atlasPath));
-        animation = new Animation<TextureRegion>(1/40f, entityAtlas.getRegions());
+        animation = new Animation<TextureRegion>(1 / 40f, entityAtlas.getRegions());
     }
 
 
-    public TextureRegion idleFrame(){
+    public TextureRegion idleFrame() {
         batch = new SpriteBatch();
         timePassed += Gdx.graphics.getDeltaTime();
         return animation.getKeyFrame(timePassed, true);
     }
 
-    public void disposeAnimation(){
+    public void disposeAnimation() {
         entityAtlas.dispose();
         batch.dispose();
     }

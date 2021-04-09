@@ -25,7 +25,7 @@ public class PathfindingEnemy extends Sprite {
     }
 
 
-    public void update(SpriteBatch batch, float delta){
+    public void update(SpriteBatch batch){
         super.draw(batch);
         float angle = (float) Math.atan2(path.get(waypoint).y - getY(), path.get(waypoint).x - getX());
         velocity.set((float) Math.cos(angle) * speed, (float) Math.sin(angle) * speed);
