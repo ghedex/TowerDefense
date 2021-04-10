@@ -24,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import enemy.scorpionEntity.Scorpion;
+import enemy.wizardEntity.Wizard;
 import levels.menu.mainMenuV2;
 import levels.menu.testActor;
 import levels.menu.testMainMenu;
@@ -43,11 +44,13 @@ public class levelGenerator implements Screen {
     SpriteBatch batch;
     LevelOne level;
     PathfindingEnemy scorpionEnemy;
+    PathfindingEnemy wizardEnemy;
     Scorpion scorpion;
     private float timePassed;
     private boolean isPaused;
     private String pauseButton = "menuAssets/mainMenuAssets/buttonAssets/pauseButton.png";
     private Skin skin;
+    Wizard wizard;
 
 
     public levelGenerator(final TowerDefense game) {
@@ -61,6 +64,7 @@ public class levelGenerator implements Screen {
         resourceHandler.loadSound("menuAssets/mainMenuAssets/buttonAssets/buttonClick.mp3", "buttonClickSound");
         skin = new Skin(Gdx.files.internal("menuAssets/mainMenuAssets/menuSkin/skin/uiskin.json"), new TextureAtlas("menuAssets/mainMenuAssets/menuSkin/skin/uiskin.atlas"));
         pause = new Window("Pause", skin);
+
         pause.setVisible(false);
         TextButton continueButton = new TextButton("Continue the Game",skin);
         TextButton exitButton = new TextButton("Exit to Main Menu", skin);
@@ -101,16 +105,19 @@ public class levelGenerator implements Screen {
         level = new LevelOne();
 
         level.createBackground();
+        stage.addActor(pauseButtonActor);
+        stage.addActor(pause);
 
-        scorpion = new Scorpion();
+        this.createAllEnemies();
+        this.setUpEnemies();
+
+
         //scorpionAtlas = new TextureAtlas((FileHandle) scorpion.returnPath());
         //animation = new Animation(1/30f, scorpionAtlas.getRegions());
-        scorpionEnemy = new PathfindingEnemy(scorpion.idleFrame(), LevelOne.levelOnePath());
+
         //scorpionEnemy.setPosition(-100, 150);
 
 
-        stage.addActor(pauseButtonActor);
-        stage.addActor(pause);
     }
 
     @Override
@@ -118,21 +125,38 @@ public class levelGenerator implements Screen {
         batch.begin();
         if (!isPaused){
         }
-        //Gdx.gl.glClearColor(1, 0, 1, 1);
-        //scorpionEnemy = new PathfindingEnemy(scorpion.idleFrame(), LevelOne.levelOnePath());
-        scorpionEnemy.update(batch, timePassed);
-        scorpionEnemy.setPosition();
-        // m = (y2 - y1) / (x2 - x1)
-        //for(Vector2 i: scorpionEnemy.getPath()){
-        //scorpionEnemy.setPosition(scorpionEnemy.getPath().first().y); }
-        timePassed += Gdx.graphics.getDeltaTime();
+
+
+        this.updateAllEntites();
 
         level.renderBackground();
-        batch.end();
+
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-
+        batch.end();
     }
+    public void createAllEnemies(){
+        scorpion = new Scorpion();
+        wizard = new Wizard();
+    }
+
+    public void updateAllEntites(){
+        scorpionEnemy.update(batch);
+        wizardEnemy.update(batch);
+    }
+
+
+    public void setUpEnemies(){
+        //velocity not quite working yet, origin too
+        scorpionEnemy = new PathfindingEnemy(scorpion.idleFrame(), LevelOne.levelOnePath());
+        scorpionEnemy.setOrigin(-150, 150);
+        scorpionEnemy.setSize(scorpion.getWIDTH(), scorpion.getHEIGHT());
+        //velocity not quite working yet, origin too
+        wizardEnemy = new PathfindingEnemy(wizard.idleFrame(), LevelOne.levelOnePath());
+        wizardEnemy.setOrigin(-150, 150);
+        wizardEnemy.setSize(wizard.getWIDTH(), wizard.getHEIGHT());
+    }
+
 
     @Override
     public void resize(int width, int height) {
@@ -159,6 +183,9 @@ public class levelGenerator implements Screen {
         batch.dispose();
         scorpion.getStage().dispose();
         scorpionEnemy.getTexture().dispose();
+        wizard.getStage().dispose();
+        wizardEnemy.getTexture().dispose();
         level.dispose();
+
     }
 }
