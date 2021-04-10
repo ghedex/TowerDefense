@@ -1,5 +1,6 @@
 package levels.menu;
 
+import MainRef.ResourceHandler;
 import MainRef.TowerDefense;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -14,6 +15,7 @@ import levels.levelGenerator;
 public class mainMenuV2 implements Screen {
     final TowerDefense game;
     private Stage stage;
+    private ResourceHandler resourceHandler = new ResourceHandler();
     private testActor optiButton;
     private testActor levelOneActor;
     //private Button optiButton;
@@ -29,6 +31,7 @@ public class mainMenuV2 implements Screen {
     @Override
     public void show() {
         stage = new Stage(new ScreenViewport());
+        resourceHandler.loadSound("menuAssets/mainMenuAssets/buttonAssets/buttonClick.mp3", "buttonClickSound");
         Gdx.input.setInputProcessor(stage);
         optiButton = new testActor(optionButton, Gdx.graphics.getWidth()/100*50, Gdx.graphics.getHeight()/3);
         levelOneActor = new testActor(levelOneButton,Gdx.graphics.getWidth()/100*50, Gdx.graphics.getHeight()/2);
@@ -36,6 +39,7 @@ public class mainMenuV2 implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                resourceHandler.getSound("buttonClickSound").play(0.5f);
                 game.setScreen(new testMainMenu(game));
                 //Gdx.app.exit();
             }
@@ -44,6 +48,7 @@ public class mainMenuV2 implements Screen {
             @Override
             public void clicked (InputEvent event, float x, float y){
                 super.clicked(event, x, y);
+                resourceHandler.getSound("buttonClickSound").play(0.5f);
                 game.setScreen(new levelGenerator(game));
             }
         });
