@@ -3,7 +3,6 @@ package levels;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.g3d.model.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
@@ -26,8 +25,7 @@ public class PathfindingEnemy extends Sprite {
     }
 
 
-
-    public void update(SpriteBatch batch, float delta){
+    public void update(SpriteBatch batch){
         super.draw(batch);
         float angle = (float) Math.atan2(path.get(waypoint).y - getY(), path.get(waypoint).x - getX());
         velocity.set((float) Math.cos(angle) * speed, (float) Math.sin(angle) * speed);
