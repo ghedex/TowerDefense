@@ -37,8 +37,7 @@ public class LevelOne extends ApplicationAdapter {
 
     public static Array<Vector2> levelOnePath(){
         path = new Array<Vector2>();
-        path.add(new Vector2(0, 150));
-        path.add(new Vector2(250, 150));
+        path.add(new Vector2(-150, 150));
         path.add(new Vector2(360, 175));
         path.add(new Vector2(410, 225));
         path.add(new Vector2(440, 300));

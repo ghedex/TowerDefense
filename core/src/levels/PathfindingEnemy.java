@@ -3,13 +3,14 @@ package levels;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g3d.model.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 public class PathfindingEnemy extends Sprite {
 
     private Vector2 velocity = new Vector2();
-    private float speed = 500, tolerance = 3;
+    private float speed = 100, tolerance = 3;
     private TextureRegion entity;
     public Array<Vector2> getPath() {
         return path;
@@ -23,6 +24,7 @@ public class PathfindingEnemy extends Sprite {
         super(entity);
         this.path = path;
     }
+
 
 
     public void update(SpriteBatch batch, float delta){
