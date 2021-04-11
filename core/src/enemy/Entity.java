@@ -39,13 +39,11 @@ public class Entity extends Actor {
     public FileHandle returnPath(FileHandle PATH){
         return Gdx.files.internal(PATH);
     }
-
  */
     /*
     public TextureRegion getKeyFrame(float time, boolean loop){
         return this.getKeyFrame(time, loop);
     }
-
      */
 
 

@@ -14,7 +14,7 @@ public class DesktopLauncher {
 		config.resizable = false;
 		config.vSyncEnabled = true;
 		config.foregroundFPS = 60;
-		config.title = "HIPPITY, HOPPETY, OPTI IS NOW MY PROPERTY";
+		config.title = "HIPPITY, HOPPITY, OPTI DO BE MY PROPERTY";
 		new LwjglApplication(new TowerDefense(), config);
 	}
 }
