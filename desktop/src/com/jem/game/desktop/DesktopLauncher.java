@@ -14,7 +14,7 @@ public class DesktopLauncher {
 		config.resizable = false;
 		config.vSyncEnabled = true;
 		config.foregroundFPS = 60;
-		config.title = "HIPPITY, HOPPITY, OPTI DO BE MY PROPERTY";
+		config.title = "Quick, take the pick and run a klick before I show you this nice trick with my brick.";
 		new LwjglApplication(new TowerDefense(), config);
 	}
 }

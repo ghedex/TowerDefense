@@ -6,11 +6,9 @@ import MainRef.TowerDefense;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
@@ -19,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class testMainMenu implements Screen {
     final TowerDefense game;
+    mainMenu menu;
     private ResourceHandler resourceHandler = new ResourceHandler();
     private Stage stage;
     Timer timer = new Timer();
@@ -29,6 +28,7 @@ public class testMainMenu implements Screen {
     //private Button optiButton;
     private Music backgroundMusic;
     //private AssetManager assetManager;
+    private String BACKGROUNDPATH = "menuAssets/mainMenuAssets/placeholder_mainMenuBackground.png";
     private String IMAGEPATH_START = "menuAssets/mainMenuAssets/buttonAssets/placeholder_button.png";
     private String IMAGEPATH_EXIT = "menuAssets/mainMenuAssets/buttonAssets/placeholder_button_exit.png";
     private String optionButton = "menuAssets/mainMenuAssets/buttonAssets/optiButton(FINAL_VERSION).png";
@@ -42,6 +42,7 @@ public class testMainMenu implements Screen {
     @Override
     public void show() {
         stage = new Stage(new ScreenViewport());
+        menu = new mainMenu();
        /* skin = new Skin(Gdx.files.internal("menuAssets/mainMenuAssets/menuSkin/skin/uiskin.json"));
         skin.add("optiButton(FINAL_VERSION)", skin);
         optiButton = new TextButton("Opti", skin);
@@ -93,9 +94,10 @@ public class testMainMenu implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 resourceHandler.getSound("buttonClickSound").play(0.5f);
-                game.setScreen(new mainMenuV2(game));
+                game.setScreen(new LevelSelection(game));
             }
         });
+        menu.createBackground(BACKGROUNDPATH);
         stage.addActor(actorTest);
         stage.addActor(testActor2);
         stage.addActor(optiButton);
@@ -104,11 +106,12 @@ public class testMainMenu implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        menu.renderBackground();
+        //Gdx.gl.glClearColor(0, 1, 1, 1);
+        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Gdx.graphics.getDeltaTime()/2.5f);
         stage.draw();
-        playMusic();
+        //playMusic();
     }
 
     @Override

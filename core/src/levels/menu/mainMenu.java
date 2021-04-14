@@ -35,6 +35,11 @@ public class mainMenu extends ApplicationAdapter{
         menuBackground = new Texture(Gdx.files.internal((BACKGROUNDPATH)));
         img = new Sprite(menuBackground, menuBackground.getWidth(), menuBackground.getHeight());
     }
+    public void createBackground(String path) {
+        batch = new SpriteBatch();
+        menuBackground = new Texture(Gdx.files.internal((path)));
+        img = new Sprite(menuBackground, menuBackground.getWidth(), menuBackground.getHeight());
+    }
 
     public void renderBackground() {
         super.render();

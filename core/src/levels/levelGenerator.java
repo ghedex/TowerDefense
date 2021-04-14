@@ -2,20 +2,12 @@ package levels;
 
 import MainRef.ResourceHandler;
 import MainRef.TowerDefense;
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 
 import com.badlogic.gdx.Screen;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.*;
 
-import com.badlogic.gdx.graphics.g3d.model.Animation;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -25,14 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import enemy.scorpionEntity.Scorpion;
 import enemy.wizardEntity.Wizard;
-import levels.menu.mainMenuV2;
 import levels.menu.testActor;
 import levels.menu.testMainMenu;
-import org.w3c.dom.Text;
-
-import java.util.Timer;
-import java.util.TimerTask;
-
 
 
 public class levelGenerator implements Screen {
@@ -64,13 +50,12 @@ public class levelGenerator implements Screen {
         resourceHandler.loadSound("menuAssets/mainMenuAssets/buttonAssets/buttonClick.mp3", "buttonClickSound");
         skin = new Skin(Gdx.files.internal("menuAssets/mainMenuAssets/menuSkin/skin/uiskin.json"), new TextureAtlas("menuAssets/mainMenuAssets/menuSkin/skin/uiskin.atlas"));
         pause = new Window("Pause", skin);
-
         pause.setVisible(false);
         TextButton continueButton = new TextButton("Continue the Game",skin);
         TextButton exitButton = new TextButton("Exit to Main Menu", skin);
         exitButton.setSize(250f,250f);
         pause.padTop(64);
-        pause.setSize(stage.getWidth() / 1.5f, stage.getHeight() / 1.5f);
+        pause.setSize(stage.getWidth() / 2.5f, stage.getHeight() / 2.5f);
         pause.setPosition(stage.getWidth() / 2 - pause.getWidth() / 2, stage.getHeight() / 2 - pause.getHeight() / 2);
         pause.add(continueButton).row();
         pause.add(exitButton);
@@ -80,8 +65,8 @@ public class levelGenerator implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                resourceHandler.getSound("buttonClickSound").play(0.5f);
                 isPaused = !isPaused;
+                resourceHandler.getSound("buttonClickSound").play(0.5f);
                 pause.setVisible(true);
             }
         });
@@ -89,6 +74,7 @@ public class levelGenerator implements Screen {
         @Override
         public void clicked(InputEvent event, float x, float y) {
             super.clicked(event, x, y);
+            isPaused = !isPaused;
             resourceHandler.getSound("buttonClickSound").play(0.5f);
             pause.setVisible(false);
         }
@@ -105,9 +91,9 @@ public class levelGenerator implements Screen {
         level = new LevelOne();
 
         level.createBackground();
+
         stage.addActor(pauseButtonActor);
         stage.addActor(pause);
-
         this.createAllEnemies();
         this.setUpEnemies();
 
@@ -123,37 +109,37 @@ public class levelGenerator implements Screen {
     @Override
     public void render(float delta) {
         batch.begin();
-        if (!isPaused){
-        }
-
-
-        this.updateAllEntites();
-
         level.renderBackground();
-
+        if (!isPaused){
+            this.updateAllEntites();
+        }
+        drawAllEntites();
+        batch.end();
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-        batch.end();
     }
     public void createAllEnemies(){
         scorpion = new Scorpion();
         wizard = new Wizard();
     }
-
-    public void updateAllEntites(){
-        scorpionEnemy.update(batch);
-        wizardEnemy.update(batch);
+    public void drawAllEntites(){
+        scorpionEnemy.draw(batch);
+        wizardEnemy.draw(batch);
     }
-
-
+    public void updateAllEntites(){
+        scorpionEnemy.update();
+        wizardEnemy.update();
+    }
     public void setUpEnemies(){
         //velocity not quite working yet, origin too
         scorpionEnemy = new PathfindingEnemy(scorpion.idleFrame(), LevelOne.levelOnePath());
-        scorpionEnemy.setOrigin(-150, 150);
+        //scorpionEnemy.setOrigin(-150, 150);
+        scorpionEnemy.setPosition(-150, 150);
         scorpionEnemy.setSize(scorpion.getWIDTH(), scorpion.getHEIGHT());
         //velocity not quite working yet, origin too
         wizardEnemy = new PathfindingEnemy(wizard.idleFrame(), LevelOne.levelOnePath());
-        wizardEnemy.setOrigin(-150, 150);
+        //wizardEnemy.setOrigin(-150, 150);
+        wizardEnemy.setPosition(-150, 150);
         wizardEnemy.setSize(wizard.getWIDTH(), wizard.getHEIGHT());
     }
 
