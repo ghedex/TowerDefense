@@ -4,7 +4,6 @@ import MainRef.ResourceHandler;
 import MainRef.TowerDefense;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -12,20 +11,20 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import levels.levelGenerator;
 
 
-public class LevelSelection implements Screen {
+public class LevelSelectionScreen implements Screen {
     final TowerDefense game;
     mainMenu menu;
     private Stage stage;
     private ResourceHandler resourceHandler = new ResourceHandler();
     private testActor optiButton;
     private testActor levelOneActor;
-    private String levelSelectionBackground = "menuAssets/levelSelection_placeholder.png";
+    private String levelSelectionBackground = "menuAssets/levelSelection_placeholder2.png";
     //private Button optiButton;
     //private AssetManager assetManager;
     private String optionButton = "menuAssets/mainMenuAssets/buttonAssets/optiButton(FINAL_VERSION).png";
     private String levelOneButton = "menuAssets/mainMenuAssets/buttonAssets/levelOneButton.png";
 
-    public LevelSelection(final TowerDefense game) {
+    public LevelSelectionScreen(final TowerDefense game) {
         this.game = game;
     }
 
@@ -43,7 +42,7 @@ public class LevelSelection implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 resourceHandler.getSound("buttonClickSound").play(0.5f);
-                game.setScreen(new testMainMenu(game));
+                game.setScreen(new MainMenuScreen(game));
                 //Gdx.app.exit();
             }
         });

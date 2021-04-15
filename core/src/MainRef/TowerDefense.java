@@ -1,13 +1,13 @@
 package MainRef;
 
 import com.badlogic.gdx.Game;
-import levels.menu.testMainMenu;
+import levels.menu.MainMenuScreen;
 
 public class TowerDefense extends Game {
 
     @Override
     public void create() {
-        this.setScreen(new testMainMenu(this));
+        this.setScreen(new MainMenuScreen(this));
     }
 
     @Override

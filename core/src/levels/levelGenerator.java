@@ -18,7 +18,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import enemy.scorpionEntity.Scorpion;
 import enemy.wizardEntity.Wizard;
 import levels.menu.testActor;
-import levels.menu.testMainMenu;
+import levels.menu.MainMenuScreen;
 
 
 public class levelGenerator implements Screen {
@@ -34,7 +34,7 @@ public class levelGenerator implements Screen {
     Scorpion scorpion;
     private float timePassed;
     private boolean isPaused;
-    private String pauseButton = "menuAssets/mainMenuAssets/buttonAssets/pauseButton.png";
+    private String pauseButton = "menuAssets/mainMenuAssets/buttonAssets/button_pause.png";
     private Skin skin;
     Wizard wizard;
 
@@ -60,14 +60,19 @@ public class levelGenerator implements Screen {
         pause.add(continueButton).row();
         pause.add(exitButton);
         Gdx.input.setInputProcessor(stage);
-        pauseButtonActor = new testActor(pauseButton, Gdx.graphics.getWidth()/100*0.5f, Gdx.graphics.getHeight()/100*93.5f);
+        pauseButtonActor = new testActor(pauseButton, Gdx.graphics.getWidth()/100*0.5f, Gdx.graphics.getHeight()/100*89f, 90, 90);
         pauseButtonActor.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                isPaused = !isPaused;
                 resourceHandler.getSound("buttonClickSound").play(0.5f);
-                pause.setVisible(true);
+                isPaused = !isPaused;
+                if(pause.isVisible() == false) {
+                    pause.setVisible(true);
+                }
+                else {
+                    pause.setVisible(false);
+                }
             }
         });
         continueButton.addListener(new ClickListener(){
@@ -84,14 +89,13 @@ public class levelGenerator implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 resourceHandler.getSound("buttonClickSound").play(0.5f);
-               game.setScreen(new testMainMenu(game));
+               game.setScreen(new MainMenuScreen(game));
             }
         });
         batch = new SpriteBatch();
         level = new LevelOne();
 
         level.createBackground();
-
         stage.addActor(pauseButtonActor);
         stage.addActor(pause);
         this.createAllEnemies();

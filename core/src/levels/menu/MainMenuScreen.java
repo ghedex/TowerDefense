@@ -6,7 +6,6 @@ import MainRef.TowerDefense;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
@@ -15,7 +14,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 
-public class testMainMenu implements Screen {
+public class MainMenuScreen implements Screen {
     final TowerDefense game;
     mainMenu menu;
     private ResourceHandler resourceHandler = new ResourceHandler();
@@ -35,7 +34,7 @@ public class testMainMenu implements Screen {
     final private int WINDOW_WIDTH = 1280;
     private long id;
 
-    public testMainMenu(final TowerDefense game) {
+    public MainMenuScreen(final TowerDefense game) {
         this.game = game;
     }
 
@@ -94,14 +93,13 @@ public class testMainMenu implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 resourceHandler.getSound("buttonClickSound").play(0.5f);
-                game.setScreen(new LevelSelection(game));
+                game.setScreen(new LevelSelectionScreen(game));
             }
         });
         menu.createBackground(BACKGROUNDPATH);
         stage.addActor(actorTest);
         stage.addActor(testActor2);
         stage.addActor(optiButton);
-
     }
 
     @Override
