@@ -2,20 +2,12 @@ package levels;
 
 import MainRef.ResourceHandler;
 import MainRef.TowerDefense;
-import com.badlogic.gdx.ApplicationAdapter;
+
 import com.badlogic.gdx.Gdx;
 
 import com.badlogic.gdx.Screen;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.*;
-
-import com.badlogic.gdx.graphics.g3d.model.Animation;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -23,16 +15,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import enemy.scorpionEntity.Scorpion;
+
 import enemy.wizardEntity.Wizard;
 import levels.menu.mainMenuV2;
 import levels.menu.testActor;
 import levels.menu.testMainMenu;
-import org.w3c.dom.Text;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
+import java.util.LinkedList;
+import java.util.ListIterator;
 
 
 public class levelGenerator implements Screen {
@@ -50,8 +40,11 @@ public class levelGenerator implements Screen {
     private boolean isPaused;
     private String pauseButton = "menuAssets/mainMenuAssets/buttonAssets/pauseButton.png";
     private Skin skin;
+    private LinkedList<Scorpion> scorpionLinkedList;
     Wizard wizard;
-
+    Sprite a;
+    private float timeBetweenEnemySpawns = 3f;
+    private float enemySpawnTimer;
 
     public levelGenerator(final TowerDefense game) {
         this.game = game;
@@ -108,14 +101,12 @@ public class levelGenerator implements Screen {
         stage.addActor(pauseButtonActor);
         stage.addActor(pause);
 
-        this.createAllEnemies();
-        this.setUpEnemies();
+        scorpionLinkedList = new LinkedList<>();
+
+        scorpion = new Scorpion();
+        wizard = new Wizard();
 
 
-        //scorpionAtlas = new TextureAtlas((FileHandle) scorpion.returnPath());
-        //animation = new Animation(1/30f, scorpionAtlas.getRegions());
-
-        //scorpionEnemy.setPosition(-100, 150);
 
 
     }
@@ -124,37 +115,31 @@ public class levelGenerator implements Screen {
     public void render(float delta) {
         batch.begin();
         if (!isPaused){
+            spawnEnemyScorpions(Gdx.graphics.getDeltaTime());
+
         }
 
+        ListIterator<Scorpion> scorpionListIterator = scorpionLinkedList.listIterator();
 
-        this.updateAllEntites();
+        while(scorpionListIterator.hasNext()){
+            Scorpion scorpion = scorpionListIterator.next();
+            scorpion.draw(batch);
+            scorpion.update(timePassed);
 
-        level.renderBackground();
+        }
+        System.out.println(scorpionLinkedList.toString());
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
         batch.end();
     }
-    public void createAllEnemies(){
-        scorpion = new Scorpion();
-        wizard = new Wizard();
-    }
 
-    public void updateAllEntites(){
-        scorpionEnemy.update(batch);
-        wizardEnemy.update(batch);
-    }
-
-
-    public void setUpEnemies(){
-        //velocity not quite working yet, origin too
-        scorpionEnemy = new PathfindingEnemy(scorpion.idleFrame(), LevelOne.levelOnePath());
-        scorpionEnemy.setOrigin(-150, 150);
-        scorpionEnemy.setSize(scorpion.getWIDTH(), scorpion.getHEIGHT());
-        //velocity not quite working yet, origin too
-        wizardEnemy = new PathfindingEnemy(wizard.idleFrame(), LevelOne.levelOnePath());
-        wizardEnemy.setOrigin(-150, 150);
-        wizardEnemy.setSize(wizard.getWIDTH(), wizard.getHEIGHT());
+    public void spawnEnemyScorpions(float deltaTime){
+        enemySpawnTimer += deltaTime;
+        if(enemySpawnTimer > timeBetweenEnemySpawns){
+            scorpionLinkedList.add(new Scorpion());
+            enemySpawnTimer -= timeBetweenEnemySpawns;
+        }
     }
 
 
@@ -181,9 +166,9 @@ public class levelGenerator implements Screen {
     @Override
     public void dispose(){
         batch.dispose();
-        scorpion.getStage().dispose();
+        scorpion.getTexture().dispose();
         scorpionEnemy.getTexture().dispose();
-        wizard.getStage().dispose();
+        wizard.getTexture().dispose();
         wizardEnemy.getTexture().dispose();
         level.dispose();
 
