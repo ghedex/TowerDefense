@@ -95,8 +95,6 @@ public class levelGenerator implements Screen {
     testActor towerMagicianPlaced9;
     testActor towerSupportPlaced9;
 
-    testActor towerArcherArray[];
-
 
     //ground texture
     private String groundStandard = "background/ground/dot.png";
@@ -115,6 +113,39 @@ public class levelGenerator implements Screen {
     boolean archerPlaced1 = false;
     boolean magicianPlaced1 = false;
     boolean supportPlaced1 = false;
+
+    boolean archerPlaced2 = false;
+    boolean magicianPlaced2 = false;
+    boolean supportPlaced2 = false;
+
+    boolean archerPlaced3 = false;
+    boolean magicianPlaced3 = false;
+    boolean supportPlaced3 = false;
+
+    boolean archerPlaced4 = false;
+    boolean magicianPlaced4 = false;
+    boolean supportPlaced4 = false;
+
+    boolean archerPlaced5 = false;
+    boolean magicianPlaced5 = false;
+    boolean supportPlaced5 = false;
+
+    boolean archerPlaced6 = false;
+    boolean magicianPlaced6 = false;
+    boolean supportPlaced6 = false;
+
+    boolean archerPlaced7 = false;
+    boolean magicianPlaced7 = false;
+    boolean supportPlaced7 = false;
+
+    boolean archerPlaced8 = false;
+    boolean magicianPlaced8 = false;
+    boolean supportPlaced8 = false;
+
+    boolean archerPlaced9 = false;
+    boolean magicianPlaced9 = false;
+    boolean supportPlaced9 = false;
+
 
 
 
@@ -195,10 +226,6 @@ public class levelGenerator implements Screen {
         towerMenue = new testActor(towerMenueIcon, Gdx.graphics.getWidth()/100*12f, Gdx.graphics.getHeight()/100*89f, 90f, 90f);
 
 
-        for (int i = 0; i <= 1; i++) {
-            towerArcherArray[i] = new testActor(groundHighlighted, Gdx.graphics.getWidth()*0.035f, Gdx.graphics.getHeight()*0.033f, 123.5f, 70f);
-        }
-
         //Ground
         placeTower1 = new testActor(groundStandard, Gdx.graphics.getWidth()*0.035f, Gdx.graphics.getHeight()*0.033f, 123.5f, 70f);
         placeTower2 = new testActor(groundStandard, Gdx.graphics.getWidth()*0.246f, Gdx.graphics.getHeight()*0.033f, 123.5f, 70f);
@@ -209,7 +236,6 @@ public class levelGenerator implements Screen {
         placeTower7 = new testActor(groundStandard, Gdx.graphics.getWidth()*0.498f, Gdx.graphics.getHeight()*0.546f, 123.5f, 70f);
         placeTower8 = new testActor(groundStandard, Gdx.graphics.getWidth()*0.691f, Gdx.graphics.getHeight()*0.590f, 123.5f, 70f);
         placeTower9 = new testActor(groundStandard, Gdx.graphics.getWidth()*0.864f, Gdx.graphics.getHeight()*0.513f, 123.5f, 70f);
-
 
         towerArcherPlaced1 = new testActor(towerArcherImg, Gdx.graphics.getWidth()*0.055f, Gdx.graphics.getHeight()*0.053f, 80f, 70f);
         towerArcherPlaced1.setVisible(false);
@@ -322,33 +348,28 @@ public class levelGenerator implements Screen {
 
         //Event Handler placeTower
         placeTower1.addListener(new ClickListener(){
-           @Override
-           public void clicked(InputEvent event, float x, float y) {
-               if (archer) {
-                   towerArcherPlaced1.setVisible(true);
-               }
-               if (magician) {
-                   towerMagicianPlaced1.setVisible(true);
-               }
-               if (support) {
-                   towerSupportPlaced1.setVisible(true);
-               }
-           }
-        });
-        placeTower1.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (archer) {
-                    towerArcherPlaced1.setVisible(true);
-                    archer = false;
+                    if (!archerPlaced1 && !magicianPlaced1 && !supportPlaced1 ) {
+                        towerArcherPlaced1.setVisible(true);
+                        archer = false;
+                        archerPlaced1 = true;
+                    }
                 }
                 if (magician) {
-                    towerMagicianPlaced1.setVisible(true);
-                    magician = false;
+                    if (!archerPlaced1 && !magicianPlaced1 && !supportPlaced1 ) {
+                        towerMagicianPlaced1.setVisible(true);
+                        magician = false;
+                        magicianPlaced1 = true;
+                    }
                 }
                 if (support) {
-                    towerSupportPlaced1.setVisible(true);
-                    support = false;
+                    if (!archerPlaced1 && !magicianPlaced1 && !supportPlaced1 ) {
+                        towerSupportPlaced1.setVisible(true);
+                        support = false;
+                        supportPlaced1 = true;
+                    }
                 }
             }
         });
@@ -356,16 +377,25 @@ public class levelGenerator implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (archer) {
-                    towerArcherPlaced2.setVisible(true);
-                    archer = false;
+                    if (!archerPlaced2 && !magicianPlaced2 && !supportPlaced2 ) {
+                        towerArcherPlaced2.setVisible(true);
+                        archer = false;
+                        archerPlaced2 = true;
+                    }
                 }
                 if (magician) {
-                    towerMagicianPlaced2.setVisible(true);
-                    magician = false;
+                    if (!archerPlaced2 && !magicianPlaced2 && !supportPlaced2 ) {
+                        towerMagicianPlaced2.setVisible(true);
+                        magician = false;
+                        magicianPlaced2 = true;
+                    }
                 }
                 if (support) {
-                    towerSupportPlaced2.setVisible(true);
-                    support = false;
+                    if (!archerPlaced2 && !magicianPlaced2 && !supportPlaced2 ) {
+                        towerSupportPlaced2.setVisible(true);
+                        support = false;
+                        supportPlaced2 = true;
+                    }
                 }
             }
         });
@@ -373,16 +403,25 @@ public class levelGenerator implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (archer) {
-                    towerArcherPlaced3.setVisible(true);
-                    archer = false;
+                    if (!archerPlaced3 && !magicianPlaced3 && !supportPlaced3 ) {
+                        towerArcherPlaced3.setVisible(true);
+                        archer = false;
+                        archerPlaced3 = true;
+                    }
                 }
                 if (magician) {
-                    towerMagicianPlaced3.setVisible(true);
-                    magician = false;
+                    if (!archerPlaced3 && !magicianPlaced3 && !supportPlaced3 ) {
+                        towerMagicianPlaced3.setVisible(true);
+                        magician = false;
+                        magicianPlaced3 = true;
+                    }
                 }
                 if (support) {
-                    towerSupportPlaced3.setVisible(true);
-                    support = false;
+                    if (!archerPlaced3 && !magicianPlaced3 && !supportPlaced3 ) {
+                        towerSupportPlaced3.setVisible(true);
+                        support = false;
+                        supportPlaced3 = true;
+                    }
                 }
             }
         });
@@ -390,16 +429,25 @@ public class levelGenerator implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (archer) {
-                    towerArcherPlaced4.setVisible(true);
-                    archer = false;
+                    if (!archerPlaced4 && !magicianPlaced4 && !supportPlaced4 ) {
+                        towerArcherPlaced4.setVisible(true);
+                        archer = false;
+                        archerPlaced4 = true;
+                    }
                 }
                 if (magician) {
-                    towerMagicianPlaced4.setVisible(true);
-                    magician = false;
+                    if (!archerPlaced4 && !magicianPlaced4 && !supportPlaced4 ) {
+                        towerMagicianPlaced4.setVisible(true);
+                        magician = false;
+                        magicianPlaced4 = true;
+                    }
                 }
                 if (support) {
-                    towerSupportPlaced4.setVisible(true);
-                    support = false;
+                    if (!archerPlaced4 && !magicianPlaced4 && !supportPlaced4 ) {
+                        towerSupportPlaced4.setVisible(true);
+                        support = false;
+                        supportPlaced4 = true;
+                    }
                 }
             }
         });
@@ -407,16 +455,25 @@ public class levelGenerator implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (archer) {
-                    towerArcherPlaced5.setVisible(true);
-                    archer = false;
+                    if (!archerPlaced5 && !magicianPlaced5 && !supportPlaced5 ) {
+                        towerArcherPlaced5.setVisible(true);
+                        archer = false;
+                        archerPlaced5 = true;
+                    }
                 }
                 if (magician) {
-                    towerMagicianPlaced5.setVisible(true);
-                    magician = false;
+                    if (!archerPlaced5 && !magicianPlaced5 && !supportPlaced5 ) {
+                        towerMagicianPlaced5.setVisible(true);
+                        magician = false;
+                        magicianPlaced5 = true;
+                    }
                 }
                 if (support) {
-                    towerSupportPlaced5.setVisible(true);
-                    support = false;
+                    if (!archerPlaced5 && !magicianPlaced5 && !supportPlaced5 ) {
+                        towerSupportPlaced5.setVisible(true);
+                        support = false;
+                        supportPlaced5 = true;
+                    }
                 }
             }
         });
@@ -424,16 +481,25 @@ public class levelGenerator implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (archer) {
-                    towerArcherPlaced6.setVisible(true);
-                    archer = false;
+                    if (!archerPlaced6 && !magicianPlaced6 && !supportPlaced6 ) {
+                        towerArcherPlaced6.setVisible(true);
+                        archer = false;
+                        archerPlaced6 = true;
+                    }
                 }
                 if (magician) {
-                    towerMagicianPlaced6.setVisible(true);
-                    magician = false;
+                    if (!archerPlaced6 && !magicianPlaced6 && !supportPlaced6 ) {
+                        towerMagicianPlaced6.setVisible(true);
+                        magician = false;
+                        magicianPlaced6 = true;
+                    }
                 }
                 if (support) {
-                    towerSupportPlaced6.setVisible(true);
-                    support = false;
+                    if (!archerPlaced6 && !magicianPlaced6 && !supportPlaced6 ) {
+                        towerSupportPlaced6.setVisible(true);
+                        support = false;
+                        supportPlaced6 = true;
+                    }
                 }
             }
         });
@@ -441,16 +507,25 @@ public class levelGenerator implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (archer) {
-                    towerArcherPlaced7.setVisible(true);
-                    archer = false;
+                    if (!archerPlaced7 && !magicianPlaced7 && !supportPlaced7 ) {
+                        towerArcherPlaced7.setVisible(true);
+                        archer = false;
+                        archerPlaced7 = true;
+                    }
                 }
                 if (magician) {
-                    towerMagicianPlaced7.setVisible(true);
-                    magician = false;
+                    if (!archerPlaced7 && !magicianPlaced7 && !supportPlaced7 ) {
+                        towerMagicianPlaced7.setVisible(true);
+                        magician = false;
+                        magicianPlaced7 = true;
+                    }
                 }
                 if (support) {
-                    towerSupportPlaced7.setVisible(true);
-                    support = false;
+                    if (!archerPlaced7 && !magicianPlaced7 && !supportPlaced7 ) {
+                        towerSupportPlaced7.setVisible(true);
+                        support = false;
+                        supportPlaced7 = true;
+                    }
                 }
             }
         });
@@ -458,16 +533,25 @@ public class levelGenerator implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (archer) {
-                    towerArcherPlaced8.setVisible(true);
-                    archer = false;
+                    if (!archerPlaced8 && !magicianPlaced8 && !supportPlaced8 ) {
+                        towerArcherPlaced8.setVisible(true);
+                        archer = false;
+                        archerPlaced8 = true;
+                    }
                 }
                 if (magician) {
-                    towerMagicianPlaced8.setVisible(true);
-                    magician = false;
+                    if (!archerPlaced8 && !magicianPlaced8 && !supportPlaced8 ) {
+                        towerMagicianPlaced8.setVisible(true);
+                        magician = false;
+                        magicianPlaced8 = true;
+                    }
                 }
                 if (support) {
-                    towerSupportPlaced8.setVisible(true);
-                    support = false;
+                    if (!archerPlaced8 && !magicianPlaced8 && !supportPlaced8 ) {
+                        towerSupportPlaced8.setVisible(true);
+                        support = false;
+                        supportPlaced8 = true;
+                    }
                 }
             }
         });
@@ -475,20 +559,28 @@ public class levelGenerator implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (archer) {
-                    towerArcherPlaced9.setVisible(true);
-                    archer = false;
+                    if (!archerPlaced9 && !magicianPlaced9 && !supportPlaced9 ) {
+                        towerArcherPlaced9.setVisible(true);
+                        archer = false;
+                        archerPlaced9 = true;
+                    }
                 }
                 if (magician) {
-                    towerMagicianPlaced9.setVisible(true);
-                    magician = false;
+                    if (!archerPlaced9 && !magicianPlaced9 && !supportPlaced9 ) {
+                        towerMagicianPlaced9.setVisible(true);
+                        magician = false;
+                        magicianPlaced9 = true;
+                    }
                 }
                 if (support) {
-                    towerSupportPlaced9.setVisible(true);
-                    support = false;
+                    if (!archerPlaced9 && !magicianPlaced9 && !supportPlaced9 ) {
+                        towerSupportPlaced9.setVisible(true);
+                        support = false;
+                        supportPlaced9 = true;
+                    }
                 }
             }
         });
-
 
 
         batch = new SpriteBatch();
@@ -499,9 +591,6 @@ public class levelGenerator implements Screen {
 
         stage.addActor(towerMenue);
 
-        for (int i = 0; i <= 9; i++) {
-            stage.addActor(towerArcherArray[i]);
-        }
         //Building Places
         stage.addActor(placeTower1);
         stage.addActor(placeTower2);
@@ -568,9 +657,10 @@ public class levelGenerator implements Screen {
     @Override
     public void render(float delta) {
         batch.begin();
+        level.renderBackground();
         if (!isPaused){
+            this.updateAllEntites();
         }
-
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
@@ -590,11 +680,11 @@ public class levelGenerator implements Screen {
     public void setUpEnemies(){
         //velocity not quite working yet, origin too
         scorpionEnemy = new PathfindingEnemy(scorpion.idleFrame(), LevelOne.levelOnePath());
-        scorpionEnemy.setOrigin(-150, 150);
+        scorpionEnemy.setPosition(-150, 150);
         scorpionEnemy.setSize(scorpion.getWIDTH(), scorpion.getHEIGHT());
         //velocity not quite working yet, origin too
         wizardEnemy = new PathfindingEnemy(wizard.idleFrame(), LevelOne.levelOnePath());
-        wizardEnemy.setOrigin(-150, 150);
+        wizardEnemy.setPosition(-150, 150);
         wizardEnemy.setSize(wizard.getWIDTH(), wizard.getHEIGHT());
     }
 
