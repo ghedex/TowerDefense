@@ -3,31 +3,39 @@ package enemy.scorpionEntity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import enemy.Entity;
+import levels.LevelOne;
+import levels.PathfindingEnemy;
 
 
 public class Scorpion extends Sprite {
 
-    public static final int WIDTH = 75;
-    public static final int HEIGHT = 75;
+    Vector2 first;
 
-    Texture tex;
-    Sprite spr;
+    Vector2 second;
 
     public Scorpion() {
-        //super(WIDTH, HEIGHT, 50, 100, "assetsPack/scorpions/scorpionRunning/scorpionPack.atlas");
-        //tex = new Texture("core/assets/2_enemies_1_attack_000.png");
-        //spr = new Sprite(tex);
+
         super( new Texture( Gdx.files.internal( "core/assets/assetsPack/scorpions/scorpionRunning/1_enemies_1_run_000.png" ) ) );
-        //spr = new Sprite(new Texture("core/assets/2_enemies_1_attack_000.png"));
+
         super.setSize(90, 90);
-        //super.setPosition( posX, posY );
+        super.setPosition(LevelOne.levelOnePath().first().x, LevelOne.levelOnePath().first().y);
+        //super.setPosition(posX, posY);
+
+
     }
 
-    public void update(float delta){
-        this.setPosition(30 * delta, 20 * delta);
+    public void move(){
+        this.translateX(1);
     }
 
+
+    public void draw(SpriteBatch batch, float x, float y){
+        this.draw(batch, x, y);
+
+    }
 
     //TO DO: Skorpion muss schon animiert sein, damit ich nur den Skorpion callen muss
 
