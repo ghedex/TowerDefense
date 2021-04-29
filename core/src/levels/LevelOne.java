@@ -17,9 +17,10 @@ public class LevelOne extends ApplicationAdapter {
     Sprite img;
 
 
-    public void createBackground(){
+    public void createBackground() {
         batch = new SpriteBatch();
         levelBackground = new Texture(Gdx.files.internal(LEVELPATH));
+        // img = new Sprite(levelBackground, levelBackground.getWidth(), levelBackground.getHeight());
         img = new Sprite(levelBackground, levelBackground.getWidth(), levelBackground.getHeight());
     }
 

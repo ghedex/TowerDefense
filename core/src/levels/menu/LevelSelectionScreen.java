@@ -4,8 +4,10 @@ import MainRef.ResourceHandler;
 import MainRef.TowerDefense;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import levels.levelGenerator;
@@ -14,8 +16,9 @@ import levels.levelGenerator;
 public class LevelSelectionScreen implements Screen {
     final TowerDefense game;
     mainMenu menu;
-    private Stage stage;
+    public Stage stage;
     private ResourceHandler resourceHandler = new ResourceHandler();
+    Skin skin = new Skin(Gdx.files.internal("menuAssets/mainMenuAssets/menuSkin/skin/uiskin.json"), new TextureAtlas("menuAssets/mainMenuAssets/menuSkin/skin/uiskin.atlas"));
     private testActor optiButton;
     private testActor levelOneActor;
     private String levelSelectionBackground = "menuAssets/levelSelection_placeholder2.png";
@@ -23,7 +26,6 @@ public class LevelSelectionScreen implements Screen {
     //private AssetManager assetManager;
     private String optionButton = "menuAssets/mainMenuAssets/buttonAssets/optiButton(FINAL_VERSION).png";
     private String levelOneButton = "menuAssets/mainMenuAssets/buttonAssets/levelOneButton.png";
-
     public LevelSelectionScreen(final TowerDefense game) {
         this.game = game;
     }
@@ -85,11 +87,12 @@ public class LevelSelectionScreen implements Screen {
 
     @Override
     public void hide() {
-
+        dispose();
     }
 
     @Override
     public void dispose(){
         stage.dispose();
+        menu.disposeBackground();
     }
 }

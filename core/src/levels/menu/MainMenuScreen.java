@@ -21,9 +21,8 @@ public class MainMenuScreen implements Screen {
     private Stage stage;
     Timer timer = new Timer();
     public Prefs prefs = new Prefs();
-    private testActor actorTest;
-    private testActor testActor2;
-    private  testActor optiButton;
+    private testActor startButtonActor, exitButtonActor, optiButtonActor;
+
     //private Button optiButton;
     private Music backgroundMusic;
     //private AssetManager assetManager;
@@ -66,21 +65,18 @@ public class MainMenuScreen implements Screen {
         action.setDuration(2f);
         action1.setAmountX((WINDOW_WIDTH/100*65) - Gdx.graphics.getWidth()/2f); //200f
         action1.setDuration(2f);*/
-        actorTest = new testActor(IMAGEPATH_START, action, Gdx.graphics.getWidth()/100*30, Gdx.graphics.getHeight()/2);
-        testActor2 = new testActor(IMAGEPATH_EXIT, action1,Gdx.graphics.getWidth()/100*65, Gdx.graphics.getHeight()/2);
-        optiButton = new testActor(optionButton, Gdx.graphics.getWidth()/100*50, Gdx.graphics.getHeight()/3);
-        actorTest.addListener(new ClickListener(){
+        startButtonActor = new testActor(IMAGEPATH_START, action, Gdx.graphics.getWidth()/100*30, Gdx.graphics.getHeight()/2);
+        exitButtonActor = new testActor(IMAGEPATH_EXIT, action1,Gdx.graphics.getWidth()/100*65, Gdx.graphics.getHeight()/2);
+        optiButtonActor = new testActor(optionButton, Gdx.graphics.getWidth()/100*50, Gdx.graphics.getHeight()/3);
+        startButtonActor.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 resourceHandler.getSound("buttonClickSound").play(0.5f);
-                if(prefs.isSoundOn()){
-                    prefs.setSound(false);
-                }else{
-                    prefs.setSound(true);
-                }
+
+                game.setScreen(new LevelSelectionScreen(game));
             }
         });
-        testActor2.addListener(new ClickListener(){
+        exitButtonActor.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -88,18 +84,18 @@ public class MainMenuScreen implements Screen {
                 Gdx.app.exit();
             }
         });
-        optiButton.addListener(new ClickListener(){
+        optiButtonActor.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 resourceHandler.getSound("buttonClickSound").play(0.5f);
-                game.setScreen(new LevelSelectionScreen(game));
+                prefs.setSound(!prefs.isSoundOn());
             }
         });
         menu.createBackground(BACKGROUNDPATH);
-        stage.addActor(actorTest);
-        stage.addActor(testActor2);
-        stage.addActor(optiButton);
+        stage.addActor(startButtonActor);
+        stage.addActor(exitButtonActor);
+        stage.addActor(optiButtonActor);
     }
 
     @Override
