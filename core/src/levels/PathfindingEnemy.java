@@ -5,11 +5,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import enemy.scorpionEntity.Scorpion;
 
 public class PathfindingEnemy extends Sprite {
 
     private Vector2 velocity = new Vector2();
-    private float speed = 100, tolerance = 3;
+    Scorpion scorpion;
+    private boolean remove = false;
+    private float speed = 100, tolerance = 3, abilitySpeed = 350;
     private TextureRegion entity;
     public Array<Vector2> getPath() {
         return path;
@@ -18,6 +21,7 @@ public class PathfindingEnemy extends Sprite {
     private Array<Vector2> path;
 
     private int waypoint = 0;
+    private float lifeCount;
 
     public PathfindingEnemy(TextureRegion entity, Array<Vector2> path){
         super(entity);
@@ -25,6 +29,12 @@ public class PathfindingEnemy extends Sprite {
     }
     public PathfindingEnemy(TextureRegion entity){
         super(entity);
+    }
+
+    public PathfindingEnemy(TextureRegion entity, Array<Vector2> path, float lifeCount){
+        super(entity);
+        this.path = path;
+        this.lifeCount = lifeCount;
     }
 
 
@@ -52,5 +62,15 @@ public class PathfindingEnemy extends Sprite {
     }
     public boolean isWaypointReached(){
         return path.get(waypoint).x - getX() <= speed / tolerance * Gdx.graphics.getDeltaTime() && path.get(waypoint).y - getY() <= speed / tolerance * Gdx.graphics.getDeltaTime() ;
+    }
+    public float getLifeCount() {
+        return lifeCount;
+    }
+
+    public void setLifeCount(float lifeCount) {
+        this.lifeCount = lifeCount;
+    }
+    public void remove(){
+        this.remove = true;
     }
 }
