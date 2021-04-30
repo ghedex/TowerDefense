@@ -10,11 +10,11 @@ public class Wizard extends Entity {
     public static final int HEIGHT = 110;
 
     //Lifebar lifebar = new Lifebar();
-    SpriteBatch batch;
+
 
     public Wizard() {
         super(WIDTH, HEIGHT, 25, 150, "assetsPack/wizard/wizardRunning/wizardRunning.atlas");
-        this.setBounds(getX(),getY(),getWIDTH(),getHEIGHT());
+        //this.setBounds(getX(),getY(),getWIDTH(),getHEIGHT());
         /*
         lifebar.setZIndex(100);
         lifebar.render();

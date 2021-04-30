@@ -2,20 +2,16 @@ package levels;
 
 import MainRef.ResourceHandler;
 import MainRef.TowerDefense;
-import abilities.FireAbility;
+import abilities.Ability;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -23,7 +19,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import enemy.Entity;
 import enemy.scorpionEntity.Scorpion;
 import enemy.wizardEntity.Wizard;
 import levels.menu.testActor;
@@ -46,7 +41,7 @@ public class levelGenerator implements Screen {
     PathfindingEnemy scorpionEnemy, wizardEnemy, fireBallAbility;
     Scorpion scorpion;
     Wizard wizard;
-    FireAbility fireBall;
+    Ability fireBall, damage = new Ability();
     private Array<Vector2> abilityPath;
     private float timePassed;
     private boolean isPaused;
@@ -58,12 +53,16 @@ public class levelGenerator implements Screen {
     //TODO
     LinkedList<PathfindingEnemy> enemyList = new LinkedList<>();
     Array<PathfindingEnemy> ability = new Array<>();
+    ArrayList<ImageButton> abilityButtonArray = new ArrayList();
+    private String fireAbilityToolTip = "Deals "+ damage.getFireDamage() + " Damage against 1 Enemy";
+    private String thunderAbilityToolTip = "Deals "+ damage.getThunderDamage() + " Damage to all enemies";
     //TODO
 
     public levelGenerator(final TowerDefense game) {
         this.game = game;
     }
-
+    //TODO Add Lightning Ability Image
+    //TODO Add Lightning Ability Effect
 
     @Override
     public void show() {
@@ -127,8 +126,11 @@ public class levelGenerator implements Screen {
         style.imageOver = fireAbilitySkin.getDrawable("fire_over");
         style.imageChecked = fireAbilitySkin.getDrawable("fire_checked");
         final ImageButton fireAbility = new ImageButton(style);
+        final ImageButton thunderAbility = new ImageButton(style);
+        abilityButtonArray.add(fireAbility);
+        abilityButtonArray.add(thunderAbility);
         //--------------------------------------------------------AbilityMenuButtonFunctionality----------------------------------------------------//
-        fireAbility.addListener(new TextTooltip("Throw a ball of fire at your enemies. \n Deals 20 Damage", toolTipManager, uiSkin));
+        //fireAbility.addListener(new TextTooltip(fireAbilityToolTip, toolTipManager, uiSkin));
         fireAbility.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -143,8 +145,9 @@ public class levelGenerator implements Screen {
                                 super.clicked(event, x, y);
                                 createAbility();
                                 setUpAbility(Gdx.input.getX() - fireBall.getWIDTH() / 2f, 720 - Gdx.input.getY() - fireBall.getHEIGHT() / 2f);
-                                Gdx.app.log("Mouse_X", String.valueOf(Gdx.input.getX()));
-                                Gdx.app.log("Mouse_Y", String.valueOf(Gdx.input.getY()));
+                                //Gdx.app.log("Mouse_X", String.valueOf(Gdx.input.getX()));
+                                //Gdx.app.log("Mouse_Y", String.valueOf(Gdx.input.getY()));
+                                Gdx.app.log("Ability", abilityButtonArray.get(0).toString());
                                 fireAbility.setChecked(false);
                                 stage.removeListener(placementListener);
                                 rangeCircle = !rangeCircle;
@@ -159,7 +162,21 @@ public class levelGenerator implements Screen {
                 }
             }
         });
-        abilityList.add(fireAbility);
+        thunderAbility.addListener(new TextTooltip(thunderAbilityToolTip, toolTipManager, uiSkin));
+        thunderAbility.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                resourceHandler.getSound("buttonClickSound").play(0.5f);
+                if(thunderAbility.isChecked()){
+                    dealThunderDamage();
+                    thunderAbility.setChecked(false);
+                }
+            }
+        });
+        for (ImageButton imgButton : abilityButtonArray){
+            abilityList.add(imgButton);
+        }
         abilityList.pack();
         //----------------------------------------------------------GameplayButtons------------------------------------------------------//
         pauseButtonActor = new testActor(pauseButton, Gdx.graphics.getWidth()/100*0.5f, Gdx.graphics.getHeight()/100*89f, 90, 90);
@@ -187,11 +204,11 @@ public class levelGenerator implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 resourceHandler.getSound("buttonClickSound").play(0.5f);
-                createAllEnemies();
-                setUpEnemies();
+                damage.setThunderDamage(damage.getThunderDamage() + 5f);
+                thunderAbilityToolTip = "Deals "+ damage.getThunderDamage() + " Damage to all enemies";
+                Gdx.app.log("Thunder Damage", String.valueOf(damage.getThunderDamage()));
             }
         });
-
 
         batch = new SpriteBatch();
         level = new LevelOne();
@@ -209,31 +226,11 @@ public class levelGenerator implements Screen {
     public void render(float delta) {
         level.renderBackground();
         stage.act(Gdx.graphics.getDeltaTime());
+        updateToolTips();
         if (!isPaused){
             this.updateAllEntites();
         }
-        if(!(fireBallAbility == null)) {
-            Iterator<PathfindingEnemy> abilityIterator = ability.iterator();
-            //Gdx.app.log("Array Index",ability.toString());
-                for (Iterator<PathfindingEnemy> iterator = enemyList.iterator(); iterator.hasNext(); ) {
-                    if(abilityIterator.hasNext()) {
-                        PathfindingEnemy enemy = iterator.next();
-                        if (enemy.getBoundingRectangle().overlaps(ability.get(0).getBoundingRectangle())) {
-                            enemy.setLifeCount(enemy.getLifeCount() - 20);
-                            Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
-                            if(ability.get(0) != null){
-                                ability.removeValue(ability.get(0),true);
-                            }
-                        }
-                        if (enemy.getLifeCount() <= 0) {
-                            iterator.remove();
-                        }
-                    }
-                    else{
-                        break;
-                    }
-                }
-        }
+        checkFireAbilityCollision();
         batch.begin();
         drawAllEntites();
         batch.end();
@@ -244,8 +241,48 @@ public class levelGenerator implements Screen {
         }
         Gdx.gl.glDisable(GL20.GL_BLEND);
         stage.draw();
-
     }
+    //
+    public void updateToolTips(){
+        fireAbilityToolTip = "Deals "+ damage.getFireDamage() + " Damage against 1 Enemy";
+        thunderAbilityToolTip = "Deals "+ damage.getThunderDamage() + " Damage to all enemies";
+        abilityButtonArray.get(0).addListener(new TextTooltip(fireAbilityToolTip, toolTipManager, uiSkin));
+        abilityButtonArray.get(0).addListener(new TextTooltip(fireAbilityToolTip, toolTipManager, uiSkin));
+        abilityButtonArray.get(1).addListener(new TextTooltip(thunderAbilityToolTip, toolTipManager, uiSkin));
+    }
+    public void checkFireAbilityCollision(){
+        if(!(fireBallAbility == null)) {
+            Iterator<PathfindingEnemy> abilityIterator = ability.iterator();
+            //Gdx.app.log("Array Index",ability.toString());
+            for (Iterator<PathfindingEnemy> iterator = enemyList.iterator(); iterator.hasNext(); ) {
+                if(abilityIterator.hasNext()) {
+                    PathfindingEnemy enemy = iterator.next();
+                    if (enemy.getBoundingRectangle().overlaps(ability.get(0).getBoundingRectangle())) {
+                        enemy.setLifeCount(enemy.getLifeCount() - damage.getFireDamage());
+                        Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
+                        ability.removeValue(ability.get(0),true);
+                    }
+                    if (enemy.getLifeCount() <= 0) {
+                        iterator.remove();
+                    }
+                }
+                else{
+                    break;
+                }
+            }
+        }
+    }
+    public void dealThunderDamage(){
+        for (Iterator<PathfindingEnemy> iterator = enemyList.iterator(); iterator.hasNext(); ) {
+                PathfindingEnemy enemy = iterator.next();
+                enemy.setLifeCount(enemy.getLifeCount() - damage.getThunderDamage());
+                Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
+                if (enemy.getLifeCount() <= 0) {
+                    iterator.remove();
+                }
+            }
+        }
+
     public void drawCircle(){
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -255,11 +292,12 @@ public class levelGenerator implements Screen {
     }
     //TODO outsource Abilities to their own files
     public void createAbility(){
-        fireBall = new FireAbility();
-        //fireBall.setBounds(fireBall.getWidth() / 2f, fireBall.getHeight() / 2f, fireBall.getWidth(), fireBall.getHeight());
-    }
-    public void drawAbility(){
-        fireBallAbility.draw(batch);
+        for(ImageButton imageButton: abilityButtonArray){
+            if(imageButton.isChecked()){
+                Gdx.app.log("Create Ability", String.valueOf(imageButton));
+                fireBall = new Ability();
+            }
+        }
     }
     public Array<Vector2> abilityMovementPath(float x, float y){
         abilityPath = new Array<Vector2>();
@@ -269,9 +307,7 @@ public class levelGenerator implements Screen {
     public void setUpAbility(float x, float y){
         ability = new Array<>();
         fireBallAbility = new PathfindingEnemy(fireBall.idleFrame(), abilityMovementPath(x, y));
-        //fireBall.setBounds(fireBall.getX(), fireBall.getY(), fireBall.getWIDTH(), fireBall.getHeight());
         fireBallAbility.setPosition(Gdx.graphics.getWidth() * 0.25f, Gdx.graphics.getHeight() * 0.65f);
-        //FireAbility[] fires = fire
         ability.add(fireBallAbility);
     }
     public void createAllEnemies(){
@@ -279,33 +315,17 @@ public class levelGenerator implements Screen {
         wizard = new Wizard();
     }
     public void drawAllEntites(){
-        //scorpionEnemy.draw(batch);
-        //wizardEnemy.draw(batch);
         for(PathfindingEnemy drawEnemy: enemyList){
             drawEnemy.draw(batch);
         }
         for(PathfindingEnemy drawAbility: ability){
             drawAbility.draw(batch);
         }
-       /*
-        if(!(fireBallAbility == null)) {
-            /*if(fireBallAbility.getBoundingRectangle().overlaps(scorpionEnemy.getBoundingRectangle())){
-                scorpion.setLifeCount(scorpion.getLifeCount() - 20);
-                Gdx.app.log("Scorpion lifecount", String.valueOf(scorpion.getLifeCount()));
-                fireBall.remove();
-                fireBallAbility = null;
-            }else{
-            }
-            drawAbility();
-        }*/
-
     }
     public void updateAllEntites(){
         for(PathfindingEnemy updateEnemy: enemyList){
             updateEnemy.update();
         }
-        //scorpionEnemy.update();
-        //wizardEnemy.update();
         for(PathfindingEnemy updateAbility: ability){
             updateAbility.updateAbility();
         }
@@ -315,7 +335,7 @@ public class levelGenerator implements Screen {
         //velocity not quite working yet, origin too
         scorpionEnemy = new PathfindingEnemy(scorpion.idleFrame(), LevelOne.levelOnePath(), 20);
         //scorpionEnemy.setOrigin(-150, 150);
-        scorpionEnemy.setPosition(-350, 150);
+        scorpionEnemy.setPosition(-150, 150);
         scorpionEnemy.setSize(scorpion.getWIDTH(), scorpion.getHEIGHT());
         //velocity not quite working yet, origin too
         wizardEnemy = new PathfindingEnemy(wizard.idleFrame(), LevelOne.levelOnePath(), 50);
@@ -325,7 +345,6 @@ public class levelGenerator implements Screen {
         enemyList.add(wizardEnemy);
         enemyList.add(scorpionEnemy);
     }
-
 
     @Override
     public void resize(int width, int height) {
