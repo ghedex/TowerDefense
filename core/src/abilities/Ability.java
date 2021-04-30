@@ -18,7 +18,7 @@ public class Ability extends Entity {
 
 
     public Ability() {
-        super(WIDTH, HEIGHT, 100, 1, "abilities/abilitesSkin/abilitiesSkin.atlas");
+        super(WIDTH, HEIGHT, 1, "abilities/abilitesSkin/abilitiesSkin.atlas");
     }
 
     public float getFireDamage() {

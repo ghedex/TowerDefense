@@ -13,7 +13,7 @@ public class Wizard extends Entity {
 
 
     public Wizard() {
-        super(WIDTH, HEIGHT, 25, 150, "assetsPack/wizard/wizardRunning/wizardRunning.atlas");
+        super(WIDTH, HEIGHT, 50, "assetsPack/wizard/wizardRunning/wizardRunning.atlas");
         //this.setBounds(getX(),getY(),getWIDTH(),getHEIGHT());
         /*
         lifebar.setZIndex(100);

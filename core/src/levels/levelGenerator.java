@@ -50,7 +50,6 @@ public class levelGenerator implements Screen {
     private Array<Vector2> abilityPath;
     private float timePassed;
     private boolean isPaused;
-    private String pauseButton = "menuAssets/mainMenuAssets/buttonAssets/pauseButton.png";
     private LinkedList<PathfindingEnemy> scorpionLinkedList;
     private float timeBetweenEnemySpawns = 3f;
     private float enemySpawnTimer;
@@ -164,10 +163,6 @@ public class levelGenerator implements Screen {
     boolean supportPlaced9 = false;
 
 
-
-
-    private Skin skin;
-    Wizard wizard;
     private boolean rangeCircle = false;
     private String pauseButton = "menuAssets/mainMenuAssets/buttonAssets/button_pause.png";
     private String abilityButton = "menuAssets/mainMenuAssets/buttonAssets/optiButton(FINAL_VERSION).png";
@@ -320,7 +315,7 @@ public class levelGenerator implements Screen {
                 pause.setVisible(false);
             }
         });
-        exitButton.addListener(new ClickListener(){
+        //exitButton.addListener(new ClickListener(){}
         abilityButtonActor = new testActor(abilityButton, Gdx.graphics.getWidth()*0.10f, Gdx.graphics.getHeight()*0.90f, 125,50);
         abilityButtonActor.addListener(new ClickListener(){
             @Override
@@ -330,6 +325,7 @@ public class levelGenerator implements Screen {
                 abilityList.setVisible(!abilityList.isVisible());
             }
         });
+
         spawnButtonActor = new testActor(abilityButton, Gdx.graphics.getWidth()*0.20f, Gdx.graphics.getHeight()*0.80f, 125,50);
         spawnButtonActor.addListener(new ClickListener(){
             @Override
@@ -343,9 +339,9 @@ public class levelGenerator implements Screen {
         });
 
 
-        tower = new Window("Choose a tower to place", skin);
+        tower = new Window("Choose a tower to place", uiSkin);
         tower.setVisible(false);;
-        TextButton continueButton2 = new TextButton("Continue the Game",skin);
+        TextButton continueButton2 = new TextButton("Continue the Game",uiSkin);
 
 
         towerArcher = new testActor(towerArcherImg, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 80f, 70f);
@@ -799,29 +795,23 @@ public class levelGenerator implements Screen {
         //animation = new Animation(1/30f, scorpionAtlas.getRegions());
 
         //scorpionEnemy.setPosition(-100, 150);
-
+    }
 
     }
 
     @Override
     public void render(float delta) {
-        batch.begin();
         level.renderBackground();
-        if (!isPaused){
-            spawnEnemyScorpions(Gdx.graphics.getDeltaTime());
-        }
-
         stage.act(Gdx.graphics.getDeltaTime());
         updateToolTips();
-        if (!isPaused){
-            this.updateAllEntites();
-        }
+
         checkFireAbilityCollision();
         batch.begin();
+        if (!isPaused){
+            spawnEnemyScorpions(Gdx.graphics.getDeltaTime());
+            makeEnemiesMove();
+        }
         drawAllEntites();
-        stage.draw();
-
-        makeEnemiesMove();
 
         batch.end();
         Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -914,14 +904,13 @@ public class levelGenerator implements Screen {
     }
     public void updateAllEntites(){
         for(PathfindingEnemy updateEnemy: enemyList){
-            updateEnemy.update();
+            updateEnemy.updateAbility();
         }
         for(PathfindingEnemy updateAbility: ability){
             updateAbility.updateAbility();
         }
     }
 
-     */
 
     public void makeEnemiesMove(){
         for(PathfindingEnemy s: scorpionLinkedList){
@@ -933,12 +922,11 @@ public class levelGenerator implements Screen {
     public void spawnEnemyScorpions(float deltaTime){
         enemySpawnTimer += deltaTime;
         if(enemySpawnTimer > timeBetweenEnemySpawns){
-            scorpionLinkedList.add(new PathfindingEnemy(scorpion.idleFrame()));
+            scorpionLinkedList.add(new PathfindingEnemy(scorpion.idleFrame(), 20));
             enemySpawnTimer -= timeBetweenEnemySpawns;
         }
     }
 
-    /*
     public void setUpEnemies(){
         enemyList = new LinkedList<>();
         //velocity not quite working yet, origin too
@@ -981,7 +969,6 @@ public class levelGenerator implements Screen {
         scorpionEnemy.getTexture().dispose();
         wizard.getStage().dispose();
         wizardEnemy.getTexture().dispose();
-
         level.dispose();
     }
 }

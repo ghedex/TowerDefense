@@ -27,8 +27,9 @@ public class PathfindingEnemy extends Sprite {
         super(entity);
         this.path = path;
     }
-    public PathfindingEnemy(TextureRegion entity){
+    public PathfindingEnemy(TextureRegion entity, float lifeCount){
         super(entity);
+        this.lifeCount = lifeCount;
     }
 
     public PathfindingEnemy(TextureRegion entity, Array<Vector2> path, float lifeCount){
@@ -36,7 +37,20 @@ public class PathfindingEnemy extends Sprite {
         this.path = path;
         this.lifeCount = lifeCount;
     }
-
+    public void updateAbility(){
+        float angle = (float) Math.atan2(path.get(waypoint).y - getY(), path.get(waypoint).x - getX());
+        velocity.set((float) Math.cos(angle) * abilitySpeed, (float) Math.sin(angle) * abilitySpeed);
+        setPosition(getX() + velocity.x * Gdx.graphics.getDeltaTime(), getY() + velocity.y * Gdx.graphics.getDeltaTime());
+        if(isWaypointReached()){
+            setPosition(path.get(waypoint).x, path.get(waypoint).y);
+            if(waypoint + 1 >= path.size){
+                waypoint = 0;
+            }
+            else{
+                waypoint++;
+            }
+        }
+    }
 
     public void update(SpriteBatch batch, Array<Vector2> path){
         super.draw(batch);

@@ -32,14 +32,6 @@ public class testActor extends Actor {
         sprite.setPosition(x, y);
         sprite.setSize(width, height);
         setBounds(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
-
-    }
-
-    public testActor(String imagePath, float x, float y, float width, float height){
-        sprite = new Sprite(new Texture(imagePath));
-        sprite.setPosition(x, y);
-        sprite.setSize(width, height);
-        setBounds(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
     }
 
     @Override
