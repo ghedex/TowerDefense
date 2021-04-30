@@ -21,6 +21,8 @@ import enemy.wizardEntity.Wizard;
 import levels.menu.testActor;
 import levels.menu.testMainMenu;
 
+import java.util.LinkedList;
+
 
 public class levelGenerator implements Screen {
     final TowerDefense game;
@@ -36,7 +38,9 @@ public class levelGenerator implements Screen {
     private float timePassed;
     private boolean isPaused;
     private String pauseButton = "menuAssets/mainMenuAssets/buttonAssets/pauseButton.png";
-
+    private LinkedList<PathfindingEnemy> scorpionLinkedList;
+    private float timeBetweenEnemySpawns = 3f;
+    private float enemySpawnTimer;
 
     Window tower;
     testActor towerMenue;
@@ -642,9 +646,15 @@ public class levelGenerator implements Screen {
         stage.addActor(pause);
         stage.addActor(tower);
 
+        /*
         this.createAllEnemies();
         this.setUpEnemies();
 
+         */
+        scorpionLinkedList = new LinkedList<>();
+
+
+        scorpion = new Scorpion();
 
         //scorpionAtlas = new TextureAtlas((FileHandle) scorpion.returnPath());
         //animation = new Animation(1/30f, scorpionAtlas.getRegions());
@@ -659,24 +669,44 @@ public class levelGenerator implements Screen {
         batch.begin();
         level.renderBackground();
         if (!isPaused){
-            this.updateAllEntites();
+            spawnEnemyScorpions(Gdx.graphics.getDeltaTime());
         }
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+
+        makeEnemiesMove();
+
         batch.end();
     }
     public void createAllEnemies(){
         scorpion = new Scorpion();
         wizard = new Wizard();
     }
-
+    /*
     public void updateAllEntites(){
         scorpionEnemy.update(batch);
         wizardEnemy.update(batch);
     }
 
+     */
 
+    public void makeEnemiesMove(){
+        for(PathfindingEnemy s: scorpionLinkedList){
+            s.update(batch, LevelOne.levelOnePath());
+        }
+    }
+
+
+    public void spawnEnemyScorpions(float deltaTime){
+        enemySpawnTimer += deltaTime;
+        if(enemySpawnTimer > timeBetweenEnemySpawns){
+            scorpionLinkedList.add(new PathfindingEnemy(scorpion.idleFrame()));
+            enemySpawnTimer -= timeBetweenEnemySpawns;
+        }
+    }
+
+    /*
     public void setUpEnemies(){
         //velocity not quite working yet, origin too
         scorpionEnemy = new PathfindingEnemy(scorpion.idleFrame(), LevelOne.levelOnePath());
@@ -687,6 +717,8 @@ public class levelGenerator implements Screen {
         wizardEnemy.setPosition(-150, 150);
         wizardEnemy.setSize(wizard.getWIDTH(), wizard.getHEIGHT());
     }
+
+     */
 
 
     @Override
@@ -714,7 +746,7 @@ public class levelGenerator implements Screen {
         batch.dispose();
         scorpion.getStage().dispose();
         scorpionEnemy.getTexture().dispose();
-        wizard.getStage().dispose();
+        //wizard.getStage().dispose();
         wizardEnemy.getTexture().dispose();
         level.dispose();
     }

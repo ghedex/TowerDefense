@@ -33,10 +33,9 @@ public class Entity extends Actor {
     private float velocity;
 
 
-    public Entity(int WIDTH, int HEIGHT, float velocity, float lifeCount, String atlasPath) {
+    public Entity(int WIDTH, int HEIGHT, float lifeCount, String atlasPath) {
 
-        this.WIDTH = WIDTH;
-        this.HEIGHT = HEIGHT;
+        super.setSize(WIDTH, HEIGHT);
         this.velocity = velocity;
         //Anzahl Leben, später benötigt für den Schaden
         this.lifeCount = lifeCount;

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
@@ -15,6 +16,7 @@ public class LevelOne extends ApplicationAdapter {
     Texture levelBackground;
     SpriteBatch batch;
     Sprite img;
+    private CatmullRomSpline<Vector2> scorpionPath;
 
 
     public void createBackground(){
@@ -55,5 +57,6 @@ public class LevelOne extends ApplicationAdapter {
         path.add(new Vector2(1400, 500));
         return path;
     }
+
 
 }
