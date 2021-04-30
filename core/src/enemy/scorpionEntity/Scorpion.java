@@ -11,7 +11,7 @@ public class Scorpion extends Entity {
 
 
     public Scorpion() {
-        super(WIDTH, HEIGHT, 50, 20, "assetsPack/scorpions/scorpionRunning/scorpionPack.atlas");
+        super(WIDTH, HEIGHT, 20, "assetsPack/scorpions/scorpionRunning/scorpionPack.atlas");
     }
 
     //TO DO: Skorpion muss schon animiert sein, damit ich nur den Skorpion callen muss
