@@ -10,8 +10,6 @@ import enemy.scorpionEntity.Scorpion;
 public class PathfindingEnemy extends Sprite {
 
     private Vector2 velocity = new Vector2();
-    Scorpion scorpion;
-    private boolean remove = false;
     private float speed = 100, tolerance = 3, abilitySpeed = 350;
     private TextureRegion entity;
     public Array<Vector2> getPath() {
@@ -24,6 +22,12 @@ public class PathfindingEnemy extends Sprite {
 
     private int waypoint = 0;
     private float lifeCount;
+    protected float timeAlive = 0;
+    protected float timeOfDmgTaken = -1;
+    public static final float BLINK_TIME_AFTER_DMG = 0.25f;
+
+
+
 
     public PathfindingEnemy(TextureRegion entity, Array<Vector2> path){
         super(entity);
@@ -99,7 +103,15 @@ public class PathfindingEnemy extends Sprite {
     public void setLifeCount(float lifeCount) {
         this.lifeCount = lifeCount;
     }
-    public void remove(){
-        this.remove = true;
+
+    public void preDraw(){
+        if(timeAlive < timeOfDmgTaken + BLINK_TIME_AFTER_DMG){
+            float t = (timeAlive - timeOfDmgTaken) / BLINK_TIME_AFTER_DMG;
+            t = t * t;
+            setColor(1,1,1, t);
+        }
+    }
+    public void postDraw(){
+        setColor(1,1,1,1);
     }
 }
