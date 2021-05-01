@@ -6,8 +6,8 @@ import enemy.Entity;
 
 
 public class Scorpion extends Entity {
-    public static final int WIDTH = 75;
-    public static final int HEIGHT = 75;
+    public static final int WIDTH = 50;
+    public static final int HEIGHT = 50;
 
 
     public Scorpion() {
