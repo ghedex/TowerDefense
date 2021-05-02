@@ -17,7 +17,9 @@ public class PathfindingEnemy extends Sprite {
     public Array<Vector2> getPath() {
         return path;
     }
-
+    protected float timeAlive = 0;
+    protected float timeOfDmgTaken = -1;
+    public static final float BLINK_TIME_AFTER_DMG = 0.25f;
     private Array<Vector2> path;
 
     private int waypoint = 0;
@@ -30,6 +32,8 @@ public class PathfindingEnemy extends Sprite {
     public PathfindingEnemy(TextureRegion entity, float lifeCount){
         super(entity);
         this.lifeCount = lifeCount;
+        this.setSize(90, 90);
+        this.setPosition(LevelOne.levelOnePath().first().x, LevelOne.levelOnePath().first().y);
     }
 
     public PathfindingEnemy(TextureRegion entity, Array<Vector2> path, float lifeCount){
@@ -51,9 +55,20 @@ public class PathfindingEnemy extends Sprite {
             }
         }
     }
+    public void preDraw(){
+        if(timeAlive < timeOfDmgTaken + BLINK_TIME_AFTER_DMG){
+            float t = (timeAlive - timeOfDmgTaken) / BLINK_TIME_AFTER_DMG;
+            t = t * t;
+            setColor(1,1,1, t);
+        }
+    }
+    public void postDraw(){
+        setColor(1,1,1,1);
+    }
 
-    public void update(SpriteBatch batch, Array<Vector2> path){
+    public void update(SpriteBatch batch, Array<Vector2> path, float delta){
         super.draw(batch);
+        timeAlive+= delta;
         this.path = path;
         float angle = (float) Math.atan2(path.get(waypoint).y - getY(), path.get(waypoint).x - getX());
         velocity.set((float) Math.cos(angle) * speed, (float) Math.sin(angle) * speed);

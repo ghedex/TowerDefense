@@ -52,21 +52,23 @@ public class levelGenerator implements Screen {
     private LinkedList<PathfindingEnemy> scorpionLinkedList;
     private float timeBetweenEnemySpawns = 3f;
     private float enemySpawnTimer;
+    private LinkedList<testActor> placeGroundList;
+    //private LinkedList<testActor> prePlacedTowerList;
 
     Window tower;
     testActor towerMenue;
     private String towerMenueIcon = "background/tower/menue/button_menu.png";
 
     //Building Ground
-    testActor placeTower1;
-    testActor placeTower2;
-    testActor placeTower3;
-    testActor placeTower4;
-    testActor placeTower5;
-    testActor placeTower6;
-    testActor placeTower7;
-    testActor placeTower8;
-    testActor placeTower9;
+    testActor ground1;
+    testActor ground2;
+    testActor ground3;
+    testActor ground4;
+    testActor ground5;
+    testActor ground6;
+    testActor ground7;
+    testActor ground8;
+    testActor ground9;
 
     //Tower select
     testActor towerArcher;
@@ -166,8 +168,10 @@ public class levelGenerator implements Screen {
     private String pauseButton = "menuAssets/mainMenuAssets/buttonAssets/button_pause.png";
     private String abilityButton = "menuAssets/mainMenuAssets/buttonAssets/optiButton(FINAL_VERSION).png";
     private Skin uiSkin, fireAbilitySkin, fireBallSkin, windowSkin;
+    private boolean towerIsPlaced;
 
     //TODO
+    LinkedList<testActor> towerList = new LinkedList<>();
     LinkedList<PathfindingEnemy> enemyList = new LinkedList<>();
     Array<PathfindingEnemy> ability = new Array<>();
     ArrayList<ImageButton> abilityButtonArray = new ArrayList();
@@ -258,7 +262,7 @@ public class levelGenerator implements Screen {
                     stage.addListener(placementListener = new ClickListener(Input.Buttons.LEFT) {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
-                            if(!fireAbility.isPressed()) {
+                            if(fireAbility.isChecked()) {
                                 super.clicked(event, x, y);
                                 createAbility();
                                 setUpAbility(Gdx.input.getX() - fireBall.getWIDTH() / 2f, 720 - Gdx.input.getY() - fireBall.getHEIGHT() / 2f);
@@ -362,15 +366,28 @@ public class levelGenerator implements Screen {
 
 
         //Ground
-        placeTower1 = new testActor(groundStandard, Gdx.graphics.getWidth()*0.035f, Gdx.graphics.getHeight()*0.033f, 123.5f, 70f);
-        placeTower2 = new testActor(groundStandard, Gdx.graphics.getWidth()*0.246f, Gdx.graphics.getHeight()*0.033f, 123.5f, 70f);
-        placeTower3 = new testActor(groundStandard, Gdx.graphics.getWidth()*0.636f, Gdx.graphics.getHeight()*0.033f, 123.5f, 70f);
-        placeTower4 = new testActor(groundStandard, Gdx.graphics.getWidth()*0.845f, Gdx.graphics.getHeight()*0.033f, 123.5f, 70f);
-        placeTower5 = new testActor(groundStandard, Gdx.graphics.getWidth()*0.379f, Gdx.graphics.getHeight()*0.338f, 124.5f, 70f);
-        placeTower6 = new testActor(groundStandard, Gdx.graphics.getWidth()*0.578f, Gdx.graphics.getHeight()*0.300f, 123.5f, 70f);
-        placeTower7 = new testActor(groundStandard, Gdx.graphics.getWidth()*0.498f, Gdx.graphics.getHeight()*0.546f, 123.5f, 70f);
-        placeTower8 = new testActor(groundStandard, Gdx.graphics.getWidth()*0.691f, Gdx.graphics.getHeight()*0.590f, 123.5f, 70f);
-        placeTower9 = new testActor(groundStandard, Gdx.graphics.getWidth()*0.864f, Gdx.graphics.getHeight()*0.513f, 123.5f, 70f);
+        placeGroundList = new LinkedList<testActor>(Arrays.asList(
+                ground1 = new testActor(groundStandard, Gdx.graphics.getWidth() * 0.035f, Gdx.graphics.getHeight() * 0.033f, 123.5f, 70f),
+                ground2 = new testActor(groundStandard, Gdx.graphics.getWidth() * 0.246f, Gdx.graphics.getHeight() * 0.033f, 123.5f, 70f),
+                ground3 = new testActor(groundStandard, Gdx.graphics.getWidth() * 0.636f, Gdx.graphics.getHeight() * 0.033f, 123.5f, 70f),
+                ground4 = new testActor(groundStandard, Gdx.graphics.getWidth() * 0.845f, Gdx.graphics.getHeight() * 0.033f, 123.5f, 70f),
+                ground5 = new testActor(groundStandard, Gdx.graphics.getWidth() * 0.379f, Gdx.graphics.getHeight() * 0.338f, 124.5f, 70f),
+                ground6 = new testActor(groundStandard, Gdx.graphics.getWidth() * 0.578f, Gdx.graphics.getHeight() * 0.300f, 123.5f, 70f),
+                ground7 = new testActor(groundStandard, Gdx.graphics.getWidth() * 0.498f, Gdx.graphics.getHeight() * 0.546f, 123.5f, 70f),
+                ground8 = new testActor(groundStandard, Gdx.graphics.getWidth() * 0.691f, Gdx.graphics.getHeight() * 0.590f, 123.5f, 70f),
+                ground9 = new testActor(groundStandard, Gdx.graphics.getWidth() * 0.864f, Gdx.graphics.getHeight() * 0.513f, 123.5f, 70f)
+        ));
+        //prePlacedTowerList = new LinkedList<testActor>();
+
+
+
+
+
+        towerList = new LinkedList<testActor>();
+
+
+
+
 
         towerArcherPlaced1 = new testActor(towerArcherImg, Gdx.graphics.getWidth()*0.055f, Gdx.graphics.getHeight()*0.053f, 80f, 70f);
         towerArcherPlaced1.setVisible(false);
@@ -445,43 +462,70 @@ public class levelGenerator implements Screen {
         });
 
         //EventHandler --- tower menue
-        towerArcher.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-                super.clicked(event, x, y);
-                resourceHandler.getSound("buttonClickSound").play(0.5f);
-                archer = true;
-                magician = false;
-                support = false;
-                tower.setVisible(false);
-            }
-        });
-        towerMagician.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                resourceHandler.getSound("buttonClickSound").play(0.5f);
-                archer = false;
-                magician = true;
-                support = false;
-                tower.setVisible(false);
-            }
-        });
-        towerSupport.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                resourceHandler.getSound("buttonClickSound").play(0.5f);
-                archer = false;
-                magician = false;
-                support = true;
-                tower.setVisible(false);
-            }
-        });
+        setUpEventListener(towerArcher, true, false, false);
+        setUpEventListener(towerMagician, false, true, false);
+        setUpEventListener(towerSupport, false, false, true);
+
+
+        /*
+        Ideas for tower placement:
+        -alle drei möglichen Towerarten müssen in einer LinkedList gespeichert sein
+        -alle Böden sollen in einer Linkedlist gespeichert sein (vordefinierte Plätze usw)
+            -über die Böden soll eine Box2D gesetzt werden (fürs Klicken)
+                wenn !towerIsPlaced:
+                -Placement: Auswahl Tower -> Klick auf Fläche -> Box2D berechnet width/2 und height/2 fürs zentrale placement
+                    -towerIsPlaced = true
+
+         */
+
+        for(testActor tA: placeGroundList){
+            tA.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+
+                    if (archer) {
+                        if (!archerPlaced3 && !magicianPlaced3 && !supportPlaced3 ) {
+                            towerArcherPlaced3.setVisible(true);
+                            archer = false;
+                            archerPlaced1 = true;
+                        }
+                    }
+                    if (magician) {
+                        if (!archerPlaced1 && !magicianPlaced1 && !supportPlaced1 ) {
+                            towerMagicianPlaced1.setVisible(true);
+                            magician = false;
+                            magicianPlaced1 = true;
+                        }
+                    }
+                    if (support) {
+                        if (!archerPlaced1 && !magicianPlaced1 && !supportPlaced1 ) {
+                            towerSupportPlaced1.setVisible(true);
+                            support = false;
+                            supportPlaced1 = true;
+                        }
+                    }
+
+
+                    /*
+                    wenn click an ground intersects box2d of ground && !isTowerPlaced:
+                        setze Tower an stelle
+                        isTowerPlaced = true;
+
+
+                     */
+
+
+
+                }
+            });
+        }
+
+
 
 
         //Event Handler placeTower
-        placeTower1.addListener(new ClickListener(){
+        /*
+        ground1.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (archer) {
@@ -507,7 +551,7 @@ public class levelGenerator implements Screen {
                 }
             }
         });
-        placeTower2.addListener(new ClickListener(){
+        ground2.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (archer) {
@@ -533,7 +577,7 @@ public class levelGenerator implements Screen {
                 }
             }
         });
-        placeTower3.addListener(new ClickListener(){
+        ground3.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (archer) {
@@ -559,7 +603,7 @@ public class levelGenerator implements Screen {
                 }
             }
         });
-        placeTower4.addListener(new ClickListener(){
+        ground4.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (archer) {
@@ -585,7 +629,7 @@ public class levelGenerator implements Screen {
                 }
             }
         });
-        placeTower5.addListener(new ClickListener(){
+        ground5.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (archer) {
@@ -611,7 +655,7 @@ public class levelGenerator implements Screen {
                 }
             }
         });
-        placeTower6.addListener(new ClickListener(){
+        ground6.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (archer) {
@@ -637,7 +681,7 @@ public class levelGenerator implements Screen {
                 }
             }
         });
-        placeTower7.addListener(new ClickListener(){
+        ground7.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (archer) {
@@ -663,7 +707,7 @@ public class levelGenerator implements Screen {
                 }
             }
         });
-        placeTower8.addListener(new ClickListener(){
+        ground8.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (archer) {
@@ -689,7 +733,7 @@ public class levelGenerator implements Screen {
                 }
             }
         });
-        placeTower9.addListener(new ClickListener(){
+        ground9.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (archer) {
@@ -717,6 +761,8 @@ public class levelGenerator implements Screen {
         });
 
 
+         */
+
 
         batch = new SpriteBatch();
         level = new LevelOne();
@@ -726,15 +772,7 @@ public class levelGenerator implements Screen {
         stage.addActor(towerMenue);
 
         //Building Places
-        stage.addActor(placeTower1);
-        stage.addActor(placeTower2);
-        stage.addActor(placeTower3);
-        stage.addActor(placeTower4);
-        stage.addActor(placeTower5);
-        stage.addActor(placeTower6);
-        stage.addActor(placeTower7);
-        stage.addActor(placeTower8);
-        stage.addActor(placeTower9);
+        addBuildingPlacesToStage();
 
         //Preplaced Towers
         stage.addActor(towerArcherPlaced1);
@@ -780,19 +818,16 @@ public class levelGenerator implements Screen {
         stage.addActor(tower);
 
         /*
-        this.createAllEnemies();
-        this.setUpEnemies();
+        for(testActor prePlacedTower: prePlacedTowerList){
+            stage.addActor(prePlacedTower);
+        }
 
          */
+
         scorpionLinkedList = new LinkedList<>();
+        createAllEnemies();
 
 
-        scorpion = new Scorpion();
-
-        //scorpionAtlas = new TextureAtlas((FileHandle) scorpion.returnPath());
-        //animation = new Animation(1/30f, scorpionAtlas.getRegions());
-
-        //scorpionEnemy.setPosition(-100, 150);
     }
 
 
@@ -803,11 +838,13 @@ public class levelGenerator implements Screen {
         stage.act(Gdx.graphics.getDeltaTime());
         updateToolTips();
 
-        checkFireAbilityCollision();
         batch.begin();
         if (!isPaused){
             spawnEnemyScorpions(Gdx.graphics.getDeltaTime());
-            makeEnemiesMove();
+            updateAllEntities();
+            makeEnemiesMove(delta);
+            checkFireAbilityCollision();
+
         }
         drawAllEntites();
 
@@ -820,6 +857,28 @@ public class levelGenerator implements Screen {
         Gdx.gl.glDisable(GL20.GL_BLEND);
         stage.draw();
     }
+
+    public void addBuildingPlacesToStage(){
+        for(testActor toPlaceTower: placeGroundList){
+            stage.addActor(toPlaceTower);
+        }
+    }
+
+    public void setUpEventListener(testActor towerEventListener, final boolean archerBoolean, final boolean magicianBoolean, final boolean supportBoolean){
+        towerEventListener.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                resourceHandler.getSound("buttonClickSound").play(0.5f);
+                archer = archerBoolean;
+                magician = magicianBoolean;
+                support = supportBoolean;
+                tower.setVisible(false);
+            }
+        });
+    }
+
+
     //
     public void updateToolTips(){
         fireAbilityToolTip = "Deals "+ damage.getFireDamage() + " Damage against 1 Enemy";
@@ -832,11 +891,12 @@ public class levelGenerator implements Screen {
         if(!(fireBallAbility == null)) {
             Iterator<PathfindingEnemy> abilityIterator = ability.iterator();
             //Gdx.app.log("Array Index",ability.toString());
-            for (Iterator<PathfindingEnemy> iterator = enemyList.iterator(); iterator.hasNext(); ) {
+            for (Iterator<PathfindingEnemy> iterator = scorpionLinkedList.iterator(); iterator.hasNext(); ) {
                 if(abilityIterator.hasNext()) {
                     PathfindingEnemy enemy = iterator.next();
                     if (enemy.getBoundingRectangle().overlaps(ability.get(0).getBoundingRectangle())) {
                         enemy.setLifeCount(enemy.getLifeCount() - damage.getFireDamage());
+                        enemy.timeOfDmgTaken = enemy.timeAlive;
                         Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
                         ability.removeValue(ability.get(0),true);
                     }
@@ -851,9 +911,10 @@ public class levelGenerator implements Screen {
         }
     }
     public void dealThunderDamage(){
-        for (Iterator<PathfindingEnemy> iterator = enemyList.iterator(); iterator.hasNext(); ) {
+        for (Iterator<PathfindingEnemy> iterator = scorpionLinkedList.iterator(); iterator.hasNext(); ) {
                 PathfindingEnemy enemy = iterator.next();
                 enemy.setLifeCount(enemy.getLifeCount() - damage.getThunderDamage());
+                enemy.timeOfDmgTaken = enemy.timeAlive;
                 Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
                 if (enemy.getLifeCount() <= 0) {
                     iterator.remove();
@@ -890,6 +951,7 @@ public class levelGenerator implements Screen {
     }
     public void createAllEnemies(){
         scorpion = new Scorpion();
+        scorpion.setSize(90, 90);
         wizard = new Wizard();
     }
     public void drawAllEntites(){
@@ -900,19 +962,20 @@ public class levelGenerator implements Screen {
             drawAbility.draw(batch);
         }
     }
-    public void updateAllEntites(){
-        for(PathfindingEnemy updateEnemy: enemyList){
-            updateEnemy.updateAbility();
-        }
+    public void updateAllEntities(){
         for(PathfindingEnemy updateAbility: ability){
             updateAbility.updateAbility();
         }
     }
 
 
-    public void makeEnemiesMove(){
+    public void makeEnemiesMove(float delta){
         for(PathfindingEnemy s: scorpionLinkedList){
-            s.update(batch, LevelOne.levelOnePath());
+            s.preDraw();
+            s.update(batch, LevelOne.levelOnePath(), delta);
+            s.postDraw();
+
+
         }
     }
 
@@ -925,21 +988,6 @@ public class levelGenerator implements Screen {
         }
     }
 
-    public void setUpEnemies(){
-        enemyList = new LinkedList<>();
-        //velocity not quite working yet, origin too
-        scorpionEnemy = new PathfindingEnemy(scorpion.idleFrame(), LevelOne.levelOnePath(), 20);
-        //scorpionEnemy.setOrigin(-150, 150);
-        scorpionEnemy.setPosition(-150, 150);
-        scorpionEnemy.setSize(scorpion.getWIDTH(), scorpion.getHEIGHT());
-        //velocity not quite working yet, origin too
-        wizardEnemy = new PathfindingEnemy(wizard.idleFrame(), LevelOne.levelOnePath(), 50);
-        //wizardEnemy.setOrigin(-150, 150);
-        wizardEnemy.setPosition(-150, 150);
-        wizardEnemy.setSize(wizard.getWIDTH(), wizard.getHEIGHT());
-        enemyList.add(wizardEnemy);
-        enemyList.add(scorpionEnemy);
-    }
 
     @Override
     public void resize(int width, int height) {

@@ -26,7 +26,7 @@ public class MainMenuScreen implements Screen {
     //private Button optiButton;
     private Music backgroundMusic;
     //private AssetManager assetManager;
-    private String BACKGROUNDPATH = "menuAssets/mainMenuAssets/placeholder_mainMenuBackground.png";
+    private String BACKGROUNDPATH = "menuAssets/mainMenuAssets/bg2.png";
     private String IMAGEPATH_START = "menuAssets/mainMenuAssets/buttonAssets/placeholder_button.png";
     private String IMAGEPATH_EXIT = "menuAssets/mainMenuAssets/buttonAssets/placeholder_button_exit.png";
     private String optionButton = "menuAssets/mainMenuAssets/buttonAssets/optiButton(FINAL_VERSION).png";

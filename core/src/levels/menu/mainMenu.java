@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class mainMenu extends ApplicationAdapter{
 
-    public String BACKGROUNDPATH = "menuAssets/mainMenuAssets/placeholder_mainMenuBackground.png";
+    public String BACKGROUNDPATH = "menuAssets/mainMenuAssets/bg2.png";
     Texture menuBackground;
     SpriteBatch batch;
     Sprite img;
