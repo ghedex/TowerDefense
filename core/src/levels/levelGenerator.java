@@ -50,15 +50,15 @@ public class levelGenerator implements Screen {
     private float timePassed;
     private boolean isPaused;
     private LinkedList<PathfindingEnemy> scorpionLinkedList;
-    private float timeBetweenEnemySpawns = 3f;
+    private float timeBetweenEnemySpawns = 1f;
     private float enemySpawnTimer;
     private LinkedList<testActor> placeGroundList;
     //private LinkedList<testActor> prePlacedTowerList;
 
     Window tower;
     testActor towerMenue;
-    private String towerMenueIcon = "background/tower/menue/button_menu.png";
-
+    private String towerMenueIcon = "core/assets/menuAssets/mainMenuAssets/buttonAssets/button_start.png";
+    private String abilityButton = "background/tower/menue/button_menu.png";
     //Building Ground
     testActor ground1;
     testActor ground2;
@@ -166,8 +166,8 @@ public class levelGenerator implements Screen {
 
     private boolean rangeCircle = false;
     private String pauseButton = "menuAssets/mainMenuAssets/buttonAssets/button_pause.png";
-    private String abilityButton = "menuAssets/mainMenuAssets/buttonAssets/optiButton(FINAL_VERSION).png";
-    private Skin uiSkin, fireAbilitySkin, fireBallSkin, windowSkin;
+    private String upgradeAbilityButton = "core/assets/abilities/abilitesSkin/upgradeButton.png";
+    private Skin uiSkin, fireAbilitySkin, thunderAbilitySkin, fireBallSkin, windowSkin;
     private boolean towerIsPlaced;
 
     //TODO
@@ -198,6 +198,8 @@ public class levelGenerator implements Screen {
         resourceHandler.loadSound("menuAssets/mainMenuAssets/buttonAssets/buttonClick.mp3", "buttonClickSound");
         uiSkin = new Skin(Gdx.files.internal("menuAssets/mainMenuAssets/menuSkin/skin/uiskin.json"), new TextureAtlas("menuAssets/mainMenuAssets/menuSkin/skin/uiskin.atlas"));
         fireAbilitySkin = new Skin(Gdx.files.internal("abilities/abilitesSkin/fire/fireAbilitySkin.json"), new TextureAtlas("abilities/abilitesSkin/fire/fireAbilitySkin.atlas"));
+        thunderAbilitySkin = new Skin(Gdx.files.internal("core/assets/abilities/abilitesSkin/thunder/thunderAbilitySkin.json") ,new TextureAtlas("core/assets/abilities/abilitesSkin/thunder/thunderAbility.atlas"));
+        //thunderAbilitySkin = new Skin(Gdx.files.internal("abilities/abilitesSkin/fire/fireAbilitySkin.json"), new TextureAtlas("abilities/abilitesSkin/fire/fireAbilitySkin.atlas"));
         windowSkin = new Skin(Gdx.files.internal("menuAssets/mainMenuAssets/menuSkin/testWindowSkin/windowStyle.json"), new TextureAtlas("menuAssets/mainMenuAssets/menuSkin/testWindowSkin/windowStyle.atlas"));
         //----------------------------------------------------------PauseMenu------------------------------------------------------//
         //TODO outsource to a different file
@@ -243,11 +245,15 @@ public class levelGenerator implements Screen {
         abilityList.setMovable(true);
         //--------------------------------------------------------AbilityMenuButtons----------------------------------------------------//
         ImageButtonStyle style = new ImageButtonStyle();
+        ImageButtonStyle style2 = new ImageButtonStyle();
         style.imageUp = fireAbilitySkin.getDrawable("fire_up");
         style.imageOver = fireAbilitySkin.getDrawable("fire_over");
         style.imageChecked = fireAbilitySkin.getDrawable("fire_checked");
+
+        style2.imageChecked = thunderAbilitySkin.getDrawable("thunderAbility");
+
         final ImageButton fireAbility = new ImageButton(style);
-        final ImageButton thunderAbility = new ImageButton(style);
+        final ImageButton thunderAbility = new ImageButton(style2);
         abilityButtonArray.add(fireAbility);
         abilityButtonArray.add(thunderAbility);
         //--------------------------------------------------------AbilityMenuButtonFunctionality----------------------------------------------------//
@@ -319,7 +325,7 @@ public class levelGenerator implements Screen {
             }
         });
         //exitButton.addListener(new ClickListener(){}
-        abilityButtonActor = new testActor(abilityButton, Gdx.graphics.getWidth()*0.10f, Gdx.graphics.getHeight()*0.90f, 125,50);
+        abilityButtonActor = new testActor(abilityButton, Gdx.graphics.getWidth()*0.30f, Gdx.graphics.getHeight()*0.865f, 90,90);
         abilityButtonActor.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -329,7 +335,7 @@ public class levelGenerator implements Screen {
             }
         });
 
-        spawnButtonActor = new testActor(abilityButton, Gdx.graphics.getWidth()*0.20f, Gdx.graphics.getHeight()*0.80f, 125,50);
+        spawnButtonActor = new testActor(upgradeAbilityButton, Gdx.graphics.getWidth()*0.20f, Gdx.graphics.getHeight()*0.865f, 90,90);
         spawnButtonActor.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
