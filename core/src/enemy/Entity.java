@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class Entity extends Actor {
 
@@ -22,9 +23,8 @@ public class Entity extends Actor {
 
     private TextureAtlas entityAtlas;
     private float timePassed = 0;
+
     private float lifeCount;
-
-
     private int WIDTH;
     private int HEIGHT;
 
@@ -36,6 +36,7 @@ public class Entity extends Actor {
     public Entity(int WIDTH, int HEIGHT, float lifeCount, String atlasPath) {
 
         super.setSize(WIDTH, HEIGHT);
+
         this.velocity = velocity;
         //Anzahl Leben, später benötigt für den Schaden
         this.lifeCount = lifeCount;
@@ -48,7 +49,13 @@ public class Entity extends Actor {
 
 
     }
+    public float getLifeCount() {
+        return lifeCount;
+    }
 
+    public void setLifeCount(float lifeCount) {
+        this.lifeCount = lifeCount;
+    }
     public float getVelocity() {
         return velocity;
     }
@@ -145,6 +152,4 @@ public class Entity extends Actor {
         entityAtlas.dispose();
         batch.dispose();
     }
-
-
 }

@@ -1,0 +1,13 @@
+
+windowStyle.png
+size: 256, 256
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+default-window
+  rotate: false
+  xy: 2, 2
+  size: 231, 206
+  orig: 231, 206
+  offset: 0, 0
+  index: -1
