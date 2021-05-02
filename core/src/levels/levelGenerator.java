@@ -51,7 +51,6 @@ public class levelGenerator implements Screen {
     Wizard wizard;
     Ability fireBall, damage = new Ability();
     private Array<Vector2> abilityPath;
-    private float timePassed;
     private boolean isPaused;
     private LinkedList<PathfindingEnemy> scorpionLinkedList;
     private float timeBetweenEnemySpawns = 3f;
@@ -177,7 +176,6 @@ public class levelGenerator implements Screen {
     ArrayList<ImageButton> abilityButtonArray = new ArrayList();
     private String fireAbilityToolTip = "Deals "+ damage.getFireDamage() + " Damage against 1 Enemy";
     private String thunderAbilityToolTip = "Deals "+ damage.getThunderDamage() + " Damage to all enemies";
-    float delay = 500;
     //TODO
 
     public levelGenerator(final TowerDefense game) {
@@ -315,7 +313,7 @@ public class levelGenerator implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 resourceHandler.getSound("buttonClickSound").play(0.5f);
-                pause.setVisible(false);
+                tower.setVisible(false);
             }
         });
         //exitButton.addListener(new ClickListener(){}
@@ -345,6 +343,14 @@ public class levelGenerator implements Screen {
         tower = new Window("Choose a tower to place", uiSkin);
         tower.setVisible(false);;
         TextButton continueButton2 = new TextButton("Continue the Game",uiSkin);
+        continueButton2.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                resourceHandler.getSound("buttonClickSound").play(0.5f);
+                tower.setVisible(!tower.isVisible());
+            }
+        });
 
         towerArcher = new testActor(towerArcherImg, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 80f, 70f);
         towerMagician = new testActor(towerMagicianImg, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 80f, 70f);
@@ -789,6 +795,7 @@ public class levelGenerator implements Screen {
     @Override
     public void render(float delta) {
         level.renderBackground();
+        stage.draw();
         stage.act(Gdx.graphics.getDeltaTime());
         updateToolTips();
         batch.begin();
@@ -806,7 +813,7 @@ public class levelGenerator implements Screen {
             drawCircle();
         }
         Gdx.gl.glDisable(GL20.GL_BLEND);
-        stage.draw();
+
     }
     //
     public void updateToolTips(){
@@ -824,6 +831,7 @@ public class levelGenerator implements Screen {
                     PathfindingEnemy enemy = iterator.next();
                     if (enemy.getBoundingRectangle().overlaps(ability.get(0).getBoundingRectangle())) {
                         enemy.setLifeCount(enemy.getLifeCount() - damage.getFireDamage());
+                        enemy.timeOfDmgTaken = enemy.timeAlive;
                         Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
                         ability.removeValue(ability.get(0),true);
                     }
