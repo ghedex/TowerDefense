@@ -194,6 +194,7 @@ public class levelGenerator implements Screen {
                 resourceHandler.getSound("buttonClickSound").play(0.5f);
                 if(thunderAbility.isChecked()){
                     dealThunderDamage();
+                    Gdx.app.log("Ability", abilityButtonArray.get(1).toString());
                     thunderAbility.setChecked(false);
                 }
             }

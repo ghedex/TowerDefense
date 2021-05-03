@@ -13,7 +13,7 @@ public class Ability extends Entity {
     BodyDef bdef = new BodyDef();
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;
-    private float fireDamage = 20f;
+    private float fireDamage = 5f;
     private float thunderDamage = 5f;
 
 
