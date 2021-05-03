@@ -3,6 +3,7 @@ package levels;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import enemy.scorpionEntity.Scorpion;
@@ -19,14 +20,15 @@ public class PathfindingEnemy extends Sprite {
     protected float timeOfDmgTaken = -1;
     public static final float BLINK_TIME_AFTER_DMG = 0.25f;
     private Array<Vector2> path;
-
     private int waypoint = 0;
     private float lifeCount;
-    protected float timeAlive = 0;
-    protected float timeOfDmgTaken = -1;
-    public static final float BLINK_TIME_AFTER_DMG = 0.25f;
-
-
+    //TODO
+    private TextureAtlas damageAnimationAtlas = new TextureAtlas(Gdx.files.internal("assetsPack/scorpions/scorpionRunning/scorpionPack.atlas"));
+    private TextureRegion currentFrame;
+    private Animation runningAnimation;
+    private float elapsed_time = 0f;
+    Array<TextureAtlas.AtlasRegion> damageRunningFrames = damageAnimationAtlas.findRegions("1_enemies_1_run");
+    //TODO
 
 
     public PathfindingEnemy(TextureRegion entity, Array<Vector2> path){
@@ -59,17 +61,6 @@ public class PathfindingEnemy extends Sprite {
             }
         }
     }
-    public void preDraw(){
-        if(timeAlive < timeOfDmgTaken + BLINK_TIME_AFTER_DMG){
-            float t = (timeAlive - timeOfDmgTaken) / BLINK_TIME_AFTER_DMG;
-            t = t * t;
-            setColor(1,1,1, t);
-        }
-    }
-    public void postDraw(){
-        setColor(1,1,1,1);
-    }
-
     public void update(SpriteBatch batch, Array<Vector2> path, float delta){
         super.draw(batch);
         timeAlive+= delta;
@@ -77,6 +68,26 @@ public class PathfindingEnemy extends Sprite {
         float angle = (float) Math.atan2(path.get(waypoint).y - getY(), path.get(waypoint).x - getX());
         velocity.set((float) Math.cos(angle) * speed, (float) Math.sin(angle) * speed);
 
+        setPosition(getX() + velocity.x * Gdx.graphics.getDeltaTime(), getY() + velocity.y * Gdx.graphics.getDeltaTime());
+
+        if(isWaypointReached()){
+            setPosition(path.get(waypoint).x, path.get(waypoint).y);
+            if(waypoint + 1 >= path.size){
+                waypoint = 0;
+            }
+            else{
+                waypoint++;
+            }
+        }
+    }
+    public void updateAnimation(SpriteBatch batch, Array<Vector2> path, float delta, TextureRegion currentFrame){
+        //super.draw(batch);
+        timeAlive+= delta;
+        this.path = path;
+        float angle = (float) Math.atan2(path.get(waypoint).y - getY(), path.get(waypoint).x - getX());
+        velocity.set((float) Math.cos(angle) * speed, (float) Math.sin(angle) * speed);
+
+        batch.draw(currentFrame, getX() + velocity.x * Gdx.graphics.getDeltaTime(),getY() + velocity.y * Gdx.graphics.getDeltaTime());
         setPosition(getX() + velocity.x * Gdx.graphics.getDeltaTime(), getY() + velocity.y * Gdx.graphics.getDeltaTime());
 
         if(isWaypointReached()){

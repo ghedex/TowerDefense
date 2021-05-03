@@ -141,7 +141,6 @@ public class Entity extends Actor {
         animation = new Animation<TextureRegion>(1 / 40f, entityAtlas.getRegions());
     }
 
-
     public TextureRegion idleFrame() {
         batch = new SpriteBatch();
         timePassed += Gdx.graphics.getDeltaTime();
