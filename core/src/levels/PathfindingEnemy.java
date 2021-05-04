@@ -117,9 +117,9 @@ public class PathfindingEnemy extends Sprite {
 
     public void preDraw(){
         if(timeAlive < timeOfDmgTaken + BLINK_TIME_AFTER_DMG){
-            float t = (timeAlive - timeOfDmgTaken) / BLINK_TIME_AFTER_DMG;
-            t = t * t;
-            setColor(1,1,1, t);
+            //float t = (timeAlive - timeOfDmgTaken) / BLINK_TIME_AFTER_DMG;
+            //t = t * t;
+            setColor(1,1,1, 0.25f);
         }
     }
     public void postDraw(){
