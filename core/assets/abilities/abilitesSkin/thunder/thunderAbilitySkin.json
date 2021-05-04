@@ -1,9 +1,8 @@
 {
   com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
     "default": {
-      imageUp: "fire_up",
-      imageOver: "fire_over",
-      imageChecked: "fire_checked"
+      imageUp: "thunder_up",
+      imageOver: "thunder_over"
     }
   }
 }
