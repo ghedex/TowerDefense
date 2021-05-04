@@ -50,12 +50,14 @@ public class levelGenerator implements Screen {
     private Array<Vector2> abilityPath;
     private boolean isPaused;
     private LinkedList<PathfindingEnemy> scorpionLinkedList;
-    private float enemySpawnTimer, timeBetweenEnemySpawns = 3f, towerRangeTimer, timeBetweenShots = .5f;
+    private float enemySpawnTimer, timeBetweenEnemySpawns = 0.1f, towerRangeTimer, timeBetweenShots = .5f;
     private boolean rangeCircle = false;
     private String pauseButton = "menuAssets/mainMenuAssets/buttonAssets/button_pause.png";
+    private String abilityButton = "core/assets/abilities/abilitesSkin/btton_abilities.png";
     private String upgradeAbilityButton = "core/assets/abilities/abilitesSkin/upgradeButton.png";
     private Skin uiSkin, fireAbilitySkin, thunderAbilitySkin, fireBallSkin, windowSkin;
     private boolean towerIsPlaced;
+    private float coins;
 
     //TODO
     LinkedList<testActor> towerList = new LinkedList<>();
@@ -96,6 +98,7 @@ public class levelGenerator implements Screen {
     Array<Float> towerCircle_x = new Array<>();
     Array<Float> towerCircle_y = new Array<>();
     private ArrayList<Boolean> towerCircleBool;
+    private BitmapFont font;
 
     public levelGenerator(final TowerDefense game) {
         this.game = game;
@@ -162,8 +165,8 @@ public class levelGenerator implements Screen {
         abilityList.setPosition(stage.getWidth() / 2f, stage.getHeight());
         abilityList.setMovable(true);
         //--------------------------------------------------------AbilityMenuButtons----------------------------------------------------//
-        ImageButtonStyle style = new ImageButtonStyle();
-        ImageButtonStyle style2 = new ImageButtonStyle();
+        final ImageButtonStyle style = new ImageButtonStyle();
+        final ImageButtonStyle style2 = new ImageButtonStyle();
         style.imageUp = fireAbilitySkin.getDrawable("fire_up");
         style.imageOver = fireAbilitySkin.getDrawable("fire_over");
         style.imageChecked = fireAbilitySkin.getDrawable("fire_checked");
@@ -377,11 +380,10 @@ public class levelGenerator implements Screen {
             });
         }
 
-            }
-        });
 
 
-         */
+
+
 
         font = new BitmapFont();
         font.getData().setScale(2);
@@ -424,13 +426,14 @@ public class levelGenerator implements Screen {
         if(towers.get(0).isPressed()) {
             updateToolTips();
         }
+
         checkTowerRange(delta);
         batch.begin();
         if (!isPaused){
             spawnEnemyScorpions(Gdx.graphics.getDeltaTime());
             updateAllEntities();
-            makeLowEnemiesMove(delta);
-            makeBossEnemiesMove(delta);
+            makeEnemiesMove(delta);
+
             checkFireAbilityCollision();
 
         }
@@ -473,7 +476,7 @@ public class levelGenerator implements Screen {
                 if (Intersector.overlaps(circle, enemy.getBoundingRectangle())) {
                     Gdx.app.log(String.valueOf(enemy), String.valueOf(Intersector.overlaps(circle, enemy.getBoundingRectangle())));
                     Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
-                    enemy.setLifeCount(enemy.getLifeCount() - 0.05f);
+                    enemy.setLifeCount(enemy.getLifeCount() - 0.0005f);
                     //enemy.timeOfDmgTaken = enemy.timeAlive;
                 }
             }
@@ -523,13 +526,15 @@ public class levelGenerator implements Screen {
                 enemy.setLifeCount(enemy.getLifeCount() - damage.getThunderDamage());
                 enemy.timeOfDmgTaken = enemy.timeAlive;
                 Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
-            }
         }
-                if (enemy.getLifeCount() <= 0) {
-                    iterator.remove();
-                    coins += 1000;
-                }
+        /*
+        if (enemy.getLifeCount() <= 0) {
+            iterator.remove();
+            coins += 1000;
         }
+
+         */
+
     }
 
     public void drawCircle(){
@@ -590,10 +595,14 @@ public class levelGenerator implements Screen {
             /*s.preDraw();
             s.update(batch, LevelOne.levelOnePath(), delta);
             s.postDraw();*/
-            s.updateAnimation(batch, LevelOne.levelOnePath(), delta, currentFrame);
-            if (s.isWaypointReached() || s.getLifeCount() <= 0) {
+            s.updateAnimation(batch, LevelOne.levelOneTopPath(), delta, currentFrame);
+            if (s.isWaypointReached() || s.getLifeCount() <= 0 ) {
                 iterator.remove();
+                coins += 100;
+                //life -= 5;
             }
+
+
         }
     }
 
