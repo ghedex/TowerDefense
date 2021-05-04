@@ -1,0 +1,20 @@
+
+towerPlacement.png
+size: 512, 128
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+placement_hover
+  rotate: false
+  xy: 196, 2
+  size: 192, 95
+  orig: 192, 95
+  offset: 0, 0
+  index: -1
+placement_up
+  rotate: false
+  xy: 2, 2
+  size: 192, 95
+  orig: 192, 95
+  offset: 0, 0
+  index: -1
