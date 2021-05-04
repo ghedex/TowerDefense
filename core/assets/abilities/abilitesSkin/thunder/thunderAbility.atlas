@@ -4,7 +4,14 @@ size: 256,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-thunderAbility
+thunder_up
+  rotate: false
+  xy: 68, 2
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+thunder_over
   rotate: false
   xy: 2, 2
   size: 64, 64

@@ -38,7 +38,7 @@ public class LevelOne extends ApplicationAdapter {
     }
 
 
-    public static Array<Vector2> levelOnePath(){
+    public static Array<Vector2> levelOneTopPath(){
         path = new Array<Vector2>();
         path.add(new Vector2(-150, 150));
         path.add(new Vector2(360, 175));
@@ -56,6 +56,33 @@ public class LevelOne extends ApplicationAdapter {
         path.add(new Vector2(1100, 550));
         path.add(new Vector2(1200, 500));
         path.add(new Vector2(1400, 500));
+        return path;
+
+    }
+
+    public static Array<Vector2> levelOneBottomPath(){
+        path = new Array<Vector2>();
+        path.add(new Vector2(-150, 150));
+        path.add(new Vector2(360, 175));
+        path.add(new Vector2(410, 225));
+        path.add(new Vector2(440, 300));
+        path.add(new Vector2(500, 360));
+        path.add(new Vector2(520, 365));
+        path.add(new Vector2(530, 363));
+        path.add(new Vector2(560, 350));
+        path.add(new Vector2(570, 345));
+        path.add(new Vector2(580, 325));
+        path.add(new Vector2(590, 300));
+        path.add(new Vector2(600, 250));
+        path.add(new Vector2(675, 180));
+        path.add(new Vector2(750, 165));
+        path.add(new Vector2(800, 140));
+        path.add(new Vector2(850, 140));
+        path.add(new Vector2(900, 140));
+        path.add(new Vector2(1000, 140));
+        path.add(new Vector2(1100, 140));
+        path.add(new Vector2(1200, 140));
+        path.add(new Vector2(1400, 140));
         return path;
     }
 

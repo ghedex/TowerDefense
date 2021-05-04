@@ -33,7 +33,7 @@ public class PathfindingEnemy extends Sprite {
         super(entity);
         this.lifeCount = lifeCount;
         this.setSize(90, 90);
-        this.setPosition(LevelOne.levelOnePath().first().x, LevelOne.levelOnePath().first().y);
+        this.setPosition(LevelOne.levelOneTopPath().first().x, LevelOne.levelOneTopPath().first().y);
     }
 
     public PathfindingEnemy(TextureRegion entity, Array<Vector2> path, float lifeCount){
