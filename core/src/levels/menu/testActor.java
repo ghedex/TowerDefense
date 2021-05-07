@@ -15,9 +15,10 @@ public class testActor extends Actor {
         addAction(action);
     }
 
-    public testActor(String imagePath, Action action, float x, float y){
+    public testActor(String imagePath, Action action, float x, float y, float width, float height){
         sprite = new Sprite(new Texture(imagePath));
         sprite.setPosition(x, y);
+        sprite.setSize(width, height);
         setBounds(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
         addAction(action);
     }

@@ -20,7 +20,7 @@ public class mainMenuGenerator extends Game {
     private int pos_start_x = (WINDOW_WIDTH/100*45) - size_width/2;
     private int pos_y = 260 - size_height/2;
     private int pos_exit_x = (WINDOW_WIDTH/100*60) - size_width/2;
-    private java.lang.String IMAGEPATH_START = "menuAssets/mainMenuAssets/buttonAssets/placeholder_button.png";
+    private java.lang.String IMAGEPATH_START = "menuAssets/mainMenuAssets/buttonAssets/button_play.png";
     private java.lang.String IMAGEPATH_EXIT = "menuAssets/mainMenuAssets/buttonAssets/placeholder_button_exit.png";
 
     public mainMenuGenerator() {
