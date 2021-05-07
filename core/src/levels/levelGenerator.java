@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import enemy.scorpionEntity.Scorpion;
 import enemy.wizardEntity.Wizard;
 import levels.menu.testActor;
@@ -35,6 +36,7 @@ public class levelGenerator implements Screen {
     TooltipManager toolTipManager;
     ShapeRenderer shapeRenderer, towerAttackRange;
     LinkedList<Circle> towerAttackCircle;
+    LinkedList<ShapeRenderer> towerRangeShape;
     ClickListener placementListener, towerPlacementListener, towerListener;
     private ResourceHandler resourceHandler = new ResourceHandler();
     SpriteBatch batch;
@@ -285,17 +287,13 @@ public class levelGenerator implements Screen {
         ImageButtonStyle placementStyle = new ImageButtonStyle();
         placementStyle.imageUp = towerPlacementSkin.getDrawable("placement_up");
         placementStyle.imageOver = towerPlacementSkin.getDrawable("placement_hover");
-        towerListener = new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                resourceHandler.getSound("buttonClickSound").play(0.5f);
-                Gdx.app.log("towerListener","");
-            }
-        };
         towerAttackCircle = new LinkedList<>();
         for(int i = 0; i <= towerLocation_x.length - 1; i++){
             towerAttackCircle.add(i, new Circle());
+        }
+        towerRangeShape = new LinkedList<>();
+        for(int i = 0; i <= towerLocation_x.length - 1; i++){
+            towerRangeShape.add(i, new ShapeRenderer());
         }
         for (int i = 0; i <= 8; i++){
             towers.add(i, new ImageButton(placementStyle));
@@ -313,8 +311,8 @@ public class levelGenerator implements Screen {
                         tower.setVisible(!tower.isVisible());
                         Gdx.app.log("towerList: ", String.valueOf(finalI));
                         if(towerList.get(0).isChecked()){
-                            towerList.get(0).setChecked(false);
                             towers.get(finalI).setStyle(style);
+                            towerList.get(0).setChecked(false);
                             towers.get(finalI).clearListeners();
                             towers.get(finalI).addListener(towerListener);
                             towers.get(finalI).setName("ArcherTower " + String.valueOf(finalI));
@@ -322,8 +320,8 @@ public class levelGenerator implements Screen {
                             towerAttackCircle.get(finalI).set(towerLocation_x[finalI] + 54f, towerLocation_y[finalI] + 32f, 150f);
                         }
                         if(towerList.get(1).isChecked()){
-                            towerList.get(1).setChecked(false);
                             towers.get(finalI).setStyle(style);
+                            towerList.get(1).setChecked(false);
                             towers.get(finalI).clearListeners();
                             towers.get(finalI).addListener(towerListener);
                             towers.get(finalI).setName("MagicTower " + String.valueOf(finalI));
@@ -331,8 +329,8 @@ public class levelGenerator implements Screen {
                             towerAttackCircle.get(finalI).set(towerLocation_x[finalI] + 54f, towerLocation_y[finalI] + 32f, 150f);
                         }
                         if(towerList.get(2).isChecked()){
-                            towerList.get(2).setChecked(false);
                             towers.get(finalI).setStyle(style);
+                            towerList.get(2).setChecked(false);
                             towers.get(finalI).clearListeners();
                             towers.get(finalI).addListener(towerListener);
                             towers.get(finalI).setName("SupportTower " + String.valueOf(finalI));
@@ -343,6 +341,18 @@ public class levelGenerator implements Screen {
                 }
             });
         }
+        towerListener = new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                resourceHandler.getSound("buttonClickSound").play(0.5f);
+                for(int i = 0; i <= towerLocation_x.length - 1; i++){
+                    if(towers.get(i).getStyle() == style){
+                        towerCircleBool.set(i, !towerCircleBool.get(i));
+                    }
+                }
+            };
+        };
 
         batch = new SpriteBatch();
         level = new LevelOne();
@@ -360,9 +370,6 @@ public class levelGenerator implements Screen {
         updateToolTips();
         Gdx.app.log("ArrBoolSi", towerCircleBool.toString());
         runningAnimation = new Animation(FRAME_DURATION, runningFrames, Animation.PlayMode.LOOP);
-        /*for(int i = 0; i<= 8; i++){
-
-        }*/
     }
 
     @Override
@@ -381,7 +388,6 @@ public class levelGenerator implements Screen {
             updateAllEntities();
             makeEnemiesMove(delta);
             checkFireAbilityCollision();
-            //drawCollCircl();
         }
         drawAllEntites();
         batch.end();
@@ -390,23 +396,28 @@ public class levelGenerator implements Screen {
         if(rangeCircle){
             drawCircle();
         }
-
+        drawCollCircl();
         Gdx.gl.glDisable(GL20.GL_BLEND);
         stage.draw();
     }
     public void drawCollCircl(){
         Iterator<Float> circleIterator_x = towerCircle_x.iterator();
         Iterator<Float> circleIterator_y = towerCircle_y.iterator();
-        Iterator<Circle> shapeRendererIterator = towerAttackCircle.iterator();
+        Iterator<Circle> circleIterator = towerAttackCircle.iterator();
+        Iterator<ShapeRenderer> shapeRendererIterator = towerRangeShape.iterator();
         Iterator<ImageButton> towerIterator = towers.iterator();
         for(Iterator<Boolean> iterator = towerCircleBool.iterator(); iterator.hasNext();){
-            if(shapeRendererIterator.hasNext()) {
+            if(circleIterator.hasNext()) {
                 Boolean bool = iterator.next();
                 Float circle_x = circleIterator_x.next();
                 Float circle_y = circleIterator_y.next();
-                Circle circle = shapeRendererIterator.next();
+                Circle circle = circleIterator.next();
+                ShapeRenderer shape = shapeRendererIterator.next();
                 if (bool) {
-                    circle.set(circle_x + 54f, circle_y + 32f, 150);
+                    shape.begin(ShapeRenderer.ShapeType.Filled);
+                    shape.setColor(1,1,1,0.2f);
+                    shape.circle(circle_x + 54f, circle_y + 32f, 150f);
+                    shape.end();
                 }
             }
         }
@@ -418,10 +429,10 @@ public class levelGenerator implements Screen {
             for(Iterator<PathfindingEnemy> iterator = scorpionLinkedList.iterator(); iterator.hasNext();){
                 PathfindingEnemy enemy = iterator.next();
                 if (Intersector.overlaps(circle, enemy.getBoundingRectangle())) {
-                    Gdx.app.log(String.valueOf(enemy), String.valueOf(Intersector.overlaps(circle, enemy.getBoundingRectangle())));
-                    Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
+                    //Gdx.app.log(String.valueOf(enemy), String.valueOf(Intersector.overlaps(circle, enemy.getBoundingRectangle())));
+                    //Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
                     enemy.setLifeCount(enemy.getLifeCount() - 0.05f);
-                    //enemy.timeOfDmgTaken = enemy.timeAlive;
+                    enemy.timeOfDmgTaken = enemy.timeAlive;
                 }
             }
         }
@@ -476,16 +487,6 @@ public class levelGenerator implements Screen {
         shapeRenderer.circle(Gdx.input.getX(), 720 - Gdx.input.getY(), 50f);
         shapeRenderer.end();
     }
-    public void drawRange(int i, float x, float y){
-        towerAttackCircle.add(i, new Circle());
-        towerAttackCircle.get(i).set(x + 54f, y + 32f,150f);
-        /*towerAttackRange.begin(ShapeRenderer.ShapeType.Filled);
-        towerAttackRange.setColor(1,1,1,0.2f);
-        //towerAttackRange.rect(x,y,150,150);
-        towerAttackRange.circle(x + 54f, y + 32f,150f);
-        towerAttackRange.end();
-        */
-    }
     //TODO outsource Abilities to their own files
     public void createAbility(){
         for(ImageButton imageButton: abilityButtonArray){
@@ -529,10 +530,10 @@ public class levelGenerator implements Screen {
     public void makeEnemiesMove(float delta) {
         for (Iterator<PathfindingEnemy> iterator = scorpionLinkedList.iterator(); iterator.hasNext(); ) {
             PathfindingEnemy s = iterator.next();
-            /*s.preDraw();
+            s.preDraw();
             s.update(batch, LevelOne.levelOnePath(), delta);
-            s.postDraw();*/
-            s.updateAnimation(batch, LevelOne.levelOnePath(), delta, currentFrame);
+            s.postDraw();
+            //s.updateAnimation(batch, LevelOne.levelOnePath(), delta, currentFrame);
             if (s.isWaypointReached() || s.getLifeCount() <= 0) {
                 iterator.remove();
             }
