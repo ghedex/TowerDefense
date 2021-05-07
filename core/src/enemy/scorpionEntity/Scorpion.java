@@ -13,8 +13,6 @@ public class Scorpion extends Entity {
 
     public Scorpion() {
         super(WIDTH, HEIGHT, 20, "assetsPack/scorpions/scorpionRunning/scorpionPack.atlas");
-        super.setSize(90, 90);
-        super.setPosition(LevelOne.levelOneTopPath().first().x, LevelOne.levelOneTopPath().first().y);
     }
 
     //TO DO: Skorpion muss schon animiert sein, damit ich nur den Skorpion callen muss

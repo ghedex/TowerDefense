@@ -21,14 +21,14 @@ public class MainMenuScreen implements Screen {
     private Stage stage;
     Timer timer = new Timer();
     public Prefs prefs = new Prefs();
-    private testActor startButtonActor, exitButtonActor, soundButtonActor;
+    private testActor startButtonActor, exitButtonActor, soundButtonActor, tutorialButtonActor;
 
     //private Button optiButton;
     private Music backgroundMusic;
     //private AssetManager assetManager;
     private String BACKGROUNDPATH = "menuAssets/mainMenuAssets/bg2.png";
     private String IMAGEPATH_START = "menuAssets/mainMenuAssets/buttonAssets/button_play.png";
-    private String IMAGEPATH_EXIT = "menuAssets/mainMenuAssets/buttonAssets/placeholder_button_exit.png";
+    private String IMAGEPATH_EXIT = "core/assets/menuAssets/mainMenuAssets/buttonAssets/tutorialButton.png";
     private String IMAGEPATH_SOUNDBUTTON = "menuAssets/mainMenuAssets/buttonAssets/button_sound.png";
     final private int WINDOW_WIDTH = 1280;
     private long id;
@@ -65,7 +65,7 @@ public class MainMenuScreen implements Screen {
         action.setDuration(2f);
         action1.setAmountX((WINDOW_WIDTH/100*65) - Gdx.graphics.getWidth()/2f); //200f
         action1.setDuration(2f);*/
-        startButtonActor = new testActor(IMAGEPATH_START, start, Gdx.graphics.getWidth()/100*43, Gdx.graphics.getHeight()/3, 200, 200);
+        startButtonActor = new testActor(IMAGEPATH_START, start, Gdx.graphics.getWidth()/100*27, Gdx.graphics.getHeight()/3, 200, 200);
         //exitButtonActor = new testActor(IMAGEPATH_EXIT, exit,Gdx.graphics.getWidth()/100*65, Gdx.graphics.getHeight()/2,100, 100);
         soundButtonActor = new testActor(IMAGEPATH_SOUNDBUTTON, 10, 50, 100, 100);
         startButtonActor.addListener(new ClickListener(){
@@ -73,6 +73,15 @@ public class MainMenuScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 resourceHandler.getSound("buttonClickSound").play(0.5f);
                 game.setScreen(new LevelSelectionScreen(game));
+            }
+        });
+
+        tutorialButtonActor = new testActor(IMAGEPATH_EXIT, start, Gdx.graphics.getWidth()/100*60, (float) (Gdx.graphics.getHeight()/2.5), 150, 100);
+        tutorialButtonActor.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                resourceHandler.getSound("buttonClickSound").play(0.5f);
+                game.setScreen(new TutorialWindow(game));
             }
         });
         /*
@@ -99,15 +108,13 @@ public class MainMenuScreen implements Screen {
 
         menu.createBackground(BACKGROUNDPATH);
         stage.addActor(startButtonActor);
-        //stage.addActor(exitButtonActor);
+        stage.addActor(tutorialButtonActor);
         stage.addActor(soundButtonActor);
     }
 
     @Override
     public void render(float delta) {
         menu.renderBackground();
-        //Gdx.gl.glClearColor(0, 1, 1, 1);
-        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Gdx.graphics.getDeltaTime()/2.5f);
         stage.draw();
         playMusic();
