@@ -40,22 +40,38 @@ public class LevelOne extends ApplicationAdapter {
 
     public static Array<Vector2> levelOneTopPath(){
         path = new Array<Vector2>();
-        path.add(new Vector2(-150, 150));
-        path.add(new Vector2(360, 175));
-        path.add(new Vector2(410, 225));
-        path.add(new Vector2(440, 300));
-        path.add(new Vector2(500, 360));
-        path.add(new Vector2(525, 375));
-        path.add(new Vector2(625, 350));
-        path.add(new Vector2(700, 325));
-        path.add(new Vector2(750, 325));
-        path.add(new Vector2(800, 375));
-        path.add(new Vector2(850, 500));
-        path.add(new Vector2(900, 550));
-        path.add(new Vector2(1000, 550));
-        path.add(new Vector2(1100, 550));
-        path.add(new Vector2(1200, 500));
-        path.add(new Vector2(1400, 500));
+        path.add(new Vector2(-150, 0));
+        path.add(new Vector2(160, 0));
+        path.add(new Vector2(170, 5));
+        path.add(new Vector2(180, 15));
+        path.add(new Vector2(190, 30));
+        path.add(new Vector2(200, 45));
+        path.add(new Vector2(210, 60));
+        path.add(new Vector2(220, 75));
+        path.add(new Vector2(230, 90));
+        path.add(new Vector2(240, 105));
+        path.add(new Vector2(250, 120));
+        path.add(new Vector2(260, 135));
+        path.add(new Vector2(270, 150));
+        path.add(new Vector2(280, 165));
+        path.add(new Vector2(290, 180));
+        path.add(new Vector2(300, 195));
+        path.add(new Vector2(310, 210));
+        path.add(new Vector2(320, 225));
+        path.add(new Vector2(330, 230));
+        path.add(new Vector2(340, 245));
+        path.add(new Vector2(350, 245));
+        path.add(new Vector2(360, 245));
+        path.add(new Vector2(370, 240));
+        path.add(new Vector2(380, 235));
+        path.add(new Vector2(600, 235));
+        path.add(new Vector2(620, 305));
+        path.add(new Vector2(630, 335));
+        path.add(new Vector2(640, 375));
+        path.add(new Vector2(650, 400));
+        path.add(new Vector2(900, 400));
+        path.add(new Vector2(1200, 360));
+
         return path;
 
     }
