@@ -10,6 +10,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
@@ -50,8 +51,9 @@ public class levelOneGenerator implements Screen {
     Ability fireBall, damage = new Ability();
     private Array<Vector2> abilityPath;
     private boolean isPaused;
+    private boolean gameOver;
     private LinkedList<PathfindingEnemy> scorpionLinkedList;
-    private LinkedList<PathfindingEnemy> bossLinkedList;
+    private LinkedList<PathfindingEnemy> wizardLinkedList;
     private float enemySpawnTimer, timeBetweenEnemySpawns = 3f, towerRangeTimer, timeBetweenShots = .5f;
     private boolean rangeCircle = false;
     private String pauseButton = "menuAssets/mainMenuAssets/buttonAssets/button_pause.png";
@@ -61,7 +63,7 @@ public class levelOneGenerator implements Screen {
 
     private boolean towerIsPlaced;
     private float coins;
-
+    BitmapFont font12;
     //TODO
     LinkedList<ImageButton> towerList = new LinkedList<>();
     LinkedList<PathfindingEnemy> enemyList = new LinkedList<>();
@@ -71,6 +73,7 @@ public class levelOneGenerator implements Screen {
     private String fireAbilityToolTip = "Deals "+ damage.getFireDamage() + " Damage against 1 Enemy";
     private String thunderAbilityToolTip = "Deals "+ damage.getThunderDamage() + " Damage to all enemies";
     private String upgradeAbilityToolTip = "Upgrades every ability. Cost: 500 OptiCoins";
+    private float health = 100;
     float[] towerLocation_x = {
             Gdx.graphics.getWidth() * 0.035f,
             Gdx.graphics.getWidth() * 0.246f,
@@ -457,8 +460,12 @@ public class levelOneGenerator implements Screen {
                 }
             });
         }
-
-
+        //font for coins, health etc.
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("core/assets/riffic-bold.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 36;
+        font12 = generator.generateFont(parameter);
+        generator.dispose();
         font = new BitmapFont();
         font.getData().setScale(2);
         batch = new SpriteBatch();
@@ -480,7 +487,7 @@ public class levelOneGenerator implements Screen {
          */
 
         scorpionLinkedList = new LinkedList<>();
-        bossLinkedList = new LinkedList<>();
+        wizardLinkedList = new LinkedList<>();
         createAllEnemies();
         updateToolTips();
         //Gdx.app.log("ArrBoolSi", towerCircleBool.toString());
@@ -497,7 +504,7 @@ public class levelOneGenerator implements Screen {
     public void render(float delta) {
         level.renderBackground();
         elapsed_time += Gdx.graphics.getDeltaTime();
-        stage.draw();
+
         currentFrame = (TextureRegion) runningAnimation.getKeyFrame(elapsed_time);
         currentFrame2 = (TextureRegion) runningAnimationTree.getKeyFrame(elapsed_time);
         stage.act(Gdx.graphics.getDeltaTime());
@@ -508,15 +515,17 @@ public class levelOneGenerator implements Screen {
         checkTowerRange(delta);
         batch.begin();
         if (!isPaused){
-            spawnEnemyScorpions(Gdx.graphics.getDeltaTime());
+            spawnEnemies(Gdx.graphics.getDeltaTime());
             updateAllEntities();
             makeT2EnemiesMove(delta);
             makeT1EnemiesMove(delta);
             checkFireAbilityCollision();
+            checkHealth();
         }
         drawAllEntities();
 
-        font.draw(batch, "Coins: " + coins, 10, 600);
+        font12.draw(batch, "Coins: " + coins, 10, 600);
+        font12.draw(batch, "Health: " + health, 10, 550);
 
         batch.end();
         Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -526,7 +535,7 @@ public class levelOneGenerator implements Screen {
         }
 
         Gdx.gl.glDisable(GL20.GL_BLEND);
-
+        stage.draw();
     }
     public void drawCollCircl(){
         Iterator<Float> circleIterator_x = towerCircle_x.iterator();
@@ -561,22 +570,19 @@ public class levelOneGenerator implements Screen {
                     //enemy.timeOfDmgTaken = enemy.timeAlive;
                 }
             }
+            for(Iterator<PathfindingEnemy> iterator = wizardLinkedList.iterator(); iterator.hasNext();){
+                PathfindingEnemy enemy = iterator.next();
+                if (Intersector.overlaps(circle, enemy.getBoundingRectangle())) {
+                    Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
+
+                    enemy.setLifeCount(enemy.getLifeCount() - 0.05f);
+                    //enemy.timeOfDmgTaken = enemy.timeAlive;
+                }
+            }
         }
     }
 
-    public void enemyChoosePath(){
-        int a = (int)(Math.random()*100);
-        if(a >= 50){
-            System.out.println("Bin größer als  50");
-            //choose top path
-        }
-        else{
-            System.out.println("Bin kleiner als 50");
-            //choose bottom path
-        }
-    }
-
-
+    
     public void addBuildingPlacesToStage(){
         for(ImageButton placeTower: towers){
             stage.addActor(placeTower);
@@ -611,6 +617,24 @@ public class levelOneGenerator implements Screen {
                     break;
                 }
             }
+            for (Iterator<PathfindingEnemy> iterator = wizardLinkedList.iterator(); iterator.hasNext(); ) {
+                if(abilityIterator.hasNext()) {
+                    PathfindingEnemy enemy = iterator.next();
+                    if (enemy.getBoundingRectangle().overlaps(ability.get(0).getBoundingRectangle())) {
+                        enemy.setLifeCount(enemy.getLifeCount() - damage.getFireDamage());
+                        enemy.timeOfDmgTaken = enemy.timeAlive;
+                        Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
+                        ability.removeValue(ability.get(0),true);
+                    }
+                    if (enemy.getLifeCount() <= 0) {
+                        iterator.remove();
+                        coins += 50;
+                    }
+                }
+                else{
+                    break;
+                }
+            }
         }
     }
     public void dealThunderDamage(){
@@ -619,6 +643,12 @@ public class levelOneGenerator implements Screen {
                 enemy.setLifeCount(enemy.getLifeCount() - damage.getThunderDamage());
                 enemy.timeOfDmgTaken = enemy.timeAlive;
                 Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
+        }
+        for (Iterator<PathfindingEnemy> iterator = wizardLinkedList.iterator(); iterator.hasNext(); ) {
+            PathfindingEnemy enemy = iterator.next();
+            enemy.setLifeCount(enemy.getLifeCount() - damage.getThunderDamage());
+            enemy.timeOfDmgTaken = enemy.timeAlive;
+            Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
         }
         /*
         if (enemy.getLifeCount() <= 0) {
@@ -639,7 +669,7 @@ public class levelOneGenerator implements Screen {
     }
     public void drawRange(int i, float x, float y){
         towerAttackCircle.add(i, new Circle());
-        towerAttackCircle.get(i).set(x + 54f, y + 32f,150f);
+        towerAttackCircle.get(i).set(x + 54f, y + 32f,100f);
         /*towerAttackRange.begin(ShapeRenderer.ShapeType.Filled);
         towerAttackRange.setColor(1,1,1,0.2f);
         //towerAttackRange.rect(x,y,150,150);
@@ -696,13 +726,13 @@ public class levelOneGenerator implements Screen {
             if (s.getX() > Gdx.graphics.getWidth() || s.getLifeCount() <= 0 ) {
                 iterator.remove();
                 coins += 100;
-                //life -= 5;
+                health -= 15;
             }
         }
     }
 
     public void makeT1EnemiesMove(float delta){
-        for (Iterator<PathfindingEnemy> iteratorBoss = bossLinkedList.iterator(); iteratorBoss.hasNext(); ) {
+        for (Iterator<PathfindingEnemy> iteratorBoss = wizardLinkedList.iterator(); iteratorBoss.hasNext(); ) {
             PathfindingEnemy wizard = iteratorBoss.next();
             //s.preDraw();
             //s.update(batch, LevelOne.levelOnePath(), delta);
@@ -712,19 +742,25 @@ public class levelOneGenerator implements Screen {
             if (wizard.getX() > Gdx.graphics.getWidth() || wizard.getLifeCount() <= 0 ) {
                 iteratorBoss.remove();
                 coins += 100;
-                //life -= 5;
+                health -= 5;
             }
         }
     }
 
+    public void checkHealth(){
+        if(health <= 0){
+            health = 0;
+            isPaused = true;
+        }
+    }
 
-    public void spawnEnemyScorpions(float deltaTime){
+
+    public void spawnEnemies(float deltaTime){
         enemySpawnTimer += deltaTime;
         if(enemySpawnTimer > timeBetweenEnemySpawns){
             scorpionLinkedList.add(new PathfindingEnemy(scorpion.idleFrame(), 20));
-            bossLinkedList.add(new PathfindingEnemy(treeBoss.idleFrame(), 100));
+            wizardLinkedList.add(new PathfindingEnemy(treeBoss.idleFrame(), 100));
             enemySpawnTimer -= timeBetweenEnemySpawns;
-            System.out.println(bossLinkedList.toString());
         }
     }
 

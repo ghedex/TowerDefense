@@ -9,4 +9,9 @@ eclipse.project.name = appName + "-core"
 
 dependencies {
     compile "com.badlogicgames.gdx:gdx-ai:1.8.0"
+    compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+
+
+
 }
