@@ -26,7 +26,7 @@ public class LevelSelectionScreen implements Screen {
     //private AssetManager assetManager;
     private String BACKBUTTON_PATH = "menuAssets/mainMenuAssets/menuSkin/LevelSelection/button_close.png";
     private String BACKSTAGEBUTTON_PATH = "menuAssets/mainMenuAssets/menuSkin/LevelSelection/button_left.png";
-    private String LEVELONEBUTTON_PATH = "menuAssets/mainMenuAssets/menuSkin/LevelSelection/level1.png";
+    private String LEVELONEBUTTON_PATH = "core/assets/menuAssets/mainMenuAssets/menuSkin/LevelSelection/level1.png";
     private String LEVELTWOBUTTON_PATH = "menuAssets/mainMenuAssets/menuSkin/LevelSelection/level2ButtonImage.png";
     public LevelSelectionScreen(final TowerDefense game) {
         this.game = game;
@@ -66,6 +66,7 @@ public class LevelSelectionScreen implements Screen {
                 resourceHandler.getSound("levelOneBackgroundMusic").play(0.02f);
             }
         });
+
         levelTwoActor.addListener(new ClickListener(){
             @Override
             public void clicked (InputEvent event, float x, float y){
@@ -77,8 +78,29 @@ public class LevelSelectionScreen implements Screen {
         });
 
 
-        levelListener(levelOneActor);
-        levelListener(levelTwoActor);
+
+
+        //levelListener(levelOneActor);
+        //levelListener(levelTwoActor);
+        levelOneActor.addListener(new ClickListener(){
+            @Override
+            public void clicked (InputEvent event, float x, float y){
+                super.clicked(event, x, y);
+                resourceHandler.getSound("buttonClickSound").play(0.5f);
+                game.setScreen(new levelOneGenerator(game));
+                resourceHandler.getSound("levelOneBackgroundMusic").play(0.02f);
+            }
+        });
+
+        levelTwoActor.addListener(new ClickListener(){
+            @Override
+            public void clicked (InputEvent event, float x, float y){
+                super.clicked(event, x, y);
+                resourceHandler.getSound("buttonClickSound").play(0.5f);
+                game.setScreen(new levelTwoGenerator(game));
+                resourceHandler.getSound("levelOneBackgroundMusic").play(0.02f);
+            }
+        });
 
 
         goBack(backButton);
@@ -116,17 +138,20 @@ public class LevelSelectionScreen implements Screen {
         });
     }
 
+    /*
     public void levelListener(testActor clicker){
         clicker.addListener(new ClickListener(){
             @Override
             public void clicked (InputEvent event, float x, float y){
                 super.clicked(event, x, y);
                 resourceHandler.getSound("buttonClickSound").play(0.5f);
-                game.setScreen(new levelOneGenerator(game));
+                game.setScreen(new Screen(Game game));
                 resourceHandler.getSound("levelOneBackgroundMusic").play(0.02f);
             }
         });
     }
+
+     */
 
     @Override
     public void pause() {

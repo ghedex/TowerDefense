@@ -48,7 +48,7 @@ public class levelOneGenerator implements Screen {
     Scorpion scorpion;
     Wizard wizard;
     TreeBoss treeBoss;
-    Ability fireBall, damage, explosion = new Ability();
+    Ability fireBall, damage = new Ability(), explosion;
     private Array<Vector2> abilityPath;
     private boolean isPaused;
     private boolean gameOver;
@@ -63,7 +63,7 @@ public class levelOneGenerator implements Screen {
     private Skin uiSkin, fireAbilitySkin, thunderAbilitySkin, fireBallSkin, windowSkin, towerPlacementSkin, archerTowerSkin, supportTowerSkin, magicianTowerSkin;
 
     private boolean towerIsPlaced;
-    private float coins;
+    private float coins = 1000;
     BitmapFont font12;
     //TODO
     LinkedList<ImageButton> towerList = new LinkedList<>();
@@ -107,6 +107,7 @@ public class levelOneGenerator implements Screen {
     private TextureAtlas explosionAtlas = new TextureAtlas(Gdx.files.internal("core/assets/abilities/abilitesSkin/explosion/explosion.atlas"));
     private TextureRegion currentFrame;
     private TextureRegion currentFrame2;
+    private TextureRegion currentFrame3;
     private Animation runningAnimation;
     private Animation runningAnimationTree;
     private Animation explosionAbility;
@@ -252,7 +253,7 @@ public class levelOneGenerator implements Screen {
         upgradeAbilityButtonArray.add(towerPlacementSupport);
 
         //--------------------------------------------------------AbilityMenuButtonFunctionality----------------------------------------------------//
-        //fireAbility.addListener(new TextTooltip(fireAbilityToolTip, toolTipManager, uiSkin));
+        fireAbility.addListener(new TextTooltip(fireAbilityToolTip, toolTipManager, uiSkin));
         fireAbility.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -308,7 +309,7 @@ public class levelOneGenerator implements Screen {
         -set Position of explosion on clicked coordinate
 
          */
-
+        /*
         explosionAbilityArray.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -344,6 +345,8 @@ public class levelOneGenerator implements Screen {
             }
         });
 
+         */
+
 
 
 
@@ -371,7 +374,7 @@ public class levelOneGenerator implements Screen {
                 tower.setVisible(false);
             }
         });
-        //exitButton.addListener(new ClickListener(){}
+        //exitButton.addListener(new ClickListener(){});
         abilityButtonActor = new testActor(abilityButton, Gdx.graphics.getWidth()*0.11f, Gdx.graphics.getHeight()*0.865f, 90,90);
         abilityButtonActor.addListener(new ClickListener(){
             @Override
@@ -497,8 +500,9 @@ public class levelOneGenerator implements Screen {
                             towers.get(finalI).setName("ArcherTower " + String.valueOf(finalI));
                             towerCircleBool.set(finalI, true);
                             towerAttackCircle.get(finalI).set(towerLocation_x[finalI] + 54f, towerLocation_y[finalI] + 32f, 150f);
+                            coins -= 250;
                         }
-                        if(towerList.get(1).isChecked()){
+                        if(towerList.get(1).isChecked() && coins >= 500){
                             towerList.get(1).setChecked(false);
                             towers.get(finalI).setStyle(styleTowerPlacementMagician);
                             towers.get(finalI).setPosition(towerLocation_x[finalI] + 32, towerLocation_y[finalI]);
@@ -507,8 +511,9 @@ public class levelOneGenerator implements Screen {
                             towers.get(finalI).setName("MagicTower " + String.valueOf(finalI));
                             towerCircleBool.set(finalI, true);
                             towerAttackCircle.get(finalI).set(towerLocation_x[finalI] + 54f, towerLocation_y[finalI] + 32f, 150f);
+                            coins -= 500;
                         }
-                        if(towerList.get(2).isChecked()){
+                        if(towerList.get(2).isChecked() && coins >= 100){
                             towerList.get(2).setChecked(false);
                             towers.get(finalI).setStyle(styleTowerPlacementSupport);
                             towers.get(finalI).clearListeners();
@@ -516,6 +521,7 @@ public class levelOneGenerator implements Screen {
                             towers.get(finalI).setName("SupportTower " + String.valueOf(finalI));
                             towerCircleBool.set(finalI, true);
                             towerAttackCircle.get(finalI).set(towerLocation_x[finalI] + 54f, towerLocation_y[finalI] + 32f, 150f);
+                            coins -= 100;
                         }
                     }
                 }
@@ -571,7 +577,7 @@ public class levelOneGenerator implements Screen {
 
         currentFrame = (TextureRegion) runningAnimation.getKeyFrame(elapsed_time);
         currentFrame2 = (TextureRegion) runningAnimationTree.getKeyFrame(elapsed_time);
-        currentFrame2 = (TextureRegion) explosionAbility.getKeyFrame(elapsed_time);
+        currentFrame3 = (TextureRegion) explosionAbility.getKeyFrame(elapsed_time);
         stage.act(Gdx.graphics.getDeltaTime());
         if(towers.get(0).isPressed()) {
             updateToolTips();
@@ -646,7 +652,7 @@ public class levelOneGenerator implements Screen {
             for(Iterator<PathfindingEnemy> iterator = wizardLinkedList.iterator(); iterator.hasNext();){
                 PathfindingEnemy enemy2 = iterator.next();
                 if (Intersector.overlaps(circle, enemy2.getBoundingRectangle())) {
-                    Gdx.app.log(String.valueOf(enemy2), String.valueOf(enemy2.getLifeCount()));
+                    //Gdx.app.log(String.valueOf(enemy2), String.valueOf(enemy2.getLifeCount()));
 
                     enemy2.setLifeCount(enemy2.getLifeCount() - 0.05f);
                     //enemy.timeOfDmgTaken = enemy.timeAlive;
@@ -712,24 +718,29 @@ public class levelOneGenerator implements Screen {
     }
     public void dealThunderDamage(){
         for (Iterator<PathfindingEnemy> iterator = scorpionLinkedList.iterator(); iterator.hasNext(); ) {
-                PathfindingEnemy enemy = iterator.next();
-                enemy.setLifeCount(enemy.getLifeCount() - damage.getThunderDamage());
-                enemy.timeOfDmgTaken = enemy.timeAlive;
-                Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
+            PathfindingEnemy enemy = iterator.next();
+            enemy.setLifeCount(enemy.getLifeCount() - damage.getThunderDamage());
+            enemy.timeOfDmgTaken = enemy.timeAlive;
+            Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
+            if (enemy.getLifeCount() <= 0) {
+                iterator.remove();
+                coins += 10;
+            }
         }
+
         for (Iterator<PathfindingEnemy> iterator = wizardLinkedList.iterator(); iterator.hasNext(); ) {
             PathfindingEnemy enemy = iterator.next();
             enemy.setLifeCount(enemy.getLifeCount() - damage.getThunderDamage());
             enemy.timeOfDmgTaken = enemy.timeAlive;
             Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
-        }
-        /*
-        if (enemy.getLifeCount() <= 0) {
-            iterator.remove();
-            coins += 1000;
+            if (enemy.getLifeCount() <= 0) {
+                iterator.remove();
+                coins += 10;
+            }
         }
 
-         */
+
+
 
     }
 
@@ -800,16 +811,17 @@ public class levelOneGenerator implements Screen {
 
         for (Iterator<PathfindingEnemy> iterator = scorpionLinkedList.iterator(); iterator.hasNext(); ) {
             PathfindingEnemy s = iterator.next();
-            /*
-            s.preDraw();
-            s.update(batch, LevelOne.levelOnePath(), delta);
-            s.postDraw();
-             */
+
             s.updateAnimation(batch, LevelOne.levelOneBottomPath(), delta, currentFrame);
-            if (s.getX() > Gdx.graphics.getWidth() || s.getLifeCount() <= 0 ) {
+            //remove entity if life is less than 0, and add 100 coins
+            if (s.getLifeCount() <= 0 ) {
                 iterator.remove();
                 coins += 100;
-                health -= 15;
+            }
+            //remove entity if is out of bounds, and get player damage
+            if(s.getX() > Gdx.graphics.getWidth()){
+                iterator.remove();
+                health -= 1;
             }
 
         }
@@ -823,11 +835,15 @@ public class levelOneGenerator implements Screen {
             //s.postDraw();
             wizard.updateAnimation(batch, LevelOne.levelOneTopPath(), delta, currentFrame2);
 
-            if (wizard.getX() > Gdx.graphics.getWidth() || wizard.getLifeCount() <= 0 ) {
+            //remove entity if life is less than 0, and add 100 coins
+            if (wizard.getLifeCount() <= 0 ) {
                 iteratorBoss.remove();
                 coins += 100;
+            }
+            //remove entity if is otu of bounds, and get player damage
+            if(wizard.getX() > Gdx.graphics.getWidth()){
+                iteratorBoss.remove();
                 health -= 5;
-                System.out.println(wizard.getX());
             }
         }
     }
