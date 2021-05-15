@@ -1,0 +1,106 @@
+
+treeBoss.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+0_boss_run
+  rotate: false
+  xy: 2, 2
+  size: 1100, 1100
+  orig: 1100, 1100
+  offset: 0, 0
+  index: 2
+0_boss_run
+  rotate: false
+  xy: 2, 2
+  size: 1100, 1100
+  orig: 1100, 1100
+  offset: 0, 0
+  index: 8
+
+treeBoss2.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+0_boss_run
+  rotate: false
+  xy: 2, 2
+  size: 1100, 1100
+  orig: 1100, 1100
+  offset: 0, 0
+  index: 7
+0_boss_run
+  rotate: false
+  xy: 2, 2
+  size: 1100, 1100
+  orig: 1100, 1100
+  offset: 0, 0
+  index: 3
+
+treeBoss3.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+0_boss_run
+  rotate: false
+  xy: 2, 2
+  size: 1100, 1100
+  orig: 1100, 1100
+  offset: 0, 0
+  index: 4
+0_boss_run
+  rotate: false
+  xy: 2, 2
+  size: 1100, 1100
+  orig: 1100, 1100
+  offset: 0, 0
+  index: 6
+
+treeBoss4.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+0_boss_run
+  rotate: false
+  xy: 2, 2
+  size: 1100, 1100
+  orig: 1100, 1100
+  offset: 0, 0
+  index: 9
+0_boss_run
+  rotate: false
+  xy: 2, 2
+  size: 1100, 1100
+  orig: 1100, 1100
+  offset: 0, 0
+  index: 1
+
+treeBoss5.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+0_boss_run
+  rotate: false
+  xy: 2, 2
+  size: 1100, 1100
+  orig: 1100, 1100
+  offset: 0, 0
+  index: 0
+
+treeBoss6.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+0_boss_run
+  rotate: false
+  xy: 2, 2
+  size: 1100, 1100
+  orig: 1100, 1100
+  offset: 0, 0
+  index: 5

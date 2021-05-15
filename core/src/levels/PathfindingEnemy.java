@@ -11,7 +11,7 @@ import enemy.scorpionEntity.Scorpion;
 public class PathfindingEnemy extends Sprite {
 
     private Vector2 velocity = new Vector2();
-    private float speed = 100, tolerance = 3, abilitySpeed = 350;
+    private float speed = 50, tolerance = 3, abilitySpeed = 350;
     private TextureRegion entity;
     public Array<Vector2> getPath() {
         return path;
@@ -34,11 +34,12 @@ public class PathfindingEnemy extends Sprite {
     public PathfindingEnemy(TextureRegion entity, Array<Vector2> path){
         super(entity);
         this.path = path;
+        this.setPosition(LevelOne.levelOneTopPath().first().x, LevelOne.levelOneTopPath().first().y);
+
     }
     public PathfindingEnemy(TextureRegion entity, float lifeCount){
         super(entity);
         this.lifeCount = lifeCount;
-        this.setSize(90, 90);
         this.setPosition(LevelOne.levelOneTopPath().first().x, LevelOne.levelOneTopPath().first().y);
     }
 
@@ -46,6 +47,7 @@ public class PathfindingEnemy extends Sprite {
         super(entity);
         this.path = path;
         this.lifeCount = lifeCount;
+        this.setPosition(LevelOne.levelOneTopPath().first().x, LevelOne.levelOneTopPath().first().y);
     }
     public void updateAbility(){
         float angle = (float) Math.atan2(path.get(waypoint).y - getY(), path.get(waypoint).x - getX());

@@ -9,10 +9,10 @@ import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-public class LevelOne extends ApplicationAdapter {
+public class LevelTwo extends ApplicationAdapter {
 
     private static Array<Vector2> path;
-    public String LEVELPATH = "game_background_1.png";
+    public String LEVELPATH = "game_background_2.png";
     Texture levelBackground;
     SpriteBatch batch;
     Sprite img;

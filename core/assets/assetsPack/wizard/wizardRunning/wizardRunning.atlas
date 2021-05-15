@@ -1,146 +1,146 @@
 
 unnamed.png
-size: 2048,2048
+size: 2048,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-2_enemies_1_run
-  rotate: false
-  xy: 2, 1702
-  size: 388, 338
-  orig: 388, 338
-  offset: 0, 0
-  index: 15
-2_enemies_1_run
-  rotate: false
-  xy: 2, 1362
-  size: 388, 338
-  orig: 388, 338
-  offset: 0, 0
-  index: 7
-2_enemies_1_run
-  rotate: false
-  xy: 392, 1702
-  size: 388, 338
-  orig: 388, 338
-  offset: 0, 0
-  index: 12
-2_enemies_1_run
-  rotate: false
-  xy: 2, 1022
-  size: 388, 338
-  orig: 388, 338
-  offset: 0, 0
-  index: 4
-2_enemies_1_run
-  rotate: false
-  xy: 392, 1362
-  size: 388, 338
-  orig: 388, 338
-  offset: 0, 0
-  index: 17
-2_enemies_1_run
-  rotate: false
-  xy: 782, 1702
-  size: 388, 338
-  orig: 388, 338
-  offset: 0, 0
-  index: 9
-2_enemies_1_run
+2_enemies_1_walk
   rotate: false
   xy: 2, 682
   size: 388, 338
   orig: 388, 338
   offset: 0, 0
-  index: 1
-2_enemies_1_run
+  index: 8
+2_enemies_1_walk
   rotate: false
-  xy: 392, 1022
+  xy: 2, 682
   size: 388, 338
   orig: 388, 338
   offset: 0, 0
-  index: 14
-2_enemies_1_run
-  rotate: false
-  xy: 782, 1362
-  size: 388, 338
-  orig: 388, 338
-  offset: 0, 0
-  index: 6
-2_enemies_1_run
-  rotate: false
-  xy: 1172, 1702
-  size: 388, 338
-  orig: 388, 338
-  offset: 0, 0
-  index: 19
-2_enemies_1_run
+  index: 12
+2_enemies_1_walk
   rotate: false
   xy: 2, 342
   size: 388, 338
   orig: 388, 338
   offset: 0, 0
-  index: 11
-2_enemies_1_run
+  index: 0
+2_enemies_1_walk
   rotate: false
   xy: 392, 682
   size: 388, 338
   orig: 388, 338
   offset: 0, 0
-  index: 3
-2_enemies_1_run
+  index: 13
+2_enemies_1_walk
   rotate: false
-  xy: 782, 1022
+  xy: 392, 682
   size: 388, 338
   orig: 388, 338
   offset: 0, 0
-  index: 16
-2_enemies_1_run
-  rotate: false
-  xy: 1172, 1362
-  size: 388, 338
-  orig: 388, 338
-  offset: 0, 0
-  index: 8
-2_enemies_1_run
-  rotate: false
-  xy: 1562, 1702
-  size: 388, 338
-  orig: 388, 338
-  offset: 0, 0
-  index: 0
-2_enemies_1_run
+  index: 7
+2_enemies_1_walk
   rotate: false
   xy: 2, 2
   size: 388, 338
   orig: 388, 338
   offset: 0, 0
-  index: 13
-2_enemies_1_run
+  index: 5
+2_enemies_1_walk
+  rotate: false
+  xy: 2, 2
+  size: 388, 338
+  orig: 388, 338
+  offset: 0, 0
+  index: 15
+2_enemies_1_walk
   rotate: false
   xy: 392, 342
   size: 388, 338
   orig: 388, 338
   offset: 0, 0
-  index: 5
-2_enemies_1_run
+  index: 18
+2_enemies_1_walk
+  rotate: false
+  xy: 392, 342
+  size: 388, 338
+  orig: 388, 338
+  offset: 0, 0
+  index: 2
+2_enemies_1_walk
   rotate: false
   xy: 782, 682
   size: 388, 338
   orig: 388, 338
   offset: 0, 0
-  index: 18
-2_enemies_1_run
-  rotate: false
-  xy: 1172, 1022
-  size: 388, 338
-  orig: 388, 338
-  offset: 0, 0
   index: 10
-2_enemies_1_run
+2_enemies_1_walk
   rotate: false
-  xy: 1562, 1362
+  xy: 392, 2
   size: 388, 338
   orig: 388, 338
   offset: 0, 0
-  index: 2
+  index: 4
+2_enemies_1_walk
+  rotate: false
+  xy: 392, 2
+  size: 388, 338
+  orig: 388, 338
+  offset: 0, 0
+  index: 16
+2_enemies_1_walk
+  rotate: false
+  xy: 782, 342
+  size: 388, 338
+  orig: 388, 338
+  offset: 0, 0
+  index: 17
+2_enemies_1_walk
+  rotate: false
+  xy: 782, 342
+  size: 388, 338
+  orig: 388, 338
+  offset: 0, 0
+  index: 3
+2_enemies_1_walk
+  rotate: false
+  xy: 1172, 682
+  size: 388, 338
+  orig: 388, 338
+  offset: 0, 0
+  index: 9
+2_enemies_1_walk
+  rotate: false
+  xy: 1172, 682
+  size: 388, 338
+  orig: 388, 338
+  offset: 0, 0
+  index: 11
+2_enemies_1_walk
+  rotate: false
+  xy: 782, 2
+  size: 388, 338
+  orig: 388, 338
+  offset: 0, 0
+  index: 1
+2_enemies_1_walk
+  rotate: false
+  xy: 782, 2
+  size: 388, 338
+  orig: 388, 338
+  offset: 0, 0
+  index: 19
+2_enemies_1_walk
+  rotate: false
+  xy: 1172, 342
+  size: 388, 338
+  orig: 388, 338
+  offset: 0, 0
+  index: 14
+2_enemies_1_walk
+  rotate: false
+  xy: 1172, 342
+  size: 388, 338
+  orig: 388, 338
+  offset: 0, 0
+  index: 6
