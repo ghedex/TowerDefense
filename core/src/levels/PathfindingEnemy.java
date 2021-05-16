@@ -11,7 +11,7 @@ import enemy.scorpionEntity.Scorpion;
 public class PathfindingEnemy extends Sprite {
 
     private Vector2 velocity = new Vector2();
-    private float speed = 50, tolerance = 3, abilitySpeed = 350;
+    private float speed = 75, tolerance = 3, abilitySpeed = 350;
     private TextureRegion entity;
     public Array<Vector2> getPath() {
         return path;
@@ -34,13 +34,14 @@ public class PathfindingEnemy extends Sprite {
     public PathfindingEnemy(TextureRegion entity, Array<Vector2> path){
         super(entity);
         this.path = path;
-        this.setPosition(LevelOne.levelOneTopPath().first().x, LevelOne.levelOneTopPath().first().y);
+        this.setPosition(path.first().x, path.first().y);
 
     }
-    public PathfindingEnemy(TextureRegion entity, float lifeCount){
+    public PathfindingEnemy(TextureRegion entity, float lifeCount, Array<Vector2> path){
         super(entity);
         this.lifeCount = lifeCount;
-        this.setPosition(LevelOne.levelOneTopPath().first().x, LevelOne.levelOneTopPath().first().y);
+        this.path = path;
+        this.setPosition(path.first().x, path.first().y);
     }
 
     public PathfindingEnemy(TextureRegion entity, Array<Vector2> path, float lifeCount){

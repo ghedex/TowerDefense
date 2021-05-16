@@ -139,6 +139,7 @@ public class levelOneGenerator implements Screen {
         Gdx.input.setInputProcessor(stage);
         resourceHandler.loadSound("menuAssets/mainMenuAssets/buttonAssets/buttonClick.mp3", "buttonClickSound");
         resourceHandler.loadSound("core/assets/menuAssets/mainMenuAssets/music/gameOver.mp3", "gameOverSound");
+        resourceHandler.loadSound("core/assets/menuAssets/mainMenuAssets/music/hitSoundEffect.mp3", "hitSound");
         uiSkin = new Skin(Gdx.files.internal("menuAssets/mainMenuAssets/menuSkin/skin/uiskin.json"), new TextureAtlas("menuAssets/mainMenuAssets/menuSkin/skin/uiskin.atlas"));
         fireAbilitySkin = new Skin(Gdx.files.internal("abilities/abilitesSkin/fire/fireAbilitySkin.json"), new TextureAtlas("abilities/abilitesSkin/fire/fireAbilitySkin.atlas"));
         archerTowerSkin = new Skin(Gdx.files.internal("core/assets/background/tower/towerImages/archerTower.json"), new TextureAtlas("core/assets/background/tower/towerImages/archerTower.atlas"));
@@ -645,6 +646,7 @@ public class levelOneGenerator implements Screen {
                     Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
 
                      */
+                    resourceHandler.getSound("hitSound").play(0.50f);
                     enemy.setLifeCount(enemy.getLifeCount() - 0.05f);
                     //enemy.timeOfDmgTaken = enemy.timeAlive;
                 }
@@ -850,6 +852,7 @@ public class levelOneGenerator implements Screen {
 
     public void checkHealth(){
         if(health <= 0){
+            resourceHandler.getSound("hitSound").play(0.50f);
             health = 0;
             stage.addActor(gameOverWindow);
             resourceHandler.getSound("gameOverSound").play(0.10f);
@@ -872,11 +875,11 @@ public class levelOneGenerator implements Screen {
         enemySpawnTimer += deltaTime;
         enemySpawnTimer2 += deltaTime;
         if(enemySpawnTimer > timeBetweenEnemySpawns){
-            scorpionLinkedList.add(new PathfindingEnemy(scorpion.idleFrame(), 20));
+            scorpionLinkedList.add(new PathfindingEnemy(scorpion.idleFrame(), 20, LevelOne.levelOneBottomPath()));
             enemySpawnTimer -= timeBetweenEnemySpawns;
         }
         if(enemySpawnTimer2 > timeBetweenEnemySpawns2){
-            wizardLinkedList.add(new PathfindingEnemy(treeBoss.idleFrame(), 100));
+            wizardLinkedList.add(new PathfindingEnemy(treeBoss.idleFrame(), 100, LevelOne.levelOneTopPath()));
             enemySpawnTimer2 -= timeBetweenEnemySpawns2;
         }
     }

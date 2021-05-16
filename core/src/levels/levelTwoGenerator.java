@@ -63,7 +63,7 @@ public class levelTwoGenerator implements Screen {
     private Skin uiSkin, fireAbilitySkin, thunderAbilitySkin, fireBallSkin, windowSkin, towerPlacementSkin, archerTowerSkin, supportTowerSkin, magicianTowerSkin;
 
     private boolean towerIsPlaced;
-    private float coins;
+    private float coins = 1000;
     BitmapFont font12;
     //TODO
     LinkedList<ImageButton> towerList = new LinkedList<>();
@@ -74,28 +74,29 @@ public class levelTwoGenerator implements Screen {
     private String fireAbilityToolTip = "Deals "+ damage.getFireDamage() + " Damage against 1 Enemy";
     private String thunderAbilityToolTip = "Deals "+ damage.getThunderDamage() + " Damage to all enemies";
     private String upgradeAbilityToolTip = "Upgrades every ability. Cost: 500 OptiCoins";
-    private float health = 1000;
+    private float health = 100;
     float[] towerLocation_x = {
             Gdx.graphics.getWidth() * 0.035f,
-            Gdx.graphics.getWidth() * 0.246f,
-            Gdx.graphics.getWidth() * 0.636f,
-            Gdx.graphics.getWidth() * 0.845f,
-            Gdx.graphics.getWidth() * 0.379f,
-            Gdx.graphics.getWidth() * 0.578f,
-            Gdx.graphics.getWidth() * 0.498f,
-            Gdx.graphics.getWidth() * 0.691f,
-            Gdx.graphics.getWidth() * 0.864f,
+            Gdx.graphics.getWidth() * 0.125f,
+            Gdx.graphics.getWidth() * 0.309f,
+            Gdx.graphics.getWidth() * 0.742f,
+            Gdx.graphics.getWidth() * 0.351f,
+            Gdx.graphics.getWidth() * 0.615f,
+            Gdx.graphics.getWidth() * 0.476f,
+            Gdx.graphics.getWidth() * 0.715f,
+            Gdx.graphics.getWidth() * 0.560f,
     };
     float[] towerLocation_y = {
-            Gdx.graphics.getHeight() * 0.033f,
-            Gdx.graphics.getHeight() * 0.033f,
-            Gdx.graphics.getHeight() * 0.033f,
-            Gdx.graphics.getHeight() * 0.033f,
-            Gdx.graphics.getHeight() * 0.338f,
-            Gdx.graphics.getHeight() * 0.300f,
-            Gdx.graphics.getHeight() * 0.546f,
-            Gdx.graphics.getHeight() * 0.590f,
-            Gdx.graphics.getHeight() * 0.513f,
+            //Gdx.graphics.getHeight() * 0.033f,
+            Gdx.graphics.getHeight() * 0.755f,
+            Gdx.graphics.getHeight() * 0.3f,
+            Gdx.graphics.getHeight() * 0.035f,
+            Gdx.graphics.getHeight() * 0.69f,
+            Gdx.graphics.getHeight() * 0.688f,
+            Gdx.graphics.getHeight() * 0.110f,
+            Gdx.graphics.getHeight() * 0.400f,
+            Gdx.graphics.getHeight() * 0.395f,
+            Gdx.graphics.getHeight() * 0.713f,
     };
 
 
@@ -142,7 +143,7 @@ public class levelTwoGenerator implements Screen {
         thunderAbilitySkin = new Skin(Gdx.files.internal("core/assets/abilities/abilitesSkin/thunder/thunderAbilitySkin.json") ,new TextureAtlas("core/assets/abilities/abilitesSkin/thunder/thunderAbility.atlas"));
         //thunderAbilitySkin = new Skin(Gdx.files.internal("abilities/abilitesSkin/fire/fireAbilitySkin.json"), new TextureAtlas("abilities/abilitesSkin/fire/fireAbilitySkin.atlas"));
         windowSkin = new Skin(Gdx.files.internal("menuAssets/mainMenuAssets/menuSkin/testWindowSkin/windowStyle.json"), new TextureAtlas("menuAssets/mainMenuAssets/menuSkin/testWindowSkin/windowStyle.atlas"));
-        towerPlacementSkin = new Skin(Gdx.files.internal("background/tower/locations/towerPlacement.json"), new TextureAtlas("background/tower/locations/towerPlacement.atlas"));
+        towerPlacementSkin = new Skin(Gdx.files.internal("background/tower/locations/towerPlacementLevelTwo.json"), new TextureAtlas("background/tower/locations/towerPlacementLevelTwo.atlas"));
         Skin[] towerSkins = {
                 archerTowerSkin, magicianTowerSkin, supportTowerSkin
         };
@@ -532,8 +533,8 @@ public class levelTwoGenerator implements Screen {
             drawAllEntities();
         }
 
-        font12.draw(batch, "Coins: " + coins, 10, 600);
-        font12.draw(batch, "Health: " + health, 10, 550);
+        font12.draw(batch, "Coins: " + coins, 1000, 650);
+        font12.draw(batch, "Health: " + health, 1000, 600);
 
         batch.end();
         Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -730,7 +731,7 @@ public class levelTwoGenerator implements Screen {
             s.update(batch, LevelOne.levelOnePath(), delta);
             s.postDraw();
              */
-            s.updateAnimation(batch, LevelOne.levelOneBottomPath(), delta, currentFrame);
+            s.updateAnimation(batch, LevelTwo.levelTwoStraightPath(), delta, currentFrame);
             if (s.getX() > Gdx.graphics.getWidth() || s.getLifeCount() <= 0 ) {
                 iterator.remove();
                 coins += 100;
@@ -746,7 +747,7 @@ public class levelTwoGenerator implements Screen {
             //s.preDraw();
             //s.update(batch, LevelOne.levelOnePath(), delta);
             //s.postDraw();
-            wizard.updateAnimation(batch, LevelOne.levelOneTopPath(), delta, currentFrame2);
+            wizard.updateAnimation(batch, LevelTwo.levelTwoTopPath(), delta, currentFrame2);
 
             if (wizard.getX() > Gdx.graphics.getWidth() || wizard.getLifeCount() <= 0 ) {
                 iteratorBoss.remove();
@@ -781,11 +782,11 @@ public class levelTwoGenerator implements Screen {
         enemySpawnTimer += deltaTime;
         enemySpawnTimer2 += deltaTime;
         if(enemySpawnTimer > timeBetweenEnemySpawns){
-            scorpionLinkedList.add(new PathfindingEnemy(scorpion.idleFrame(), 20));
+            scorpionLinkedList.add(new PathfindingEnemy(scorpion.idleFrame(), 20, LevelTwo.levelTwoStraightPath()));
             enemySpawnTimer -= timeBetweenEnemySpawns;
         }
         if(enemySpawnTimer2 > timeBetweenEnemySpawns2){
-            wizardLinkedList.add(new PathfindingEnemy(treeBoss.idleFrame(), 100));
+            wizardLinkedList.add(new PathfindingEnemy(treeBoss.idleFrame(), 100, LevelTwo.levelTwoTopPath()));
             enemySpawnTimer2 -= timeBetweenEnemySpawns2;
         }
     }
