@@ -11,7 +11,7 @@ import enemy.scorpionEntity.Scorpion;
 public class PathfindingEnemy extends Sprite {
 
     private Vector2 velocity = new Vector2();
-    private float speed = 75, tolerance = 3, abilitySpeed = 350;
+    private float speed = 75, tolerance = 3, abilitySpeed = 1;
     private TextureRegion entity;
     public Array<Vector2> getPath() {
         return path;

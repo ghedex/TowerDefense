@@ -63,7 +63,7 @@ public class LevelSelectionScreen implements Screen {
                 super.clicked(event, x, y);
                 resourceHandler.getSound("buttonClickSound").play(0.5f);
                 game.setScreen(new levelOneGenerator(game));
-                resourceHandler.getSound("levelOneBackgroundMusic").play(0.02f);
+                //resourceHandler.getSound("levelOneBackgroundMusic").play(0.02f);
             }
         });
 

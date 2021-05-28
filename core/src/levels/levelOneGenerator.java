@@ -129,6 +129,8 @@ public class levelOneGenerator implements Screen {
 
     @Override
     public void show() {
+        resourceHandler.loadSound("core/assets/menuAssets/mainMenuAssets/music/levelOneBackgroundMusic.mp3", "levelOneBackgroundMusic");
+        resourceHandler.getSound("levelOneBackgroundMusic").play(0.02f);
         stage = new Stage(new ScreenViewport());
         toolTipManager = new TooltipManager();
         toolTipManager.initialTime = 0.0f;
@@ -164,14 +166,16 @@ public class levelOneGenerator implements Screen {
         //----------------------------------------------------------PauseMenuButtons------------------------------------------------------//
         TextButton continueButton = new TextButton("Continue the Game",uiSkin);
         TextButton exitButton = new TextButton("Exit to Main Menu", uiSkin);
+        TextButton exitButton2 = new TextButton("Exit to Main Menu", uiSkin);
         exitButton.setSize(250f,250f);
+        exitButton2.setSize(250f,250f);
         pause.add(continueButton).row();
         pause.add(exitButton);
         pause.pack();
 
         gameOverWindow = new Window("Game Over", uiSkin);
-        gameOverWindow.add(exitButton);
-        gameOverWindow.pack();
+        gameOverWindow.add(exitButton2);
+        //gameOverWindow.pack();
         gameOverWindow.setVisible(true);
         gameOverWindow.setPosition(stage.getWidth() / 2 - pause.getWidth() / 2, stage.getHeight() / 2 - pause.getHeight() / 2);
         gameOverWindow.setSize(stage.getWidth() / 2.5f, stage.getHeight() / 2.5f);
@@ -193,6 +197,16 @@ public class levelOneGenerator implements Screen {
                 super.clicked(event, x, y);
                 resourceHandler.getSound("buttonClickSound").play(0.5f);
                 game.setScreen(new MainMenuScreen(game));
+                resourceHandler.getSound("levelOneBackgroundMusic").stop();
+            }
+        });
+        exitButton2.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                resourceHandler.getSound("buttonClickSound").play(0.5f);
+                game.setScreen(new MainMenuScreen(game));
+                resourceHandler.getSound("levelOneBackgroundMusic").stop();
             }
         });
         //--------------------------------------------------------AbilityMenu----------------------------------------------------//
@@ -573,7 +587,7 @@ public class levelOneGenerator implements Screen {
     @Override
     public void render(float delta) {
         level.renderBackground();
-        stage.draw();
+
         elapsed_time += Gdx.graphics.getDeltaTime();
 
         currentFrame = (TextureRegion) runningAnimation.getKeyFrame(elapsed_time);
@@ -590,8 +604,9 @@ public class levelOneGenerator implements Screen {
             checkTowerRange(delta);
             spawnEnemies(Gdx.graphics.getDeltaTime());
             updateAllEntities();
-            makeT2EnemiesMove(delta);
-            makeT1EnemiesMove(delta);
+            //makeT2EnemiesMove(delta);
+            //makeT1EnemiesMove(delta);
+
             checkFireAbilityCollision();
             checkHealth();
             drawAllEntities();
@@ -608,7 +623,7 @@ public class levelOneGenerator implements Screen {
         }
 
         Gdx.gl.glDisable(GL20.GL_BLEND);
-
+        stage.draw();
     }
 
     public void setExplosionAbility(){
@@ -644,8 +659,8 @@ public class levelOneGenerator implements Screen {
                     /*
                     Gdx.app.log(String.valueOf(enemy), String.valueOf(Intersector.overlaps(circle, enemy.getBoundingRectangle())));
                     Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
-
                      */
+
                     resourceHandler.getSound("hitSound").play(0.50f);
                     enemy.setLifeCount(enemy.getLifeCount() - 0.05f);
                     //enemy.timeOfDmgTaken = enemy.timeAlive;
@@ -790,7 +805,7 @@ public class levelOneGenerator implements Screen {
     public void setUpAbility(float x, float y){
         ability = new Array<>();
         fireBallAbility = new PathfindingEnemy(fireBall.idleFrame(), abilityMovementPath(x, y));
-        fireBallAbility.setPosition(0, Gdx.graphics.getHeight() * 0.80f);
+        fireBallAbility.setPosition(720, Gdx.graphics.getHeight() * 0.80f);
         ability.add(fireBallAbility);
     }
     public void createAllEnemies(){
@@ -817,6 +832,7 @@ public class levelOneGenerator implements Screen {
             s.updateAnimation(batch, LevelOne.levelOneBottomPath(), delta, currentFrame);
             //remove entity if life is less than 0, and add 100 coins
             if (s.getLifeCount() <= 0 ) {
+                resourceHandler.getSound("hitSound").play(0.50f);
                 iterator.remove();
                 coins += 100;
             }
@@ -840,6 +856,7 @@ public class levelOneGenerator implements Screen {
             //remove entity if life is less than 0, and add 100 coins
             if (wizard.getLifeCount() <= 0 ) {
                 iteratorBoss.remove();
+                resourceHandler.getSound("hitSound").play(0.50f);
                 coins += 100;
             }
             //remove entity if is otu of bounds, and get player damage
@@ -852,7 +869,7 @@ public class levelOneGenerator implements Screen {
 
     public void checkHealth(){
         if(health <= 0){
-            resourceHandler.getSound("hitSound").play(0.50f);
+
             health = 0;
             stage.addActor(gameOverWindow);
             resourceHandler.getSound("gameOverSound").play(0.10f);

@@ -76,27 +76,26 @@ public class levelTwoGenerator implements Screen {
     private String upgradeAbilityToolTip = "Upgrades every ability. Cost: 500 OptiCoins";
     private float health = 100;
     float[] towerLocation_x = {
-            Gdx.graphics.getWidth() * 0.035f,
-            Gdx.graphics.getWidth() * 0.125f,
-            Gdx.graphics.getWidth() * 0.309f,
-            Gdx.graphics.getWidth() * 0.742f,
-            Gdx.graphics.getWidth() * 0.351f,
-            Gdx.graphics.getWidth() * 0.615f,
-            Gdx.graphics.getWidth() * 0.476f,
-            Gdx.graphics.getWidth() * 0.715f,
-            Gdx.graphics.getWidth() * 0.560f,
+            Gdx.graphics.getWidth() * 0.098f,
+            Gdx.graphics.getWidth() * 0.135f,
+            Gdx.graphics.getWidth() * 0.105f,
+            Gdx.graphics.getWidth() * 0.804f,
+            Gdx.graphics.getWidth() * 0.365f,
+            Gdx.graphics.getWidth() * 0.701f,
+            Gdx.graphics.getWidth() * 0.608f,
+            Gdx.graphics.getWidth() * 0.43f,
+            Gdx.graphics.getWidth() * 0.605f,
     };
     float[] towerLocation_y = {
-            //Gdx.graphics.getHeight() * 0.033f,
-            Gdx.graphics.getHeight() * 0.755f,
-            Gdx.graphics.getHeight() * 0.3f,
-            Gdx.graphics.getHeight() * 0.035f,
-            Gdx.graphics.getHeight() * 0.69f,
-            Gdx.graphics.getHeight() * 0.688f,
-            Gdx.graphics.getHeight() * 0.110f,
-            Gdx.graphics.getHeight() * 0.400f,
-            Gdx.graphics.getHeight() * 0.395f,
-            Gdx.graphics.getHeight() * 0.713f,
+            Gdx.graphics.getHeight() * 0.582f,
+            Gdx.graphics.getHeight() * 0.295f,
+            Gdx.graphics.getHeight() * 0.005f,
+            Gdx.graphics.getHeight() * 0.36f,
+            Gdx.graphics.getHeight() * 0.624f,
+            Gdx.graphics.getHeight() * 0.070f,
+            Gdx.graphics.getHeight() * 0.365f,
+            Gdx.graphics.getHeight() * 0.25f,
+            Gdx.graphics.getHeight() * 0.675f,
     };
 
 
@@ -159,14 +158,16 @@ public class levelTwoGenerator implements Screen {
         //----------------------------------------------------------PauseMenuButtons------------------------------------------------------//
         TextButton continueButton = new TextButton("Continue the Game",uiSkin);
         TextButton exitButton = new TextButton("Exit to Main Menu", uiSkin);
+        TextButton exitButton2 = new TextButton("Exit to Main Menu", uiSkin);
         exitButton.setSize(250f,250f);
+        exitButton2.setSize(250f,250f);
         pause.add(continueButton).row();
         pause.add(exitButton);
         pause.pack();
 
         gameOverWindow = new Window("Game Over", uiSkin);
-        gameOverWindow.add(exitButton);
-        gameOverWindow.pack();
+        gameOverWindow.add(exitButton2);
+        //gameOverWindow.pack();
         gameOverWindow.setVisible(true);
         gameOverWindow.setPosition(stage.getWidth() / 2 - pause.getWidth() / 2, stage.getHeight() / 2 - pause.getHeight() / 2);
         gameOverWindow.setSize(stage.getWidth() / 2.5f, stage.getHeight() / 2.5f);
@@ -188,6 +189,15 @@ public class levelTwoGenerator implements Screen {
                 super.clicked(event, x, y);
                 resourceHandler.getSound("buttonClickSound").play(0.5f);
                 game.setScreen(new MainMenuScreen(game));
+            }
+        });
+        exitButton2.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                resourceHandler.getSound("buttonClickSound").play(0.5f);
+                game.setScreen(new MainMenuScreen(game));
+                resourceHandler.getSound("buttonClickSound").stop();
             }
         });
         //--------------------------------------------------------AbilityMenu----------------------------------------------------//
@@ -526,8 +536,8 @@ public class levelTwoGenerator implements Screen {
             checkTowerRange(delta);
             spawnEnemies(Gdx.graphics.getDeltaTime());
             updateAllEntities();
-            makeT2EnemiesMove(delta);
-            makeT1EnemiesMove(delta);
+            //makeT2EnemiesMove(delta);
+            //makeT1EnemiesMove(delta);
             checkFireAbilityCollision();
             checkHealth();
             drawAllEntities();
