@@ -536,8 +536,8 @@ public class levelTwoGenerator implements Screen {
             checkTowerRange(delta);
             spawnEnemies(Gdx.graphics.getDeltaTime());
             updateAllEntities();
-            //makeT2EnemiesMove(delta);
-            //makeT1EnemiesMove(delta);
+            makeT2EnemiesMove(delta);
+            makeT1EnemiesMove(delta);
             checkFireAbilityCollision();
             checkHealth();
             drawAllEntities();

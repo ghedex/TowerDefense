@@ -309,8 +309,7 @@ public class levelOneGenerator implements Screen {
                 super.clicked(event, x, y);
                 resourceHandler.getSound("buttonClickSound").play(0.5f);
                 if(thunderAbility.isChecked() && coins > 10){
-                    coins -= 10;
-                    Gdx.app.log("Monetas", "Moneten: " + coins);
+                    coins -= 500;
                     dealThunderDamage();
                     Gdx.app.log("Ability", abilityButtonArray.get(1).toString());
                     thunderAbility.setChecked(false);
@@ -604,8 +603,8 @@ public class levelOneGenerator implements Screen {
             checkTowerRange(delta);
             spawnEnemies(Gdx.graphics.getDeltaTime());
             updateAllEntities();
-            //makeT2EnemiesMove(delta);
-            //makeT1EnemiesMove(delta);
+            makeT2EnemiesMove(delta);
+            makeT1EnemiesMove(delta);
 
             checkFireAbilityCollision();
             checkHealth();
