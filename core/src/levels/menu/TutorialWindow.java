@@ -1,9 +1,11 @@
 package levels.menu;
 
+import MainRef.Assets;
 import MainRef.ResourceHandler;
 import MainRef.TowerDefense;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -22,12 +24,11 @@ public class TutorialWindow implements Screen {
     private testActor backButton;
     private testActor levelOneActor;
     private testActor backStageButton;
-    private String tutorialBackground = "core/assets/menuAssets/mainMenuAssets/menuSkin/Tutorial/tutorialBackground.png";
+    //private String tutorialBackground = "core/assets/menuAssets/mainMenuAssets/menuSkin/Tutorial/tutorialBackground.png";
     //private Button optiButton;
     //private AssetManager assetManager;
-    private String BACKBUTTON_PATH = "menuAssets/mainMenuAssets/menuSkin/LevelSelection/button_close.png";
-    private String BACKSTAGEBUTTON_PATH = "menuAssets/mainMenuAssets/menuSkin/LevelSelection/button_left.png";
-    private String LEVELONEBUTTON_PATH = "menuAssets/mainMenuAssets/menuSkin/LevelSelection/level1.png";
+    //private String BACKBUTTON_PATH = "menuAssets/mainMenuAssets/menuSkin/LevelSelection/button_close.png";
+    //private String BACKSTAGEBUTTON_PATH = "menuAssets/mainMenuAssets/menuSkin/LevelSelection/button_left.png";
     private BitmapFont font;
     private final int FourTwentyBlazeIt = 420;
     SpriteBatch batch;
@@ -41,29 +42,11 @@ public class TutorialWindow implements Screen {
         stage = new Stage(new ScreenViewport());
         menu = new mainMenu();
         resourceHandler.loadSound("menuAssets/mainMenuAssets/buttonAssets/buttonClick.mp3", "buttonClickSound");
-
         Gdx.input.setInputProcessor(stage);
-        backButton = new testActor(BACKSTAGEBUTTON_PATH, Gdx.graphics.getWidth()/100*25, Gdx.graphics.getHeight()/100*20, 100, 100);
-
-
-        /*
-        backButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                resourceHandler.getSound("buttonClickSound").play(0.5f);
-                game.setScreen(new MainMenuScreen(game));
-                //Gdx.app.exit();
-            }
-        });
-
-         */
+        backButton = new testActor(Assets.manager.get(Assets.menuCloseButton, Texture.class), Gdx.graphics.getWidth()/100*25, Gdx.graphics.getHeight()/100*20, 100, 100);
         batch = new SpriteBatch();
-
-
         goBack(backButton);
-
-        menu.createBackground(tutorialBackground);
+        menu.createBackground(Assets.manager.get(Assets.tutorialBackground, Texture.class));
         stage.addActor(backButton);
         font = new BitmapFont();
 

@@ -1,5 +1,6 @@
 package levels;
 
+import MainRef.Assets;
 import MainRef.ResourceHandler;
 import MainRef.TowerDefense;
 import abilities.Ability;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 
 import com.badlogic.gdx.graphics.g2d.*;
@@ -24,7 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import enemy.bossSkeleton.TreeBoss;
+import enemy.bossSkeleton.LevelOneBoss;
 import enemy.scorpionEntity.Scorpion;
 import enemy.wizardEntity.Wizard;
 import levels.menu.testActor;
@@ -47,7 +49,7 @@ public class levelTwoGenerator implements Screen {
     PathfindingEnemy scorpionEnemy, wizardEnemy, fireBallAbility;
     Scorpion scorpion;
     Wizard wizard;
-    TreeBoss treeBoss;
+    LevelOneBoss levelOneBoss;
     Ability fireBall, damage = new Ability();
     private Array<Vector2> abilityPath;
     private boolean isPaused;
@@ -132,8 +134,6 @@ public class levelTwoGenerator implements Screen {
         toolTipManager.hideAll();
         toolTipManager.instant();
         Gdx.input.setInputProcessor(stage);
-        resourceHandler.loadSound("menuAssets/mainMenuAssets/buttonAssets/buttonClick.mp3", "buttonClickSound");
-        resourceHandler.loadSound("core/assets/menuAssets/mainMenuAssets/music/gameOver.mp3", "gameOverSound");
         uiSkin = new Skin(Gdx.files.internal("menuAssets/mainMenuAssets/menuSkin/skin/uiskin.json"), new TextureAtlas("menuAssets/mainMenuAssets/menuSkin/skin/uiskin.atlas"));
         fireAbilitySkin = new Skin(Gdx.files.internal("abilities/abilitesSkin/fire/fireAbilitySkin.json"), new TextureAtlas("abilities/abilitesSkin/fire/fireAbilitySkin.atlas"));
         archerTowerSkin = new Skin(Gdx.files.internal("core/assets/background/tower/towerImages/archerTower.json"), new TextureAtlas("core/assets/background/tower/towerImages/archerTower.atlas"));
@@ -179,7 +179,7 @@ public class levelTwoGenerator implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 isPaused = !isPaused;
-                resourceHandler.getSound("buttonClickSound").play(0.5f);
+                Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
                 pause.setVisible(false);
             }
         });
@@ -187,7 +187,7 @@ public class levelTwoGenerator implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                resourceHandler.getSound("buttonClickSound").play(0.5f);
+                Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
                 game.setScreen(new MainMenuScreen(game));
             }
         });
@@ -195,9 +195,9 @@ public class levelTwoGenerator implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                resourceHandler.getSound("buttonClickSound").play(0.5f);
+                Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
                 game.setScreen(new MainMenuScreen(game));
-                resourceHandler.getSound("buttonClickSound").stop();
+                Assets.manager.get(Assets.buttonClickSound, Sound.class).stop();
             }
         });
         //--------------------------------------------------------AbilityMenu----------------------------------------------------//
@@ -258,7 +258,7 @@ public class levelTwoGenerator implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                resourceHandler.getSound("buttonClickSound").play(0.5f);
+                Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
                 if(fireAbility.isChecked()){
                     rangeCircle = true;
                     stage.addListener(placementListener = new ClickListener(Input.Buttons.LEFT) {
@@ -292,7 +292,7 @@ public class levelTwoGenerator implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                resourceHandler.getSound("buttonClickSound").play(0.5f);
+                Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
                 if(thunderAbility.isChecked() && coins > 10){
                     coins -= 10;
                     Gdx.app.log("Monetas", "Moneten: " + coins);
@@ -313,7 +313,7 @@ public class levelTwoGenerator implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                resourceHandler.getSound("buttonClickSound").play(0.5f);
+                Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
                 isPaused = !isPaused;
                 pause.setVisible(!pause.isVisible());
             }
@@ -322,7 +322,7 @@ public class levelTwoGenerator implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                resourceHandler.getSound("buttonClickSound").play(0.5f);
+                Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
                 tower.setVisible(false);
             }
         });
@@ -332,7 +332,7 @@ public class levelTwoGenerator implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                resourceHandler.getSound("buttonClickSound").play(0.5f);
+                Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
                 abilityList.setVisible(!abilityList.isVisible());
             }
         });
@@ -343,7 +343,7 @@ public class levelTwoGenerator implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                resourceHandler.getSound("buttonClickSound").play(0.5f);
+                Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
                 damage.setThunderDamage(damage.getThunderDamage() + 5f);
                 thunderAbilityToolTip = "Deals "+ damage.getThunderDamage() + " Damage to all enemies";
                 Gdx.app.log("Thunder Damage", String.valueOf(damage.getThunderDamage()));
@@ -358,7 +358,7 @@ public class levelTwoGenerator implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 System.out.println("bin im tower array");
-                resourceHandler.getSound("buttonClickSound").play(0.5f);
+                Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
                 tower.setVisible(!tower.isVisible());
                 /*
                 HIER INPUT PAUSE MENÜ ENTFERNEN
@@ -381,7 +381,7 @@ public class levelTwoGenerator implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
-                    resourceHandler.getSound("buttonClickSound").play(0.5f);
+                    Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
                     Gdx.app.log("towerList: ", String.valueOf(finalI));
                 }
             });
@@ -414,7 +414,7 @@ public class levelTwoGenerator implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                resourceHandler.getSound("buttonClickSound").play(0.5f);
+                Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
                 Gdx.app.log("towerListener","");
             }
         };
@@ -437,7 +437,7 @@ public class levelTwoGenerator implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
-                    resourceHandler.getSound("buttonClickSound").play(0.5f);
+                    Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
                     if(towers.get(finalI).isChecked()) {
                         towers.get(finalI).setChecked(false);
                         tower.setVisible(!tower.isVisible());
@@ -717,7 +717,7 @@ public class levelTwoGenerator implements Screen {
         ability.add(fireBallAbility);
     }
     public void createAllEnemies(){
-        treeBoss = new TreeBoss();
+        levelOneBoss = new LevelOneBoss();
         scorpion = new Scorpion();
         wizard = new Wizard();
     }
@@ -746,8 +746,8 @@ public class levelTwoGenerator implements Screen {
                 iterator.remove();
                 coins += 100;
                 health -= 15;
+                Assets.manager.get(Assets.scorpionDeathSound, Sound.class).play(0.5f);
             }
-
         }
     }
 
@@ -772,7 +772,7 @@ public class levelTwoGenerator implements Screen {
         if(health <= 0){
             health = 0;
             stage.addActor(gameOverWindow);
-            resourceHandler.getSound("gameOverSound").play(0.10f);
+            Assets.manager.get(Assets.gameOverSound, Sound.class).play(0.10f);
             isPaused = true;
         }
     }
@@ -796,7 +796,7 @@ public class levelTwoGenerator implements Screen {
             enemySpawnTimer -= timeBetweenEnemySpawns;
         }
         if(enemySpawnTimer2 > timeBetweenEnemySpawns2){
-            wizardLinkedList.add(new PathfindingEnemy(treeBoss.idleFrame(), 100, LevelTwo.levelTwoTopPath()));
+            wizardLinkedList.add(new PathfindingEnemy(levelOneBoss.idleFrame(), 100, LevelTwo.levelTwoTopPath()));
             enemySpawnTimer2 -= timeBetweenEnemySpawns2;
         }
     }

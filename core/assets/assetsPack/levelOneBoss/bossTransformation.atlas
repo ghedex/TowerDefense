@@ -1,0 +1,76 @@
+
+bossTransformation.png
+size: 2048, 256
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+0_boss_attack
+  rotate: false
+  xy: 2, 2
+  size: 190, 175
+  orig: 190, 175
+  offset: 0, 0
+  index: 3
+0_boss_attack
+  rotate: false
+  xy: 194, 2
+  size: 190, 175
+  orig: 190, 175
+  offset: 0, 0
+  index: 8
+0_boss_attack
+  rotate: false
+  xy: 386, 2
+  size: 190, 175
+  orig: 190, 175
+  offset: 0, 0
+  index: 0
+0_boss_attack
+  rotate: false
+  xy: 578, 2
+  size: 190, 175
+  orig: 190, 175
+  offset: 0, 0
+  index: 5
+0_boss_attack
+  rotate: false
+  xy: 770, 2
+  size: 190, 175
+  orig: 190, 175
+  offset: 0, 0
+  index: 2
+0_boss_attack
+  rotate: false
+  xy: 962, 2
+  size: 190, 175
+  orig: 190, 175
+  offset: 0, 0
+  index: 7
+0_boss_attack
+  rotate: false
+  xy: 1154, 2
+  size: 190, 175
+  orig: 190, 175
+  offset: 0, 0
+  index: 4
+0_boss_attack
+  rotate: false
+  xy: 1346, 2
+  size: 190, 175
+  orig: 190, 175
+  offset: 0, 0
+  index: 9
+0_boss_attack
+  rotate: false
+  xy: 1538, 2
+  size: 190, 175
+  orig: 190, 175
+  offset: 0, 0
+  index: 1
+0_boss_attack
+  rotate: false
+  xy: 1730, 2
+  size: 190, 175
+  orig: 190, 175
+  offset: 0, 0
+  index: 6
