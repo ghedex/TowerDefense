@@ -11,6 +11,10 @@ public class TowerDefense extends Game {
         Pixmap pm = new Pixmap(Gdx.files.internal("cursor/cursor_placeholder_32.png"));
         Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, 0, 0));
         pm.dispose();
+        Assets.load();
+        while(!Assets.manager.update()){
+            System.out.println(Assets.manager.getProgress() * 100 + "%");
+        }
         this.setScreen(new MainMenuScreen(this));
     }
 

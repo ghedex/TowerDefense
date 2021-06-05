@@ -11,7 +11,7 @@ import enemy.scorpionEntity.Scorpion;
 public class PathfindingEnemy extends Sprite {
 
     private Vector2 velocity = new Vector2();
-    private float speed = 75, tolerance = 3, abilitySpeed = 350;
+    private float speed = 75, tolerance = 3, abilitySpeed = 350, bossSpeed = 35;
     private TextureRegion entity;
     public Array<Vector2> getPath() {
         return path;
@@ -38,11 +38,11 @@ public class PathfindingEnemy extends Sprite {
         this.setBounds(this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
 
+
     public PathfindingEnemy(TextureRegion entity, float x, float y){
         super(entity);
         this.setPosition(x, y);
     }
-
     public PathfindingEnemy(TextureRegion entity, float lifeCount, Array<Vector2> path){
         super(entity);
         this.lifeCount = lifeCount;
@@ -60,7 +60,7 @@ public class PathfindingEnemy extends Sprite {
         float angle = (float) Math.atan2(path.get(waypoint).y - getY(), path.get(waypoint).x - getX());
         velocity.set((float) Math.cos(angle) * abilitySpeed, (float) Math.sin(angle) * abilitySpeed);
         setPosition(getX() + velocity.x * Gdx.graphics.getDeltaTime(), getY() + velocity.y * Gdx.graphics.getDeltaTime());
-        if(isWaypointReached()){
+        if(isWaypointReached(abilitySpeed)){
             setPosition(path.get(waypoint).x, path.get(waypoint).y);
             if(waypoint + 1 >= path.size){
                 waypoint = 0;
@@ -99,7 +99,7 @@ public class PathfindingEnemy extends Sprite {
         batch.draw(currentFrame, getX() + velocity.x * Gdx.graphics.getDeltaTime(),getY() + velocity.y * Gdx.graphics.getDeltaTime());
         setPosition(getX() + velocity.x * Gdx.graphics.getDeltaTime(), getY() + velocity.y * Gdx.graphics.getDeltaTime());
 
-        if(isWaypointReached()){
+        if(isWaypointReached(speed)){
             setPosition(path.get(waypoint).x, path.get(waypoint).y);
             if(waypoint + 1 >= path.size){
                 waypoint = 0;
@@ -110,9 +110,33 @@ public class PathfindingEnemy extends Sprite {
         }
 
     }
+    public void updateBossAnimation(SpriteBatch batch, Array<Vector2> path, float delta, TextureRegion currentFrame, float speed){
+        //super.draw(batch);
+        timeAlive+= delta;
+        this.path = path;
+        float angle = (float) Math.atan2(path.get(waypoint).y - getY(), path.get(waypoint).x - getX());
+        velocity.set((float) Math.cos(angle) * speed, (float) Math.sin(angle) * speed);
+
+        batch.draw(currentFrame, getX() + velocity.x * Gdx.graphics.getDeltaTime(),getY() + velocity.y * Gdx.graphics.getDeltaTime());
+        setPosition(getX() + velocity.x * Gdx.graphics.getDeltaTime(), getY() + velocity.y * Gdx.graphics.getDeltaTime());
+
+        if(isWaypointReached(speed)){
+            setPosition(path.get(waypoint).x, path.get(waypoint).y);
+            if(waypoint + 1 >= path.size){
+                waypoint = 0;
+            }
+            else{
+                waypoint++;
+            }
+        }
+    }
     public void setPosition(){
         setPosition(getX() + velocity.x * Gdx.graphics.getDeltaTime(), getY() + velocity.y * Gdx.graphics.getDeltaTime());
     }
+    public void setBossPosition(float x, float y){
+        setPosition(x, y);
+    }
+
     public boolean isWaypointReached(float speed){
         return path.get(waypoint).x - getX() <= speed / tolerance * Gdx.graphics.getDeltaTime() && path.get(waypoint).y - getY() <= speed / tolerance * Gdx.graphics.getDeltaTime() ;
     }

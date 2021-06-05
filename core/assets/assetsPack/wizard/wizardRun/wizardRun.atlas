@@ -1,0 +1,146 @@
+
+wizardRun.png
+size: 1024, 128
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+2_enemies_1_walk
+  rotate: false
+  xy: 2, 2
+  size: 84, 106
+  orig: 84, 106
+  offset: 0, 0
+  index: 8
+2_enemies_1_walk
+  rotate: false
+  xy: 2, 2
+  size: 84, 106
+  orig: 84, 106
+  offset: 0, 0
+  index: 12
+2_enemies_1_walk
+  rotate: false
+  xy: 88, 2
+  size: 84, 106
+  orig: 84, 106
+  offset: 0, 0
+  index: 0
+2_enemies_1_walk
+  rotate: false
+  xy: 174, 2
+  size: 84, 106
+  orig: 84, 106
+  offset: 0, 0
+  index: 13
+2_enemies_1_walk
+  rotate: false
+  xy: 174, 2
+  size: 84, 106
+  orig: 84, 106
+  offset: 0, 0
+  index: 7
+2_enemies_1_walk
+  rotate: false
+  xy: 260, 2
+  size: 84, 106
+  orig: 84, 106
+  offset: 0, 0
+  index: 5
+2_enemies_1_walk
+  rotate: false
+  xy: 260, 2
+  size: 84, 106
+  orig: 84, 106
+  offset: 0, 0
+  index: 15
+2_enemies_1_walk
+  rotate: false
+  xy: 346, 2
+  size: 84, 106
+  orig: 84, 106
+  offset: 0, 0
+  index: 18
+2_enemies_1_walk
+  rotate: false
+  xy: 346, 2
+  size: 84, 106
+  orig: 84, 106
+  offset: 0, 0
+  index: 2
+2_enemies_1_walk
+  rotate: false
+  xy: 432, 2
+  size: 84, 106
+  orig: 84, 106
+  offset: 0, 0
+  index: 10
+2_enemies_1_walk
+  rotate: false
+  xy: 518, 2
+  size: 84, 106
+  orig: 84, 106
+  offset: 0, 0
+  index: 4
+2_enemies_1_walk
+  rotate: false
+  xy: 518, 2
+  size: 84, 106
+  orig: 84, 106
+  offset: 0, 0
+  index: 16
+2_enemies_1_walk
+  rotate: false
+  xy: 604, 2
+  size: 84, 106
+  orig: 84, 106
+  offset: 0, 0
+  index: 17
+2_enemies_1_walk
+  rotate: false
+  xy: 604, 2
+  size: 84, 106
+  orig: 84, 106
+  offset: 0, 0
+  index: 3
+2_enemies_1_walk
+  rotate: false
+  xy: 690, 2
+  size: 84, 106
+  orig: 84, 106
+  offset: 0, 0
+  index: 9
+2_enemies_1_walk
+  rotate: false
+  xy: 690, 2
+  size: 84, 106
+  orig: 84, 106
+  offset: 0, 0
+  index: 11
+2_enemies_1_walk
+  rotate: false
+  xy: 776, 2
+  size: 84, 106
+  orig: 84, 106
+  offset: 0, 0
+  index: 1
+2_enemies_1_walk
+  rotate: false
+  xy: 776, 2
+  size: 84, 106
+  orig: 84, 106
+  offset: 0, 0
+  index: 19
+2_enemies_1_walk
+  rotate: false
+  xy: 862, 2
+  size: 84, 106
+  orig: 84, 106
+  offset: 0, 0
+  index: 14
+2_enemies_1_walk
+  rotate: false
+  xy: 862, 2
+  size: 84, 106
+  orig: 84, 106
+  offset: 0, 0
+  index: 6

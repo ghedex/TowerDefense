@@ -1,5 +1,6 @@
 package levels.menu;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -23,13 +24,19 @@ public class testActor extends Actor {
         addAction(action);
     }
 
-    public testActor(String imagePath, float x, float y){
-        sprite = new Sprite(new Texture(imagePath));
+    public testActor(Texture imagePath, float x, float y){
+        sprite = new Sprite(new Texture(Gdx.files.internal(String.valueOf(imagePath))));
         sprite.setPosition(x, y);
         setBounds(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
     }
     public testActor(String imagePath, float x, float y, float width, float height){
         sprite = new Sprite(new Texture(imagePath));
+        sprite.setPosition(x, y);
+        sprite.setSize(width, height);
+        setBounds(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
+    }
+    public testActor(Texture imagePath, float x, float y, float width, float height){
+        sprite = new Sprite(new Texture(Gdx.files.internal(String.valueOf(imagePath))));
         sprite.setPosition(x, y);
         sprite.setSize(width, height);
         setBounds(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());

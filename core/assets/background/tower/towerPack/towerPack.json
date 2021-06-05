@@ -1,0 +1,16 @@
+{
+  com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
+    "archer":{
+      imageUp: "archerTower_default"
+      imageChecked: "archerTower_upgraded"
+    }
+    "magician":{
+      imageUp: "magicianTower_default"
+    }
+    "support":{
+      imageUp: "supportTower_default"
+    }
+    "default": {
+    }
+  }
+}
