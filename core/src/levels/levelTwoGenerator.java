@@ -34,8 +34,8 @@ import java.util.*;
 
 public class levelTwoGenerator implements Screen {
     final TowerDefense game;
-    testActor pauseButtonActor, abilityButtonActor, spawnButtonActor, towerMenueActor;
-    Window pause, abilityList, tower, gameOverWindow;
+    testActor pauseButtonActor, abilityButtonActor, upgradeAbilityButtonActor, towerMenueActor, backgroundHUD;
+    Window pause, abilityList, tower, gameOverWindow, HUD_BACKGROUND;
     Stage stage;
     TooltipManager toolTipManager;
     ShapeRenderer shapeRenderer, towerAttackRange;
@@ -60,6 +60,7 @@ public class levelTwoGenerator implements Screen {
     private String pauseButton = "menuAssets/mainMenuAssets/buttonAssets/button_pause.png";
     private String abilityButton = "core/assets/abilities/abilitesSkin/btton_abilities.png";
     private String upgradeAbilityButton = "core/assets/abilities/abilitesSkin/upgradeButton.png";
+    private String backgroundGameHUD = "core/assets/normal_window.png";
     private Skin uiSkin, fireAbilitySkin, thunderAbilitySkin, fireBallSkin, windowSkin, towerPlacementSkin, archerTowerSkin, supportTowerSkin, magicianTowerSkin;
 
     private boolean towerIsPlaced;
@@ -150,6 +151,7 @@ public class levelTwoGenerator implements Screen {
         //TODO outsource to a different file
         Window.WindowStyle windowStyle = new Window.WindowStyle();
         windowStyle.background = windowSkin.getDrawable("default-window");
+
         pause = new Window("Pause", uiSkin);
         pause.setVisible(false);
         pause.padTop(64);
@@ -338,8 +340,10 @@ public class levelTwoGenerator implements Screen {
         });
         //towerMenue = new testActor(towerMenueIcon, Gdx.graphics.getWidth()/100*11f, Gdx.graphics.getHeight()/100*89f, 90f, 90f);
 
-        spawnButtonActor = new testActor(upgradeAbilityButton, Gdx.graphics.getWidth()*0.21f, Gdx.graphics.getHeight()*0.865f, 90,90);
-        spawnButtonActor.addListener(new ClickListener(){
+        upgradeAbilityButtonActor = new testActor(upgradeAbilityButton, Gdx.graphics.getWidth()*0.21f, Gdx.graphics.getHeight()*0.865f, 90,90);
+        backgroundHUD = new testActor(backgroundGameHUD, Gdx.graphics.getWidth()*0.79f, Gdx.graphics.getHeight()*0.75f, 250,150);
+
+        upgradeAbilityButtonActor.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -350,6 +354,13 @@ public class levelTwoGenerator implements Screen {
             }
         });
 
+        /*
+        HUD_BACKGROUND = new Window("", uiSkin);
+        HUD_BACKGROUND.setBackground(backgroundGameHUD);
+        HUD_BACKGROUND.setVisible(true);
+        HUD_BACKGROUND.setPosition(250, 250);
+
+         */
         tower = new Window("Choose a tower to place", uiSkin);
         tower.setVisible(false);
         TextButton continueButton2 = new TextButton("Cancel", uiSkin);
@@ -357,14 +368,9 @@ public class levelTwoGenerator implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                System.out.println("bin im tower array");
                 resourceHandler.getSound("buttonClickSound").play(0.5f);
                 tower.setVisible(!tower.isVisible());
-                /*
-                HIER INPUT PAUSE MENÜ ENTFERNEN
 
-
-                 */
             }
         });
         //Create Towers
@@ -479,18 +485,19 @@ public class levelTwoGenerator implements Screen {
         //font for coins, health etc.
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("core/assets/riffic-bold.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 36;
+        parameter.size = 30;
         font12 = generator.generateFont(parameter);
         generator.dispose();
         font = new BitmapFont();
-        font.getData().setScale(2);
+        font.getData().setScale(1);
         batch = new SpriteBatch();
         level = new LevelTwo();
         level.createBackground();
         addBuildingPlacesToStage();
         stage.addActor(pauseButtonActor);
         stage.addActor(abilityButtonActor);
-        stage.addActor(spawnButtonActor);
+        stage.addActor(upgradeAbilityButtonActor);
+        stage.addActor(backgroundHUD);
         stage.addActor(pause);
         stage.addActor(abilityList);
         stage.addActor(tower);
@@ -543,8 +550,8 @@ public class levelTwoGenerator implements Screen {
             drawAllEntities();
         }
 
-        font12.draw(batch, "Coins: " + coins, 1000, 650);
-        font12.draw(batch, "Health: " + health, 1000, 600);
+        font12.draw(batch, "Coins: " + coins, 1035, 650);
+        font12.draw(batch, "Health: " + health, 1035, 600);
 
         batch.end();
         Gdx.gl.glEnable(GL20.GL_BLEND);

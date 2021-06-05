@@ -70,7 +70,7 @@ public class LevelOne extends ApplicationAdapter {
         path.add(new Vector2(640, 375));
         path.add(new Vector2(650, 400));
         path.add(new Vector2(900, 400));
-        path.add(new Vector2(1200, 360));
+        path.add(new Vector2(1400, 360));
 
         return path;
 
