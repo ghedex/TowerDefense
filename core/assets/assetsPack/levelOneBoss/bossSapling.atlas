@@ -1,0 +1,146 @@
+
+bossSapling.png
+size: 1024, 256
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+0_boss_specialty_2
+  rotate: false
+  xy: 2, 129
+  size: 138, 125
+  orig: 138, 125
+  offset: 0, 0
+  index: 6
+0_boss_specialty_2
+  rotate: false
+  xy: 2, 129
+  size: 138, 125
+  orig: 138, 125
+  offset: 0, 0
+  index: 14
+0_boss_specialty_2
+  rotate: false
+  xy: 2, 2
+  size: 138, 125
+  orig: 138, 125
+  offset: 0, 0
+  index: 19
+0_boss_specialty_2
+  rotate: false
+  xy: 2, 2
+  size: 138, 125
+  orig: 138, 125
+  offset: 0, 0
+  index: 1
+0_boss_specialty_2
+  rotate: false
+  xy: 142, 129
+  size: 138, 125
+  orig: 138, 125
+  offset: 0, 0
+  index: 11
+0_boss_specialty_2
+  rotate: false
+  xy: 142, 129
+  size: 138, 125
+  orig: 138, 125
+  offset: 0, 0
+  index: 9
+0_boss_specialty_2
+  rotate: false
+  xy: 142, 2
+  size: 138, 125
+  orig: 138, 125
+  offset: 0, 0
+  index: 3
+0_boss_specialty_2
+  rotate: false
+  xy: 142, 2
+  size: 138, 125
+  orig: 138, 125
+  offset: 0, 0
+  index: 17
+0_boss_specialty_2
+  rotate: false
+  xy: 282, 129
+  size: 138, 125
+  orig: 138, 125
+  offset: 0, 0
+  index: 16
+0_boss_specialty_2
+  rotate: false
+  xy: 282, 129
+  size: 138, 125
+  orig: 138, 125
+  offset: 0, 0
+  index: 4
+0_boss_specialty_2
+  rotate: false
+  xy: 282, 2
+  size: 138, 125
+  orig: 138, 125
+  offset: 0, 0
+  index: 8
+0_boss_specialty_2
+  rotate: false
+  xy: 282, 2
+  size: 138, 125
+  orig: 138, 125
+  offset: 0, 0
+  index: 12
+0_boss_specialty_2
+  rotate: false
+  xy: 422, 129
+  size: 138, 125
+  orig: 138, 125
+  offset: 0, 0
+  index: 0
+0_boss_specialty_2
+  rotate: false
+  xy: 422, 2
+  size: 138, 125
+  orig: 138, 125
+  offset: 0, 0
+  index: 13
+0_boss_specialty_2
+  rotate: false
+  xy: 422, 2
+  size: 138, 125
+  orig: 138, 125
+  offset: 0, 0
+  index: 7
+0_boss_specialty_2
+  rotate: false
+  xy: 562, 129
+  size: 138, 125
+  orig: 138, 125
+  offset: 0, 0
+  index: 5
+0_boss_specialty_2
+  rotate: false
+  xy: 562, 129
+  size: 138, 125
+  orig: 138, 125
+  offset: 0, 0
+  index: 15
+0_boss_specialty_2
+  rotate: false
+  xy: 562, 2
+  size: 138, 125
+  orig: 138, 125
+  offset: 0, 0
+  index: 18
+0_boss_specialty_2
+  rotate: false
+  xy: 562, 2
+  size: 138, 125
+  orig: 138, 125
+  offset: 0, 0
+  index: 2
+0_boss_specialty_2
+  rotate: false
+  xy: 702, 129
+  size: 138, 125
+  orig: 138, 125
+  offset: 0, 0
+  index: 10

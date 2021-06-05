@@ -10,6 +10,7 @@ public class Prefs {
     public Prefs(){
         prefs = Gdx.app.getPreferences("My Preferences");
         soundOn = prefs.getBoolean("soundOn", soundOn);
+
     }
     public void setSound(boolean soundOn){
         this.soundOn = soundOn;

@@ -6,14 +6,14 @@ import enemy.Entity;
 
 public class Wizard extends Entity {
 
-    public static final int WIDTH = 110;
-    public static final int HEIGHT = 110;
+    public static final int WIDTH = 50;
+    public static final int HEIGHT = 50;
 
     //Lifebar lifebar = new Lifebar();
 
 
     public Wizard() {
-        super(WIDTH, HEIGHT, 50, "assetsPack/wizard/wizardRunning/wizardRunning.atlas");
+        super(WIDTH, HEIGHT, 50, "assetsPack/wizard/wizardRun/wizardRun.atlas");
         //this.setBounds(getX(),getY(),getWIDTH(),getHEIGHT());
         /*
         lifebar.setZIndex(100);

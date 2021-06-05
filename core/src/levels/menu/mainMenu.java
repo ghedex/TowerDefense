@@ -27,9 +27,9 @@ public class mainMenu extends ApplicationAdapter{
         menuBackground = new Texture(Gdx.files.internal((BACKGROUNDPATH)));
         img = new Sprite(menuBackground, menuBackground.getWidth(), menuBackground.getHeight());
     }
-    public void createBackground(String path) {
+    public void createBackground(Texture texture) {
         batch = new SpriteBatch();
-        menuBackground = new Texture(Gdx.files.internal((path)));
+        menuBackground = new Texture(Gdx.files.internal(String.valueOf(texture)));
         img = new Sprite(menuBackground, menuBackground.getWidth(), menuBackground.getHeight());
     }
 
