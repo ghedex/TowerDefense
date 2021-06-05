@@ -16,6 +16,8 @@ public class Ability extends Entity {
     private float fireDamage = 5f;
     private float thunderDamage = 50f;
 
+    private float explosionDamage = 100f;
+
 
     public Ability() {
         super(WIDTH, HEIGHT, 1, "abilities/abilitesSkin/abilitiesSkin.atlas");
@@ -36,4 +38,13 @@ public class Ability extends Entity {
     public void setThunderDamage(float thunderDamage) {
         this.thunderDamage = thunderDamage;
     }
+
+    public float getExplosionDamage() {
+        return explosionDamage;
+    }
+
+    public void setExplosionDamage(float explosionDamage) {
+        this.explosionDamage = explosionDamage;
+    }
+
 }

@@ -36,7 +36,12 @@ public class PathfindingEnemy extends Sprite {
         this.path = path;
         this.setPosition(path.first().x, path.first().y);
         this.setBounds(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+    }
 
+
+    public PathfindingEnemy(TextureRegion entity, float x, float y){
+        super(entity);
+        this.setPosition(x, y);
     }
     public PathfindingEnemy(TextureRegion entity, float lifeCount, Array<Vector2> path){
         super(entity);
@@ -65,7 +70,6 @@ public class PathfindingEnemy extends Sprite {
             }
         }
     }
-
     public void update(SpriteBatch batch, Array<Vector2> path, float delta){
         super.draw(batch);
         timeAlive+= delta;
@@ -132,6 +136,7 @@ public class PathfindingEnemy extends Sprite {
     public void setBossPosition(float x, float y){
         setPosition(x, y);
     }
+
     public boolean isWaypointReached(float speed){
         return path.get(waypoint).x - getX() <= speed / tolerance * Gdx.graphics.getDeltaTime() && path.get(waypoint).y - getY() <= speed / tolerance * Gdx.graphics.getDeltaTime() ;
     }
@@ -143,14 +148,5 @@ public class PathfindingEnemy extends Sprite {
         this.lifeCount = lifeCount;
     }
 
-    public void preDraw(){
-        if(timeAlive < timeOfDmgTaken + BLINK_TIME_AFTER_DMG){
-            //float t = (timeAlive - timeOfDmgTaken) / BLINK_TIME_AFTER_DMG;
-            //t = t * t;
-            setColor(1,1,1, 0.25f);
-        }
-    }
-    public void postDraw(){
-        setColor(1,1,1,1);
-    }
+
 }
