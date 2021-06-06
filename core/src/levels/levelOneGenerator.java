@@ -40,7 +40,7 @@ import java.util.*;
 
 public class levelOneGenerator implements Screen {
     final TowerDefense game;
-    testActor pauseButtonActor, abilityButtonActor, upgradeAbilityButtonActor, towerMenueActor, backgroundHUD;
+    testActor pauseButtonActor, abilityButtonActor, upgradeAbilityButtonActor, towerMenueActor, backgroundHUD, backgroundHUD2;
     Window pause, abilityList, tower, gameOverWindow, backgroundWindow, victoryWindow;
     Stage stage;
     TooltipManager toolTipManager;
@@ -146,6 +146,8 @@ public class levelOneGenerator implements Screen {
 
     @Override
     public void show() {
+        Assets.manager.get(Assets.levelOneBackgroundMusic, Music.class).play();
+        //Assets.manager.get(Assets.bossLevelOneMusic, Music.class).play();
         stage = new Stage(new ScreenViewport());
         toolTipManager = new TooltipManager();
         toolTipManager.initialTime = 0.0f;
@@ -402,7 +404,8 @@ public class levelOneGenerator implements Screen {
                 pause.setVisible(!pause.isVisible());
             }
         });
-        backgroundHUD = new testActor(backgroundGameHUD, Gdx.graphics.getWidth()*0.01f, Gdx.graphics.getHeight()*0.65f, 250,150);
+        backgroundHUD = new testActor(backgroundGameHUD, Gdx.graphics.getWidth()*0.01f, Gdx.graphics.getHeight()*0.62f, 270,175);
+        backgroundHUD2 = new testActor(backgroundGameHUD, Gdx.graphics.getWidth()*0.01f, Gdx.graphics.getHeight()*0.58f, 270,200);
         continueButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -581,7 +584,7 @@ public class levelOneGenerator implements Screen {
         //font for coins, health etc.
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("core/assets/riffic-bold.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 30;
+        parameter.size = 24;
         font12 = generator.generateFont(parameter);
         generator.dispose();
         font = new BitmapFont();
@@ -667,20 +670,25 @@ public class levelOneGenerator implements Screen {
         }
 
         font12.draw(batch, "Coins: " + coins, 25, 590);
-        font12.draw(batch, "Health: " + health, 25, 540);
+        font12.draw(batch, "Health: " + health, 25, 550);
         if(enemyCount == 0){
+            Assets.manager.get(Assets.levelOneBackgroundMusic, Music.class).stop();
+            Assets.manager.get(Assets.bossLevelOneMusic, Music.class).play();
             if(bossUpdate == 0){
-                font12.draw(batch, "Boss HP: " + (int)bossPath.getLifeCount(), 10, 500);
+                font12.draw(batch, "Boss HP: " + (int)bossPath.getLifeCount(), 25, 510);
+
             }else{
-                int y = 500;
+                int y = 510;
+                stage.addActor(backgroundHUD2);
                 for(Iterator<PathfindingEnemy> saplingIterator = bossLinkedList.iterator(); saplingIterator.hasNext();){
                     PathfindingEnemy sapling = saplingIterator.next();
-                    font12.draw(batch, "Sapling HP: " + (int)sapling.getLifeCount(), 10, y);
-                    y -= 50;
+                    backgroundHUD.remove();
+                    font12.draw(batch, "Sapling HP: " + (int)sapling.getLifeCount(), 25, y);
+                    y -= 40;
                 }
             }
         }else{
-            font12.draw(batch, "Enemies until Boss: " + enemyCount, 10, 500);
+            font12.draw(batch, "Enemies left: " + enemyCount, 25, 510);
         }
         batch.end();
         Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -740,14 +748,14 @@ public class levelOneGenerator implements Screen {
                 }
             }if(enemyCount == 0){
                 if(bossUpdate == 0){
-                    if(Intersector.overlaps(circle, bossPath.getBoundingRectangle()) && bossPath.getX() >= 0){
+                    if(Intersector.overlaps(circle, bossPath.getBoundingRectangle())){
                         Gdx.app.log("bossHealth: ", String.valueOf(bossPath.getLifeCount()));
                         bossPath.setLifeCount(bossPath.getLifeCount() - 0.02f);
                     }
                 }else{
                     for (Iterator<PathfindingEnemy> iterator = bossLinkedList.iterator(); iterator.hasNext(); ) {
                         PathfindingEnemy sapling = iterator.next();
-                        if(Intersector.overlaps(circle, sapling.getBoundingRectangle()) && sapling.getX() >= 0) {
+                        if(Intersector.overlaps(circle, sapling.getBoundingRectangle())) {
                             sapling.setLifeCount(sapling.getLifeCount() - 0.05f);
                         }
                     }
@@ -901,16 +909,6 @@ public class levelOneGenerator implements Screen {
         shapeRenderer.circle(Gdx.input.getX(), 720 - Gdx.input.getY(), 50f);
         shapeRenderer.end();
     }
-    public void drawRange(int i, float x, float y){
-        towerAttackCircle.add(i, new Circle());
-        towerAttackCircle.get(i).set(x + 54f, y + 32f,100f);
-        /*towerAttackRange.begin(ShapeRenderer.ShapeType.Filled);
-        towerAttackRange.setColor(1,1,1,0.2f);
-        //towerAttackRange.rect(x,y,150,150);
-        towerAttackRange.circle(x + 54f, y + 32f,150f);
-        towerAttackRange.end();
-        */
-    }
 
     public void createAbility(){
         for(ImageButton imageButton: abilityButtonArray){
@@ -1005,7 +1003,8 @@ public class levelOneGenerator implements Screen {
     }
     public void moveBoss(float delta){
         if(bossPath.getX() > 500 || bossPath.getLifeCount() <= 0){
-            bossPath.updateBossAnimation(batch, LevelOne.levelOneTopPath(), delta, currentFrameBossTransformation, 0f);
+            //bossPath.updateBossAnimation(batch, LevelOne.levelOneTopPath(), delta, currentFrameBossTransformation, 0f);
+
             if(bossTransformationAnimation.isAnimationFinished(0.75f)){
                 bossPath.setBossPosition(-250f, 0);
                 bossLinkedList.add(new PathfindingEnemy(boss.idleFrame(), 600, LevelOne.levelOneTopBossPath()));
@@ -1038,6 +1037,7 @@ public class levelOneGenerator implements Screen {
             }
         }
         if(saplingCount == 2){
+            Assets.manager.get(Assets.bossLevelOneMusic, Music.class).stop();
             isPaused = true;
             victoryWindow.setVisible(true);
             Assets.manager.get(Assets.victorySound, Sound.class).play(2f);
@@ -1105,7 +1105,6 @@ public class levelOneGenerator implements Screen {
     @Override
     public void dispose(){
         stage.dispose();
-        batch.dispose();
         level.dispose();
         Assets.levelOneDispose();
     }

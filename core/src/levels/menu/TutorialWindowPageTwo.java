@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import levels.levelOneGenerator;
 
 
-public class TutorialWindow implements Screen {
+public class TutorialWindowPageTwo implements Screen {
     final TowerDefense game;
     mainMenu menu;
     public Stage stage;
@@ -32,9 +32,9 @@ public class TutorialWindow implements Screen {
     //private String BACKBUTTON_PATH = "menuAssets/mainMenuAssets/menuSkin/LevelSelection/button_close.png";
     //private String BACKSTAGEBUTTON_PATH = "menuAssets/mainMenuAssets/menuSkin/LevelSelection/button_left.png";
     private BitmapFont font;
-
+    private final int FourTwentyBlazeIt = 420;
     SpriteBatch batch;
-    public TutorialWindow(final TowerDefense game) {
+    public TutorialWindowPageTwo(final TowerDefense game) {
         this.game = game;
     }
 
@@ -49,7 +49,6 @@ public class TutorialWindow implements Screen {
         forwardButton = new testActor(Assets.manager.get(Assets.menuRightButton, Texture.class), Gdx.graphics.getWidth()/100*76, Gdx.graphics.getHeight()/100*20, 100, 100);
         batch = new SpriteBatch();
         goBack(backButton);
-        nextPage(forwardButton);
         menu.createBackground(Assets.manager.get(Assets.tutorialBackground, Texture.class));
         stage.addActor(backButton);
         stage.addActor(forwardButton);
@@ -67,14 +66,10 @@ public class TutorialWindow implements Screen {
         menu.renderBackground();
         batch.begin();
 
-
         font.getData().setScale(1);
+        font.draw(batch, "4. Choose one tower and click again \non your field.", 380, 500);
+        font.draw(batch, "5. The HUD consists of an ability button and \nan upgrade button", 380, 430);
 
-        font.draw(batch, "1. Start one level you like.", 380, 500);
-        font.draw(batch, "2. Once you click on a highlighted field, the \n tower menu opens. \n ", 380, 460);
-        font.draw(batch, "3. The tower menu provides always three \n different towers:", 380, 390);
-        font.draw(batch, "-Magic Tower: Deals ?? damage\n-Arrow Tower: Deals ?? damage \n-SupportTower: Deals ?? damage ", 400, 320);
-        //font.draw(batch, "fuckin retard, go and play the game", 380, 385);
         //Gdx.gl.glClearColor(0, 1, 1, 1);
         //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Gdx.graphics.getDeltaTime());
@@ -93,7 +88,7 @@ public class TutorialWindow implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 resourceHandler.getSound("buttonClickSound").play(0.5f);
-                game.setScreen(new MainMenuScreen(game));
+                game.setScreen(new TutorialWindow(game));
                 //Gdx.app.exit();
             }
         });
