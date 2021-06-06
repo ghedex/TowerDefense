@@ -18,6 +18,7 @@ public class Assets {
     public static final String menuSoundButton = "core/assets/menuAssets/mainMenuAssets/buttonAssets/button_sound.png";
     public static final String menuCloseButton = "core/assets/menuAssets/mainMenuAssets/menuSkin/LevelSelection/button_close.png";
     public static final String menuReturnButton = "core/assets/menuAssets/mainMenuAssets/menuSkin/LevelSelection/button_left.png";
+    public static final String menuRightButton = "core/assets/menuAssets/mainMenuAssets/menuSkin/LevelSelection/button_right.png";
     public static final String levelOneButton = "core/assets/menuAssets/mainMenuAssets/menuSkin/LevelSelection/level1.png";
     public static final String levelTwoButton = "core/assets/menuAssets/mainMenuAssets/menuSkin/LevelSelection/level2ButtonImage.png";
     public static final String menuTutorialButton = "core/assets/menuAssets/mainMenuAssets/buttonAssets/tutorialButton.png";
@@ -28,6 +29,7 @@ public class Assets {
     public static final String victorySound = "core/assets/menuAssets/mainMenuAssets/music/victoryPlaceholder.mp3";
     public static final String hitMarkerSound = "core/assets/menuAssets/mainMenuAssets/music/hitSoundEffect.mp3";
     public static final String scorpionDeathSound = "core/assets/assetsPack/scorpions/scorpionDeath/deathSound.mp3";
+    public static final String bossLevelOneMusic = "core/assets/menuAssets/mainMenuAssets/music/BossMusicLevelOne.mp3";
     //enemies
     public static final String scorpionEnemy = "core/assets/assetsPack/scorpions/scorpionRunning/scorpionPack.atlas";
     public static final String wizardEnemy = "core/assets/assetsPack/wizard/wizardRun/wizardRun.atlas";
@@ -48,6 +50,7 @@ public class Assets {
         manager.load(menuStartButton, Texture.class);
         manager.load(menuCloseButton, Texture.class);
         manager.load(menuReturnButton, Texture.class);
+        manager.load(menuRightButton, Texture.class);
         manager.load(menuTutorialButton, Texture.class);
         manager.load(menuSoundButton, Texture.class);
         manager.load(levelOneButton, Texture.class);
@@ -58,8 +61,10 @@ public class Assets {
         manager.load(victorySound, Sound.class);
         manager.load(hitMarkerSound, Sound.class);
         manager.load(scorpionDeathSound, Sound.class);
+
         //load music
         manager.load(levelOneBackgroundMusic, Music.class);
+        manager.load(bossLevelOneMusic, Music.class);
     }
     public static void loadLevelOne(){
         //load HUD -> menuItems
@@ -71,6 +76,9 @@ public class Assets {
         manager.load(levelOneBossWalk, TextureAtlas.class);
         manager.load(levelOneBossTransformation, TextureAtlas.class);
         manager.load(levelOneBossSapling, TextureAtlas.class);
+        //load music
+        manager.load(levelOneBackgroundMusic, Music.class);
+        manager.load(bossLevelOneMusic, Music.class);
     }
     public static void dispose(){
         manager.dispose();
