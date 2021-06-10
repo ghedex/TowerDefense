@@ -1,17 +1,14 @@
 package levels;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import enemy.scorpionEntity.Scorpion;
 
 public class PathfindingEnemy extends Sprite {
 
     private Vector2 velocity = new Vector2();
-    private float speed = 75, tolerance = 3, abilitySpeed = 350, bossSpeed = 35;
+    private float speed = 75, tolerance = 3, abilitySpeed = 350;
     private TextureRegion entity;
     public Array<Vector2> getPath() {
         return path;
@@ -48,6 +45,7 @@ public class PathfindingEnemy extends Sprite {
         this.lifeCount = lifeCount;
         this.path = path;
         this.setPosition(path.first().x, path.first().y);
+        this.setBounds(this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
 
     public PathfindingEnemy(TextureRegion entity, Array<Vector2> path, float lifeCount){

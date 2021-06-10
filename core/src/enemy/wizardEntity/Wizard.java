@@ -1,7 +1,9 @@
 package enemy.wizardEntity;
 
+import MainRef.Assets;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 //import components.Lifebar;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import enemy.Entity;
 
 public class Wizard extends Entity {
@@ -13,13 +15,7 @@ public class Wizard extends Entity {
 
 
     public Wizard() {
-        super(WIDTH, HEIGHT, 50, "assetsPack/wizard/wizardRun/wizardRun.atlas");
-        //this.setBounds(getX(),getY(),getWIDTH(),getHEIGHT());
-        /*
-        lifebar.setZIndex(100);
-        lifebar.render();
-
-         */
+        super(WIDTH, HEIGHT, 400, Assets.manager.get(Assets.wizardEnemy, TextureAtlas.class));
     }
 
 

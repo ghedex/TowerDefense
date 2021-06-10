@@ -45,8 +45,6 @@ public class LevelSelectionScreen implements Screen {
                     System.out.println(Assets.manager.getProgress() * 100 + "%");
                 }
                 game.setScreen(new levelOneGenerator(game));
-
-
             }
         });
 
@@ -55,8 +53,11 @@ public class LevelSelectionScreen implements Screen {
             public void clicked (InputEvent event, float x, float y){
                 super.clicked(event, x, y);
                 Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
+                Assets.loadLevelTwo();
+                while(!Assets.manager.update()){
+                    System.out.println(Assets.manager.getProgress() * 100 + "%");
+                }
                 game.setScreen(new levelTwoGenerator(game));
-                Assets.manager.get(Assets.levelOneBackgroundMusic, Music.class).play();
             }
         });
         backButton.addListener(new ClickListener(){
