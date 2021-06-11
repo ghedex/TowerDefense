@@ -1,0 +1,34 @@
+{
+  com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
+    "start":{
+      imageUp: "button_play"
+      imageOver: "button_play_over"
+    }
+    "close":{
+      imageUp: "button_close"
+      imageOver: "button_close_over"
+    }
+    "left":{
+      imageUp: "button_left"
+      imageOver: "button_left_over"
+    }
+    "right":{
+      imageUp: "button_right"
+      imageOver: "button_right_over"
+    }
+    "levelOne":{
+      imageUp: "levelOne"
+      imageOver: "levelOne_over"
+    }
+    "levelTwo":{
+      imageUp: "levelTwo"
+      imageOver: "levelTwo_over"
+    }
+    "tutorialButton":{
+      imageUp: "tutorialButton"
+      imageOver: "tutorialButton_over"
+    }
+    "default": {
+    }
+  }
+}

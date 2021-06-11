@@ -205,7 +205,12 @@ public class levelTwoGenerator implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
+                Assets.load();
+                while(!Assets.manager.update()){
+                    System.out.println(Assets.manager.getProgress() * 100 + "%");
+                }
                 game.setScreen(new MainMenuScreen(game));
+                dispose();
             }
         });
         exitButton2.addListener(new ClickListener(){
@@ -213,7 +218,12 @@ public class levelTwoGenerator implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
+                Assets.load();
+                while(!Assets.manager.update()){
+                    System.out.println(Assets.manager.getProgress() * 100 + "%");
+                }
                 game.setScreen(new MainMenuScreen(game));
+                dispose();
                 Assets.manager.get(Assets.buttonClickSound, Sound.class).stop();
             }
         });
@@ -222,6 +232,10 @@ public class levelTwoGenerator implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
+                Assets.load();
+                while(!Assets.manager.update()){
+                    System.out.println(Assets.manager.getProgress() * 100 + "%");
+                }
                 game.setScreen(new MainMenuScreen(game));
                 Assets.manager.get(Assets.levelOneBackgroundMusic, Music.class).stop();
                 dispose();
@@ -245,7 +259,6 @@ public class levelTwoGenerator implements Screen {
         style.imageUp = new TextureRegionDrawable(Assets.manager.get(Assets.fireAbilityPack, TextureAtlas.class).findRegion("fire_up"));
         style.imageOver = new TextureRegionDrawable(Assets.manager.get(Assets.fireAbilityPack, TextureAtlas.class).findRegion("fire_over"));
         style.imageChecked = new TextureRegionDrawable(Assets.manager.get(Assets.fireAbilityPack, TextureAtlas.class).findRegion("fire_checked"));
-        //new TextureRegionDrawable(Assets.manager.get(Assets.towerPack, TextureAtlas.class).findRegion("archerTower_default"));
 
         styleTowerPlacementArcher.imageUp = new TextureRegionDrawable(Assets.manager.get(Assets.towerPack, TextureAtlas.class).findRegion("archerTower_default"));
         styleTowerPlacementMagician.imageUp = new TextureRegionDrawable(Assets.manager.get(Assets.towerPack, TextureAtlas.class).findRegion("magicianTower_default"));
@@ -864,7 +877,7 @@ public class levelTwoGenerator implements Screen {
             PathfindingEnemy warrior = iteratorBoss.next();
             warrior.updateAnimation(batch, LevelTwo.levelTwoBottomPath(), delta, currentFrame2);
             //remove entity if life is less than 0, and add 100 coins
-            if (warrior.getLifeCount() <= 0 ) {
+            if (warrior.getLifeCount() <= 0) {
                 iteratorBoss.remove();
                 coins += 100;
                 enemyCount -= 1;
@@ -886,6 +899,14 @@ public class levelTwoGenerator implements Screen {
                 isPaused = true;
                 bossPath.setLifeCount(0);
                 victoryWindow.setVisible(true);
+            }else if(bossPath.getX() > Gdx.graphics.getWidth()){
+                health -= 50;
+                if(health > 0){
+                    isPaused = true;
+                    victoryWindow.setVisible(true);
+                    Assets.manager.get(Assets.victorySound, Sound.class).play(2f);
+                    Gdx.app.log("Game Won", "");
+                }
             }
         }
     }

@@ -1,0 +1,104 @@
+
+menuSkin.png
+size: 2048, 256
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+button_close
+  rotate: false
+  xy: 1724, 104
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+button_close_over
+  rotate: false
+  xy: 1928, 104
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+button_left
+  rotate: false
+  xy: 1622, 104
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+button_left_over
+  rotate: false
+  xy: 1724, 2
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+button_play
+  rotate: false
+  xy: 506, 4
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+button_play_over
+  rotate: false
+  xy: 708, 4
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+button_right
+  rotate: false
+  xy: 1826, 104
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+button_right_over
+  rotate: false
+  xy: 1622, 2
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+levelOne
+  rotate: false
+  xy: 1088, 29
+  size: 176, 175
+  orig: 176, 175
+  offset: 0, 0
+  index: -1
+levelOne_over
+  rotate: false
+  xy: 1266, 29
+  size: 176, 175
+  orig: 176, 175
+  offset: 0, 0
+  index: -1
+levelTwo
+  rotate: false
+  xy: 1444, 29
+  size: 176, 175
+  orig: 176, 175
+  offset: 0, 0
+  index: -1
+levelTwo_over
+  rotate: false
+  xy: 910, 29
+  size: 176, 175
+  orig: 176, 175
+  offset: 0, 0
+  index: -1
+tutorialButton
+  rotate: false
+  xy: 254, 42
+  size: 250, 162
+  orig: 250, 162
+  offset: 0, 0
+  index: -1
+tutorialButton_over
+  rotate: false
+  xy: 2, 42
+  size: 250, 162
+  orig: 250, 162
+  offset: 0, 0
+  index: -1

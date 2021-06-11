@@ -210,9 +210,14 @@ public class levelOneGenerator implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
+                Assets.load();
+                while(!Assets.manager.update()){
+                    System.out.println(Assets.manager.getProgress() * 100 + "%");
+                }
                 game.setScreen(new MainMenuScreen(game));
                 Assets.manager.get(Assets.levelOneBackgroundMusic, Music.class).stop();
                 dispose();
+
             }
         });
         exitButton2.addListener(new ClickListener(){
@@ -220,6 +225,10 @@ public class levelOneGenerator implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
+                Assets.load();
+                while(!Assets.manager.update()){
+                    System.out.println(Assets.manager.getProgress() * 100 + "%");
+                }
                 game.setScreen(new MainMenuScreen(game));
                 Assets.manager.get(Assets.levelOneBackgroundMusic, Music.class).stop();
                 dispose();
@@ -230,6 +239,10 @@ public class levelOneGenerator implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
+                Assets.load();
+                while(!Assets.manager.update()){
+                    System.out.println(Assets.manager.getProgress() * 100 + "%");
+                }
                 game.setScreen(new MainMenuScreen(game));
                 Assets.manager.get(Assets.levelOneBackgroundMusic, Music.class).stop();
                 dispose();

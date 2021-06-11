@@ -77,8 +77,8 @@ public class LevelTwo extends ApplicationAdapter {
     }
     public static Array<Vector2> levelTwoBottomPath(){
         path = new Array<Vector2>();
-        path.add(new Vector2(250, -200));
-        path.add(new Vector2(250, 135));
+        path.add(new Vector2(275, -200));
+        path.add(new Vector2(275, 125));
         path.add(new Vector2(325, 150));
         path.add(new Vector2(400, 175));
         path.add(new Vector2(1400, 165));
