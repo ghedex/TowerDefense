@@ -64,7 +64,7 @@ public class levelTwoGenerator implements Screen {
     private String pauseButton = "menuAssets/mainMenuAssets/buttonAssets/button_pause.png";
     private String abilityButton = "core/assets/abilities/abilitesSkin/btton_abilities.png";
     private String upgradeAbilityButton = "core/assets/abilities/abilitesSkin/upgradeButton.png";
-    private Skin uiSkin, fireAbilitySkin, thunderAbilitySkin,  windowSkin, towerPlacementSkin, towerSkin, explosionAbilitySkin;
+    private Skin uiSkin, fireAbilitySkin, thunderAbilitySkin,  windowSkin, towerPlacementSkin, towerSkin, explosionAbilitySkin, timeAbilitySkin;
     private String backgroundGameHUD = "core/assets/normal_window.png";
     private float coins = 1000;
     private int enemyCount = 50;
@@ -79,7 +79,7 @@ public class levelTwoGenerator implements Screen {
     Array<ImageButton> abilityButtonArray = new Array();
 
     Array<ImageButton> upgradeAbilityButtonArray = new Array();
-    private String fireAbilityToolTip, thunderAbilityToolTip, explosionAbilityToolTip;
+    private String fireAbilityToolTip, thunderAbilityToolTip, explosionAbilityToolTip, timeAbilityToolTip;
     //tower tooltips
     private String archerTowerToolTip = "Deals ?? Damage per second.\nCost: 250 OptiCoins";
     private String magicianTowerToolTip = "Deals ??? Damage per second.\nCost: 500 OptiCoins";
@@ -152,6 +152,7 @@ public class levelTwoGenerator implements Screen {
         towerSkin = new Skin(Gdx.files.internal("core/assets/background/tower/towerPack/towerPack.json"), Assets.manager.get(Assets.towerPack, TextureAtlas.class));
         thunderAbilitySkin = new Skin(Gdx.files.internal("core/assets/abilities/abilitesSkin/thunder/thunderAbilitySkin.json") ,new TextureAtlas("core/assets/abilities/abilitesSkin/thunder/thunderAbility.atlas"));
         explosionAbilitySkin = new Skin(Gdx.files.internal("core/assets/abilities/abilitesSkin/explosion/explosionButton/explosionButton.json"), new TextureAtlas("core/assets/abilities/abilitesSkin/explosion/explosionButton/explosionButton.atlas"));
+        timeAbilitySkin = new Skin(Gdx.files.internal("core/assets/abilities/abilitesSkin/time/timeAbilitySkin.json"), Assets.manager.get(Assets.timeAbilityPack, TextureAtlas.class));
         windowSkin = new Skin(Gdx.files.internal("menuAssets/mainMenuAssets/menuSkin/testWindowSkin/windowStyle.json"), new TextureAtlas("menuAssets/mainMenuAssets/menuSkin/testWindowSkin/windowStyle.atlas"));
         towerPlacementSkin = new Skin(Gdx.files.internal("background/tower/locations/towerPlacementLevelTwo.json"), new TextureAtlas("background/tower/locations/towerPlacementLevelTwo.atlas"));
         //----------------------------------------------------------PauseMenu------------------------------------------------------//
@@ -236,6 +237,7 @@ public class levelTwoGenerator implements Screen {
         //--------------------------------------------------------AbilityMenuButtons----------------------------------------------------//
         final ImageButtonStyle style = new ImageButtonStyle();
         final ImageButtonStyle style2 = new ImageButtonStyle();
+        final ImageButtonStyle timeStyle = new ImageButtonStyle();
         final ImageButtonStyle styleExplosionAbility = new ImageButtonStyle();
         final ImageButtonStyle styleTowerPlacementArcher = new ImageButtonStyle();
         final ImageButtonStyle styleTowerPlacementMagician = new ImageButtonStyle();
@@ -255,6 +257,9 @@ public class levelTwoGenerator implements Screen {
         styleExplosionAbility.imageUp = explosionAbilitySkin.getDrawable("explosionButton");
         styleExplosionAbility.imageOver = explosionAbilitySkin.getDrawable("explosionButtonHover");
 
+        timeStyle.imageUp = timeAbilitySkin.getDrawable("time_up");
+        timeStyle.imageOver = timeAbilitySkin.getDrawable("time_over");
+
         ImageButtonStyle[] towerSkins = {
                 styleTowerPlacementArcher,
                 styleTowerPlacementMagician,
@@ -264,6 +269,7 @@ public class levelTwoGenerator implements Screen {
         final ImageButton fireAbility = new ImageButton(style);
         final ImageButton thunderAbility = new ImageButton(style2);
         final ImageButton explosionAbilityArray = new ImageButton(styleExplosionAbility);
+        final ImageButton timeAbility = new ImageButton(timeStyle);
         final ImageButton towerPlacementArcher = new ImageButton(styleTowerPlacementArcher);
         final ImageButton towerPlacementMagician = new ImageButton(styleTowerPlacementMagician);
         final ImageButton towerPlacementSupport = new ImageButton(styleTowerPlacementSupport);
@@ -271,6 +277,7 @@ public class levelTwoGenerator implements Screen {
         abilityButtonArray.add(fireAbility);
         abilityButtonArray.add(thunderAbility);
         abilityButtonArray.add(explosionAbilityArray);
+        abilityButtonArray.add(timeAbility);
         upgradeAbilityButtonArray.add(towerPlacementArcher);
         upgradeAbilityButtonArray.add(towerPlacementMagician);
         upgradeAbilityButtonArray.add(towerPlacementSupport);
@@ -310,7 +317,6 @@ public class levelTwoGenerator implements Screen {
                 }
             }
         });
-        thunderAbility.addListener(new TextTooltip(thunderAbilityToolTip, toolTipManager, uiSkin));
         thunderAbility.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -322,6 +328,18 @@ public class levelTwoGenerator implements Screen {
                     dealThunderDamage();
                     Gdx.app.log("Ability", abilityButtonArray.get(1).toString());
                     thunderAbility.setChecked(false);
+                }
+            }
+        });
+        timeAbility.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
+                if(timeAbility.isChecked() && coins >= damage.getTimeCost()){
+                    coins -= damage.getThunderCost();
+                    manipulateTime();
+                    timeAbility.setChecked(false);
                 }
             }
         });
@@ -625,13 +643,6 @@ public class levelTwoGenerator implements Screen {
                 if(Intersector.overlaps(circle, bossPath.getBoundingRectangle())){
                     bossPath.setLifeCount(bossPath.getLifeCount() - 0.05f);
                 }
-                if(bossPath.getLifeCount() <= 0 && !isBossAlive){
-                    bossPath.setLifeCount(1000);
-                }else if(bossPath.getLifeCount() <= 0 && isBossAlive){
-                    isPaused = true;
-                    bossPath.setLifeCount(0);
-                    victoryWindow.setVisible(true);
-                }
             }
         }
     }
@@ -645,9 +656,11 @@ public class levelTwoGenerator implements Screen {
         fireAbilityToolTip = "Deals "+ (int)damage.getFireDamage() + " Damage against 1 Enemy\nCost: "+ (int)damage.getFireCost() + " OptiCoins";
         thunderAbilityToolTip = "Deals "+ (int)damage.getThunderDamage() + " Damage to all enemies\nCost: "+ (int)damage.getThunderCost() + " OptiCoins";
         explosionAbilityToolTip = "Immediately kills one enemy.\nCost: " + (int)damage.getExplosionCost() + " OptiCoins";
+        timeAbilityToolTip = "Manipulates Time, dealing "+ (int)damage.getTimeDamage() +" Damage.\nPosses a hidden ability.\nCost: " + (int)damage.getTimeCost() + " OptiCoins";
         abilityButtonArray.get(0).addListener(new TextTooltip(fireAbilityToolTip, toolTipManager, uiSkin));
         abilityButtonArray.get(1).addListener(new TextTooltip(thunderAbilityToolTip, toolTipManager, uiSkin));
         abilityButtonArray.get(2).addListener(new TextTooltip(explosionAbilityToolTip, toolTipManager, uiSkin));
+        abilityButtonArray.get(3).addListener(new TextTooltip(timeAbilityToolTip, toolTipManager, uiSkin));
         towerList.get(0).addListener(new TextTooltip(archerTowerToolTip, toolTipManager, uiSkin));
         towerList.get(1).addListener(new TextTooltip(magicianTowerToolTip, toolTipManager, uiSkin));
         towerList.get(2).addListener(new TextTooltip(supportTowerToolTip, toolTipManager, uiSkin));
@@ -728,11 +741,38 @@ public class levelTwoGenerator implements Screen {
             }
         }
         if(enemyCount == 0){
-            bossPath.setLifeCount(bossPath.getLifeCount() - (damage.getThunderDamage() + 150));
+            bossPath.setLifeCount(bossPath.getLifeCount() - (damage.getThunderDamage() + 50));
+        }
+    }
+    public void manipulateTime(){
+        for (Iterator<PathfindingEnemy> iterator = impLinkedList.iterator(); iterator.hasNext(); ) {
+            PathfindingEnemy enemy = iterator.next();
+            enemy.setLifeCount(enemy.getLifeCount() - damage.getTimeDamage());
+            enemy.timeOfDmgTaken = enemy.timeAlive;
+            Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
+            if (enemy.getLifeCount() <= 0) {
+                iterator.remove();
+                coins += 10;
+                enemyCount -= 1;
+            }
+        }
+
+        for (Iterator<PathfindingEnemy> iterator = warriorLinkedList.iterator(); iterator.hasNext(); ) {
+            PathfindingEnemy enemy = iterator.next();
+            enemy.setLifeCount(enemy.getLifeCount() - damage.getTimeDamage());
+            enemy.timeOfDmgTaken = enemy.timeAlive;
+            Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
+            if (enemy.getLifeCount() <= 0) {
+                iterator.remove();
+                coins += 10;
+                enemyCount -= 1;
+            }
+        }
+        if(enemyCount == 0){
+            bossPath.setLifeCount(bossPath.getLifeCount() - damage.getTimeDamage());
             isBossAlive = true;
         }
     }
-
     public void drawCircle(){
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -803,7 +843,7 @@ public class levelTwoGenerator implements Screen {
     public void makeT1EnemiesMove(float delta) {
         for (Iterator<PathfindingEnemy> iterator = impLinkedList.iterator(); iterator.hasNext(); ) {
             PathfindingEnemy imp = iterator.next();
-            imp.updateAnimation(batch, LevelOne.levelOneBottomPath(), delta, currentFrame);
+            imp.updateAnimation(batch, LevelTwo.levelTwoTopRightPath(), delta, currentFrame);
             //remove entity if life is less than 0, and add 100 coins
             if (imp.getLifeCount() <= 0 ) {
                 iterator.remove();
@@ -822,7 +862,7 @@ public class levelTwoGenerator implements Screen {
     public void makeT2EnemiesMove(float delta){
         for (Iterator<PathfindingEnemy> iteratorBoss = warriorLinkedList.iterator(); iteratorBoss.hasNext(); ) {
             PathfindingEnemy warrior = iteratorBoss.next();
-            warrior.updateAnimation(batch, LevelTwo.levelTwoTopPath(), delta, currentFrame2);
+            warrior.updateAnimation(batch, LevelTwo.levelTwoBottomPath(), delta, currentFrame2);
             //remove entity if life is less than 0, and add 100 coins
             if (warrior.getLifeCount() <= 0 ) {
                 iteratorBoss.remove();
@@ -838,7 +878,16 @@ public class levelTwoGenerator implements Screen {
         }
     }
     public void moveBoss(float delta){
-        bossPath.updateBossAnimation(batch, LevelOne.levelOneTopPath(), delta, currentFrameBoss, 35);
+        bossPath.updateBossAnimation(batch, LevelTwo.levelTwoTopPath(), delta, currentFrameBoss, 35);
+        if(enemyCount == 0){
+            if(bossPath.getLifeCount() <= 0 && !isBossAlive){
+                bossPath.setLifeCount(1000);
+            }else if(bossPath.getLifeCount() <= 0 && isBossAlive){
+                isPaused = true;
+                bossPath.setLifeCount(0);
+                victoryWindow.setVisible(true);
+            }
+        }
     }
 
     public void clearEnemies(){
@@ -865,11 +914,11 @@ public class levelTwoGenerator implements Screen {
         enemySpawnTimer2 += deltaTime;
         if(enemyCount >= 2){
             if(enemySpawnTimer > timeBetweenEnemySpawns){
-                impLinkedList.add(new PathfindingEnemy(imp.idleFrame(), 20, LevelOne.levelOneBottomPath()));
+                impLinkedList.add(new PathfindingEnemy(imp.idleFrame(), 20, LevelTwo.levelTwoTopRightPath()));
                 enemySpawnTimer -= timeBetweenEnemySpawns;
             }
             if(enemySpawnTimer2 > timeBetweenEnemySpawns2){
-                warriorLinkedList.add(new PathfindingEnemy(warrior.idleFrame(), 100, LevelOne.levelOneTopPath()));
+                warriorLinkedList.add(new PathfindingEnemy(warrior.idleFrame(), 100, LevelTwo.levelTwoBottomPath()));
                 enemySpawnTimer2 -= timeBetweenEnemySpawns2;
             }
         }

@@ -55,36 +55,41 @@ public class LevelTwo extends ApplicationAdapter {
         path.add(new Vector2(710, 270));
         path.add(new Vector2(730, 190));
         path.add(new Vector2(1300, 180));
-
         return path;
 
     }
 
     public static Array<Vector2> levelTwoTopPath(){
         path = new Array<Vector2>();
-        path.add(new Vector2(-200, 200));
-        path.add(new Vector2(90, 250));
-        path.add(new Vector2(120, 300));
-        path.add(new Vector2(130, 350));
-        path.add(new Vector2(140, 400));
-        path.add(new Vector2(150, 440));
-        path.add(new Vector2(520, 430));
-        path.add(new Vector2(535, 300));
-        path.add(new Vector2(550, 210));
-        path.add(new Vector2(570, 150));
-        path.add(new Vector2(580, 120));
-        path.add(new Vector2(590, 100));
-        path.add(new Vector2(600, 90));
-        path.add(new Vector2(700, 90));
-        path.add(new Vector2(760, 150));
-        path.add(new Vector2(770, 600));
-        /*
-        path.add(new Vector2(80, 350));
-        path.add(new Vector2(110, 400));
-        path.add(new Vector2(310, 550));
-
-
-         */
+        path.add(new Vector2(-200, 250));
+        path.add(new Vector2(45, 250));
+        path.add(new Vector2(75, 300));
+        path.add(new Vector2(130, 325));
+        path.add(new Vector2(155, 350));
+        path.add(new Vector2(275, 400));
+        path.add(new Vector2(285, 555));
+        path.add(new Vector2(650, 555));
+        path.add(new Vector2(655, 400));
+        path.add(new Vector2(875, 400));
+        path.add(new Vector2(900, 180));
+        path.add(new Vector2(1400, 180));
+        return path;
+    }
+    public static Array<Vector2> levelTwoBottomPath(){
+        path = new Array<Vector2>();
+        path.add(new Vector2(250, -200));
+        path.add(new Vector2(250, 135));
+        path.add(new Vector2(325, 150));
+        path.add(new Vector2(400, 175));
+        path.add(new Vector2(1400, 165));
+        return path;
+    }
+    public static Array<Vector2> levelTwoTopRightPath(){
+        path = new Array<>();
+        path.add(new Vector2(900, 800));
+        path.add(new Vector2(925, 150));
+        path.add(new Vector2(960, 165));
+        path.add(new Vector2(1400, 165));
         return path;
     }
 

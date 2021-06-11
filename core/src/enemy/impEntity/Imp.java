@@ -3,6 +3,7 @@ package enemy.impEntity;
 import MainRef.Assets;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import enemy.Entity;
+import levels.LevelTwo;
 
 
 public class Imp extends Entity {

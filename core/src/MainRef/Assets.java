@@ -48,6 +48,7 @@ public class Assets {
     //HUD -> Ingame Buttons / Skins
     public static final String towerPack = "core/assets/background/tower/towerPack/towerPack.atlas";
     public static final String fireAbilityPack = "core/assets/abilities/abilitesSkin/fire/fireAbilitySkin.atlas";
+    public static final String timeAbilityPack = "core/assets/abilities/abilitesSkin/time/timeAbility.atlas";
 
     public static void load(){
         //load backgroundImages
@@ -93,6 +94,7 @@ public class Assets {
         manager.load(towerPack, TextureAtlas.class);
         manager.load(fireAbilityPack, TextureAtlas.class);
         manager.load(levelTwoBackground, Texture.class);
+        manager.load(timeAbilityPack, TextureAtlas.class);
         //load enemies
         manager.load(impEnemy, TextureAtlas.class);
         manager.load(warriorEnemy, TextureAtlas.class);
@@ -117,6 +119,7 @@ public class Assets {
     public static void levelTwoDispose(){
         manager.unload(towerPack);
         manager.unload(fireAbilityPack);
+        manager.unload(timeAbilityPack);
         manager.unload(levelTwoBackground);
         //unload enemies
         manager.unload(impEnemy);
