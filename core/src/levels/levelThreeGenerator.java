@@ -36,13 +36,13 @@ import java.util.*;
 public class levelThreeGenerator implements Screen {
         final TowerDefense game;
         testActor pauseButtonActor, abilityButtonActor, upgradeAbilityButtonActor;
-        Window pause, abilityList, tower, gameOverWindow, victoryWindow;
+        Window pause, abilityList, tower, archerTower, gameOverWindow, victoryWindow;
         Stage stage;
         TooltipManager toolTipManager;
         ShapeRenderer shapeRenderer, towerAttackRange;
         LinkedList<Circle> pillarAttackCircle;
         LinkedList<Circle> towerAttackCircle;
-        ClickListener placementListener, towerPlacementListener, towerListener;
+        ClickListener placementListener, towerPlacementListener, towerListener, pillarPlacementListener, towerMenuListener;
         SpriteBatch batch;
         LevelThree level;
         PathfindingEnemy fireBallAbility, fireBallAbility2;
@@ -65,6 +65,7 @@ public class levelThreeGenerator implements Screen {
         private boolean isBossAlive = false;
         BitmapFont font12;
         //TODO
+        LinkedList<ImageButton> pillarList = new LinkedList<>();
         LinkedList<ImageButton> towerList = new LinkedList<>();
         LinkedList<PathfindingEnemy> enemyList = new LinkedList<>();
         Array<PathfindingEnemy> ability = new Array<>();
@@ -248,12 +249,34 @@ public class levelThreeGenerator implements Screen {
             final ImageButtonStyle style = new ImageButtonStyle();
             final ImageButtonStyle style2 = new ImageButtonStyle();
             final ImageButtonStyle styleExplosionAbility = new ImageButtonStyle();
+
+            final ImageButtonStyle stylePillarPlacementArcherStandardMenu = new ImageButtonStyle();
+            final ImageButtonStyle stylePillarPlacementArcherStandard = new ImageButtonStyle();
+            final ImageButtonStyle stylePillarPlacementArcherStrongMenu = new ImageButtonStyle();
+            final ImageButtonStyle stylePillarPlacementArcherStrong = new ImageButtonStyle();
+            final ImageButtonStyle stylePillarPlacementCrossbowMenu = new ImageButtonStyle();
+            final ImageButtonStyle stylePillarPlacementCrossbow = new ImageButtonStyle();
+
             final ImageButtonStyle styleTowerPlacementArcher = new ImageButtonStyle();
             final ImageButtonStyle styleTowerPlacementMagician = new ImageButtonStyle();
             final ImageButtonStyle styleTowerPlacementSupport = new ImageButtonStyle();
+
             style.imageUp = new TextureRegionDrawable(Assets.manager.get(Assets.fireAbilityPack, TextureAtlas.class).findRegion("fire_up"));
             style.imageOver = new TextureRegionDrawable(Assets.manager.get(Assets.fireAbilityPack, TextureAtlas.class).findRegion("fire_over"));
             style.imageChecked = new TextureRegionDrawable(Assets.manager.get(Assets.fireAbilityPack, TextureAtlas.class).findRegion("fire_checked"));
+
+            stylePillarPlacementArcherStandardMenu.imageUp = new TextureRegionDrawable(Assets.manager.get(Assets.snowPillarArcherPack, TextureAtlas.class).findRegion("archer_standard_menu"));
+            stylePillarPlacementArcherStandardMenu.imageOver = new TextureRegionDrawable(Assets.manager.get(Assets.snowPillarArcherPack, TextureAtlas.class).findRegion("archer_standard_menu_over"));
+            stylePillarPlacementArcherStandard.imageUp = new TextureRegionDrawable(Assets.manager.get(Assets.snowPillarArcherPack, TextureAtlas.class).findRegion("archer_standard"));
+
+            stylePillarPlacementArcherStrongMenu.imageUp = new TextureRegionDrawable(Assets.manager.get(Assets.snowPillarArcherPack, TextureAtlas.class).findRegion("archer_strong_menu"));
+            stylePillarPlacementArcherStrongMenu.imageOver = new TextureRegionDrawable(Assets.manager.get(Assets.snowPillarArcherPack, TextureAtlas.class).findRegion("archer_strong_menu_over"));
+            stylePillarPlacementArcherStrong.imageUp = new TextureRegionDrawable(Assets.manager.get(Assets.snowPillarArcherPack, TextureAtlas.class).findRegion("archer_strong"));
+
+            stylePillarPlacementCrossbowMenu.imageUp = new TextureRegionDrawable(Assets.manager.get(Assets.snowPillarArcherPack, TextureAtlas.class).findRegion("archer_crossbow_menu"));
+            stylePillarPlacementCrossbowMenu.imageOver = new TextureRegionDrawable(Assets.manager.get(Assets.snowPillarArcherPack, TextureAtlas.class).findRegion("archer_crossbow_menu_over"));
+            stylePillarPlacementCrossbow.imageUp = new TextureRegionDrawable(Assets.manager.get(Assets.snowPillarArcherPack, TextureAtlas.class).findRegion("archer_crossbow_standard"));
+
 
             styleTowerPlacementArcher.imageUp = new TextureRegionDrawable(Assets.manager.get(Assets.towerPack, TextureAtlas.class).findRegion("archerTower_default"));
             styleTowerPlacementMagician.imageUp = new TextureRegionDrawable(Assets.manager.get(Assets.towerPack, TextureAtlas.class).findRegion("magicianTower_default"));
@@ -271,9 +294,20 @@ public class levelThreeGenerator implements Screen {
                     styleTowerPlacementSupport
             };
 
+            ImageButtonStyle[] pillarSkins = {
+                    stylePillarPlacementArcherStandardMenu,
+                    stylePillarPlacementArcherStrongMenu,
+                    stylePillarPlacementCrossbowMenu
+            };
+
             final ImageButton fireAbility = new ImageButton(style);
             final ImageButton thunderAbility = new ImageButton(style2);
             final ImageButton explosionAbilityArray = new ImageButton(styleExplosionAbility);
+
+            final ImageButton pillarPlacementMenuArcherStandard = new ImageButton(stylePillarPlacementArcherStandardMenu);
+            final ImageButton pillarPlacementMenuArcherStrong = new ImageButton(stylePillarPlacementArcherStrongMenu);
+            final ImageButton pillarPlacementMenuCrossbowMenu = new ImageButton(stylePillarPlacementCrossbowMenu);
+
             final ImageButton towerPlacementArcher = new ImageButton(styleTowerPlacementArcher);
             final ImageButton towerPlacementMagician = new ImageButton(styleTowerPlacementMagician);
             final ImageButton towerPlacementSupport = new ImageButton(styleTowerPlacementSupport);
@@ -393,23 +427,39 @@ public class levelThreeGenerator implements Screen {
                     System.out.println("bin im tower array");
                     Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
                     tower.setVisible(!tower.isVisible());
-                /*
-                HIER INPUT PAUSE MENÜ ENTFERNEN
-
-
-                 */
+                }
+            });
+            archerTower = new Window("Choose an Archer for a tower", uiSkin);
+            archerTower.setVisible(false);
+            TextButton archerTowerContinueButton = new TextButton("Cancel", uiSkin);
+            archerTowerContinueButton.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+                    System.out.println("bin im pillar array");
+                    Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
+                    archerTower.setVisible(!archerTower.isVisible());
                 }
             });
             //Create Towers
-            towerList = new LinkedList<>();
-
-            //towers in opened menu
+            pillarList = new LinkedList<>();
             for(int i = 0; i <= 2; i++){
                 //towerList.add(i, new ImageButton(fireAbilitySkin));
+                pillarList.add(i, new ImageButton(pillarSkins[i]));
+                final int finalI = i;
+                pillarList.get(i).addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        super.clicked(event, x, y);
+                        Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
+                        Gdx.app.log("pillarList: ", String.valueOf(finalI));
+                    }
+                });
+            }
+            towerList = new LinkedList<>();
+            for(int i = 0; i <= 2; i++){
                 towerList.add(i, new ImageButton(towerSkins[i]));
                 final int finalI = i;
-
-
                 towerList.get(i).addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
@@ -420,7 +470,9 @@ public class levelThreeGenerator implements Screen {
                 });
             }
 
-
+            for(ImageButton towerImage : pillarList){
+                archerTower.add(towerImage);
+            }
             for(ImageButton towerImage : towerList){
                 tower.add(towerImage);
             }
@@ -441,8 +493,10 @@ public class levelThreeGenerator implements Screen {
                 towerCircle_y.add(towerLocation_y[i]);
             }
 
-            tower.padTop(64);
-            tower.setPosition(stage.getWidth() / 2 - tower.getWidth() / 2, stage.getHeight() / 2 - tower.getHeight() / 2);
+            //archerTower.padTop(64);
+            //archerTower.setPosition(stage.getWidth() / 2 - archerTower.getWidth() / 2, stage.getHeight() / 2 - archerTower.getHeight() / 2);
+            archerTower.add(archerTowerContinueButton);
+            archerTower.pack();
             tower.add(continueButton2);
             tower.pack();
             Gdx.input.setInputProcessor(stage);
@@ -479,27 +533,27 @@ public class levelThreeGenerator implements Screen {
                 pillarArcherTower.get(i).setSize(85,85);
                 //pillarArcherTower.get(i).setDebug(true);
                 final int finalI = i;
-                pillarArcherTower.get(i).addListener(towerPlacementListener = new ClickListener() {
+                pillarArcherTower.get(i).addListener(pillarPlacementListener = new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         super.clicked(event, x, y);
                         Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
                         if(pillarArcherTower.get(finalI).isChecked()) {
                             pillarArcherTower.get(finalI).setChecked(false);
-                            tower.setVisible(!tower.isVisible());
+                            archerTower.setVisible(!archerTower.isVisible());
                             Gdx.app.log("towerList: ", String.valueOf(finalI));
-                            if(towerList.get(0).isChecked()){
-                                towerList.get(0).setChecked(false);
-                                pillarArcherTower.get(finalI).setStyle(styleTowerPlacementArcher);
+                            if(pillarList.get(0).isChecked()){
+                                pillarList.get(0).setChecked(false);
+                                pillarArcherTower.get(finalI).setStyle(stylePillarPlacementArcherStandard);
                                 pillarArcherTower.get(finalI).setPosition(pillarLocation_x[finalI], pillarLocation_y[finalI] + 16);
                                 pillarArcherTower.get(finalI).clearListeners();
                                 pillarArcherTower.get(finalI).addListener(towerListener);
                                 pillerCircleBool.set(finalI, true);
                                 pillarAttackCircle.get(finalI).set(pillarLocation_x[finalI] + 48f, pillarLocation_y[finalI] + 48f, 175f);
                             }
-                            if(towerList.get(1).isChecked()){
-                                towerList.get(1).setChecked(false);
-                                pillarArcherTower.get(finalI).setStyle(styleTowerPlacementMagician);
+                            if(pillarList.get(1).isChecked()){
+                                pillarList.get(1).setChecked(false);
+                                pillarArcherTower.get(finalI).setStyle(stylePillarPlacementArcherStrong);
                                 pillarArcherTower.get(finalI).setPosition(pillarLocation_x[finalI], pillarLocation_y[finalI] + 16);
                                 pillarArcherTower.get(finalI).clearListeners();
                                 pillarArcherTower.get(finalI).addListener(towerListener);
@@ -507,9 +561,9 @@ public class levelThreeGenerator implements Screen {
                                 pillerCircleBool.set(finalI, true);
                                 pillarAttackCircle.get(finalI).set(pillarLocation_x[finalI] + 54f, pillarLocation_y[finalI] + 32f, 175f);
                             }
-                            if(towerList.get(2).isChecked()){
-                                towerList.get(2).setChecked(false);
-                                pillarArcherTower.get(finalI).setStyle(styleTowerPlacementSupport);
+                            if(pillarList.get(2).isChecked()){
+                                pillarList.get(2).setChecked(false);
+                                pillarArcherTower.get(finalI).setStyle(stylePillarPlacementCrossbow);
                                 pillarArcherTower.get(finalI).setPosition(pillarLocation_x[finalI], pillarLocation_y[finalI] + 16);
                                 pillarArcherTower.get(finalI).clearListeners();
                                 pillarArcherTower.get(finalI).addListener(towerListener);
@@ -567,7 +621,7 @@ public class levelThreeGenerator implements Screen {
                                 Gdx.app.log("x", String.valueOf(towerLocation_x[finalI]));
                                 Gdx.app.log("Y", String.valueOf(towerLocation_x[finalI]));
                                 towerCircleBool.set(finalI, true);
-                                pillarAttackCircle.get(finalI).set(towerLocation_x[finalI] + 54f, towerLocation_y[finalI] + 32f, 325f);
+                                towerAttackCircle.get(finalI).set(towerLocation_x[finalI] + 54f, towerLocation_y[finalI] + 32f, 325f);
                             }
                         }
                     }
@@ -592,6 +646,7 @@ public class levelThreeGenerator implements Screen {
             stage.addActor(pause);
             stage.addActor(abilityList);
             stage.addActor(tower);
+            stage.addActor(archerTower);
             stage.addActor(victoryWindow);
 
             impLinkedList = new LinkedList<>();
@@ -615,7 +670,6 @@ public class levelThreeGenerator implements Screen {
                 checkPillarRange(delta);
                 checkTowerRange();
                 if(enemyCount > 0) {
-
                 }
                 else{
                 }
@@ -728,6 +782,11 @@ public class levelThreeGenerator implements Screen {
             abilityButtonArray.get(0).addListener(new TextTooltip(fireAbilityToolTip, toolTipManager, uiSkin));
             abilityButtonArray.get(1).addListener(new TextTooltip(thunderAbilityToolTip, toolTipManager, uiSkin));
             abilityButtonArray.get(2).addListener(new TextTooltip(explosionAbilityToolTip, toolTipManager, uiSkin));
+
+            pillarList.get(0).addListener(new TextTooltip(archerTowerToolTip, toolTipManager, uiSkin));
+            pillarList.get(1).addListener(new TextTooltip(magicianTowerToolTip, toolTipManager, uiSkin));
+            pillarList.get(2).addListener(new TextTooltip(supportTowerToolTip, toolTipManager, uiSkin));
+
             towerList.get(0).addListener(new TextTooltip(archerTowerToolTip, toolTipManager, uiSkin));
             towerList.get(1).addListener(new TextTooltip(magicianTowerToolTip, toolTipManager, uiSkin));
             towerList.get(2).addListener(new TextTooltip(supportTowerToolTip, toolTipManager, uiSkin));

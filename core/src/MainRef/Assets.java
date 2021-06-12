@@ -41,6 +41,7 @@ public class Assets {
     public static final String menuSkin = "core/assets/menuAssets/mainMenuAssets/menuSkin/menuSkin/menuSkin.atlas";
     public static final String towerPack = "core/assets/background/tower/towerPack/towerPack.atlas";
     public static final String snowTowerPack = "core/assets/background/tower/snowTowerPack/snowTowerSkin.atlas";
+    public static final String snowPillarArcherPack = "core/assets/background/tower/snowTowerPack/snowArcherTowerPack.atlas";
     public static final String fireAbilityPack = "core/assets/abilities/abilitesSkin/fire/fireAbilitySkin.atlas";
     public static final String timeAbilityPack = "core/assets/abilities/abilitesSkin/time/timeAbility.atlas";
 
@@ -93,6 +94,7 @@ public class Assets {
     public static void loadLevelThree(){
         manager.load(towerPack, TextureAtlas.class);
         manager.load(snowTowerPack, TextureAtlas.class);
+        manager.load(snowPillarArcherPack, TextureAtlas.class);
         manager.load(fireAbilityPack, TextureAtlas.class);
         manager.load(levelThreeBackground, Texture.class);
     }
