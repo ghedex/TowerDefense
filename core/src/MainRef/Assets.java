@@ -34,12 +34,13 @@ public class Assets {
     public static final String levelTwoBossCommander = "core/assets/assetsPack/levelTwoBoss/bossWarriorWalking.atlas";
 
     //background / enemies -> level 3
-    public static final String levelThreeBackground = "core/assets/game_background_3.png";
+    public static final String levelThreeBackground = "core/assets/level_3_background.png";
     public static final String yetiBoss = ""; // yeti -> ice warrior
 
     //HUD -> Ingame Buttons / Skins
-    public static final String menuSkin = "core/assets/menuAssets/mainMenuAssets/menuSkin/testMenuSkin/menuSkin.atlas";
+    public static final String menuSkin = "core/assets/menuAssets/mainMenuAssets/menuSkin/menuSkin/menuSkin.atlas";
     public static final String towerPack = "core/assets/background/tower/towerPack/towerPack.atlas";
+    public static final String snowTowerPack = "core/assets/background/tower/snowTowerPack/snowTowerSkin.atlas";
     public static final String fireAbilityPack = "core/assets/abilities/abilitesSkin/fire/fireAbilitySkin.atlas";
     public static final String timeAbilityPack = "core/assets/abilities/abilitesSkin/time/timeAbility.atlas";
 
@@ -91,6 +92,7 @@ public class Assets {
     }
     public static void loadLevelThree(){
         manager.load(towerPack, TextureAtlas.class);
+        manager.load(snowTowerPack, TextureAtlas.class);
         manager.load(fireAbilityPack, TextureAtlas.class);
         manager.load(levelThreeBackground, Texture.class);
     }
@@ -125,6 +127,7 @@ public class Assets {
     }
     public static void levelThreeDispose(){
         manager.unload(towerPack);
+        manager.unload(snowTowerPack);
         manager.unload(fireAbilityPack);
         manager.unload(levelThreeBackground);
         //unload enemies

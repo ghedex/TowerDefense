@@ -66,7 +66,7 @@ public class TutorialWindowPageTwo implements Screen {
         goBack(backButton);
         menu.createBackground(Assets.manager.get(Assets.tutorialBackground, Texture.class));
         stage.addActor(backButton);
-        stage.addActor(forwardButton);
+        //stage.addActor(forwardButton);
         font = new BitmapFont();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("core/assets/riffic-bold.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();

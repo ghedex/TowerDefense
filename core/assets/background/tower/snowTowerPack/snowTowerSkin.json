@@ -1,0 +1,14 @@
+{
+  com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
+    "pillar":{
+      imageUp: "pillarArcher"
+      imageOver: "pillarArcher_over"
+    }
+    "tower":{
+      imageUp: "pillarTower"
+      imageOver: "pillarTower_over"
+    }
+    "default": {
+    }
+  }
+}

@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import levels.levelOneGenerator;
+import levels.levelThreeGenerator;
 import levels.levelTwoGenerator;
 
 
@@ -36,6 +37,7 @@ public class LevelSelectionScreen implements Screen {
         final ImageButtonStyle backButtonStyle = new ImageButtonStyle();
         final ImageButtonStyle levelOneStyle = new ImageButtonStyle();
         final ImageButtonStyle levelTwoStyle = new ImageButtonStyle();
+        final ImageButtonStyle levelThreeStyle = new ImageButtonStyle();
         backButtonStyle.imageUp = new TextureRegionDrawable(Assets.manager.get(Assets.menuSkin, TextureAtlas.class).findRegion("button_close"));
         backButtonStyle.imageOver = new TextureRegionDrawable(Assets.manager.get(Assets.menuSkin, TextureAtlas.class).findRegion("button_close_over"));
 
@@ -45,13 +47,19 @@ public class LevelSelectionScreen implements Screen {
         levelTwoStyle.imageUp = new TextureRegionDrawable(Assets.manager.get(Assets.menuSkin, TextureAtlas.class).findRegion("levelTwo"));
         levelTwoStyle.imageOver = new TextureRegionDrawable(Assets.manager.get(Assets.menuSkin, TextureAtlas.class).findRegion("levelTwo_over"));
 
+        levelThreeStyle.imageUp = new TextureRegionDrawable(Assets.manager.get(Assets.menuSkin, TextureAtlas.class).findRegion("levelThree"));
+        levelThreeStyle.imageOver = new TextureRegionDrawable(Assets.manager.get(Assets.menuSkin, TextureAtlas.class).findRegion("levelThree_over"));
+
         ImageButton backButton = new ImageButton(backButtonStyle);
         backButton.setPosition(Gdx.graphics.getWidth()/100*75, Gdx.graphics.getHeight()/100*75);
         backButton.setSize(100, 100);
         ImageButton levelOneButton = new ImageButton(levelOneStyle);
-        levelOneButton.setPosition(Gdx.graphics.getWidth()/100*38, Gdx.graphics.getHeight()/100*45);
+        levelOneButton.setPosition(Gdx.graphics.getWidth()/100*32, Gdx.graphics.getHeight()/100*45);
         ImageButton levelTwoButton = new ImageButton(levelTwoStyle);
-        levelTwoButton.setPosition(Gdx.graphics.getWidth()/100*58, Gdx.graphics.getHeight()/100*45);
+        levelTwoButton.setPosition(Gdx.graphics.getWidth()/100*48, Gdx.graphics.getHeight()/100*45);
+        ImageButton levelThreeButton = new ImageButton(levelThreeStyle);
+        levelThreeButton.setPosition(Gdx.graphics.getWidth()/100*64, Gdx.graphics.getHeight()/100*45);
+
         Assets.manager.get(Assets.levelOneBackgroundMusic, Music.class).setVolume(0.02f);
         Assets.manager.get(Assets.bossLevelOneMusic, Music.class).setVolume(0.2f);
 
@@ -82,6 +90,19 @@ public class LevelSelectionScreen implements Screen {
                 Assets.menuDispose();
             }
         });
+        levelThreeButton.addListener(new ClickListener(){
+            @Override
+            public void clicked (InputEvent event, float x, float y){
+                super.clicked(event, x, y);
+                Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
+                Assets.loadLevelThree();
+                while(!Assets.manager.update()){
+                    System.out.println(Assets.manager.getProgress() * 100 + "%");
+                }
+                game.setScreen(new levelThreeGenerator(game));
+                Assets.menuDispose();
+            }
+        });
         backButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -95,6 +116,7 @@ public class LevelSelectionScreen implements Screen {
         stage.addActor(backButton);
         stage.addActor(levelOneButton);
         stage.addActor(levelTwoButton);
+        stage.addActor(levelThreeButton);
     }
 
     @Override

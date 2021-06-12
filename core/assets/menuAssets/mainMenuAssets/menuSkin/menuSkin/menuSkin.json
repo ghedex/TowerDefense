@@ -24,6 +24,10 @@
       imageUp: "levelTwo"
       imageOver: "levelTwo_over"
     }
+    "levelThree":{
+      imageUp: "levelThree"
+      imageOver: "levelThree_over"
+    }
     "tutorialButton":{
       imageUp: "tutorialButton"
       imageOver: "tutorialButton_over"

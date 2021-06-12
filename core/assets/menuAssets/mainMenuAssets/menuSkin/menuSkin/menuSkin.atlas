@@ -1,103 +1,117 @@
 
 menuSkin.png
-size: 2048, 256
+size: 1024, 512
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
 button_close
   rotate: false
-  xy: 1724, 104
+  xy: 890, 228
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 button_close_over
   rotate: false
-  xy: 1928, 104
+  xy: 890, 126
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 button_left
   rotate: false
-  xy: 1622, 104
+  xy: 788, 228
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 button_left_over
   rotate: false
-  xy: 1724, 2
+  xy: 282, 26
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 button_play
   rotate: false
-  xy: 506, 4
+  xy: 254, 305
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 button_play_over
   rotate: false
-  xy: 708, 4
+  xy: 456, 305
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 button_right
   rotate: false
-  xy: 1826, 104
+  xy: 788, 126
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 button_right_over
   rotate: false
-  xy: 1622, 2
+  xy: 180, 26
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 levelOne
   rotate: false
-  xy: 1088, 29
+  xy: 836, 330
   size: 176, 175
   orig: 176, 175
   offset: 0, 0
   index: -1
 levelOne_over
   rotate: false
-  xy: 1266, 29
+  xy: 254, 128
+  size: 176, 175
+  orig: 176, 175
+  offset: 0, 0
+  index: -1
+levelThree
+  rotate: false
+  xy: 610, 128
+  size: 176, 175
+  orig: 176, 175
+  offset: 0, 0
+  index: -1
+levelThree_over
+  rotate: false
+  xy: 658, 330
   size: 176, 175
   orig: 176, 175
   offset: 0, 0
   index: -1
 levelTwo
   rotate: false
-  xy: 1444, 29
+  xy: 432, 128
   size: 176, 175
   orig: 176, 175
   offset: 0, 0
   index: -1
 levelTwo_over
   rotate: false
-  xy: 910, 29
+  xy: 2, 2
   size: 176, 175
   orig: 176, 175
   offset: 0, 0
   index: -1
 tutorialButton
   rotate: false
-  xy: 254, 42
+  xy: 2, 179
   size: 250, 162
   orig: 250, 162
   offset: 0, 0
   index: -1
 tutorialButton_over
   rotate: false
-  xy: 2, 42
+  xy: 2, 343
   size: 250, 162
   orig: 250, 162
   offset: 0, 0

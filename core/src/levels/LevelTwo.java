@@ -92,6 +92,4 @@ public class LevelTwo extends ApplicationAdapter {
         path.add(new Vector2(1400, 165));
         return path;
     }
-
-
 }

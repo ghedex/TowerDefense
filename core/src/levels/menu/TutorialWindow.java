@@ -89,9 +89,6 @@ public class TutorialWindow implements Screen {
         font.draw(batch, "2. Once you click on a highlighted field, the \n tower menu opens. \n ", 380, 460);
         font.draw(batch, "3. The tower menu provides always three \n different towers:", 380, 390);
         font.draw(batch, "-Magic Tower: Deals ?? damage\n-Arrow Tower: Deals ?? damage \n-SupportTower: Deals ?? damage ", 400, 320);
-        //font.draw(batch, "fuckin retard, go and play the game", 380, 385);
-        //Gdx.gl.glClearColor(0, 1, 1, 1);
-        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
         batch.end();
