@@ -32,8 +32,8 @@ public class LevelSelectionScreen implements Screen {
         backButton = new testActor(Assets.manager.get(Assets.menuCloseButton, Texture.class), Gdx.graphics.getWidth()/100*75, Gdx.graphics.getHeight()/100*75, 100, 100);
         levelOneActor = new testActor(Assets.manager.get(Assets.levelOneButton, Texture.class),Gdx.graphics.getWidth()/100*38, Gdx.graphics.getHeight()/100*45);
         levelTwoActor = new testActor(Assets.manager.get(Assets.levelTwoButton, Texture.class),Gdx.graphics.getWidth()/100*58, Gdx.graphics.getHeight()/100*45);
-        Assets.manager.get(Assets.levelOneBackgroundMusic, Music.class).setVolume(0.02f);
-        Assets.manager.get(Assets.bossLevelOneMusic, Music.class).setVolume(0.2f);
+        Assets.manager.get(Assets.levelOneBackgroundMusic, Music.class).setVolume(0.05f);
+        Assets.manager.get(Assets.bossLevelOneMusic, Music.class).setVolume(0.05f);
 
         levelOneActor.addListener(new ClickListener(){
             @Override

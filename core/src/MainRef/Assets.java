@@ -83,14 +83,14 @@ public class Assets {
     public static void dispose(){
         manager.dispose();
     }
-    public static void levelOneDispose(){
-        manager.get(towerPack, TextureAtlas.class).dispose();
-        manager.get(fireAbilityPack, TextureAtlas.class).dispose();
-        //load enemies
-        manager.get(scorpionEnemy, TextureAtlas.class).dispose();
-        manager.get(wizardEnemy, TextureAtlas.class).dispose();
-        manager.get(levelOneBossWalk, TextureAtlas.class).dispose();
-        manager.get(levelOneBossTransformation, TextureAtlas.class).dispose();
-        manager.get(levelOneBossSapling, TextureAtlas.class).dispose();
+    public static void levelOneUnloadAssets(){
+        manager.unload(towerPack);
+        manager.unload(fireAbilityPack);
+        //unload enemies
+        manager.unload(scorpionEnemy);
+        manager.unload(wizardEnemy);
+        manager.unload(levelOneBossWalk);
+        manager.unload(levelOneBossTransformation);
+        manager.unload(levelOneBossSapling);
     }
 }

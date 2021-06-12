@@ -1,7 +1,6 @@
 package levels;
 
 import MainRef.Assets;
-import MainRef.ResourceHandler;
 import MainRef.TowerDefense;
 import abilities.Ability;
 import abilities.Explosion;
@@ -26,7 +25,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -1106,6 +1104,6 @@ public class levelOneGenerator implements Screen {
     public void dispose(){
         stage.dispose();
         level.dispose();
-        Assets.levelOneDispose();
+        Assets.levelOneUnloadAssets();
     }
 }
