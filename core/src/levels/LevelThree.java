@@ -36,60 +36,58 @@ public class LevelThree extends ApplicationAdapter{
     }
 
 
-    public static Array<Vector2> levelTwoStraightPath(){
+    public static Array<Vector2> levelThreeLeftPath(){
         path = new Array<Vector2>();
-        path.add(new Vector2(275, -150));
-        path.add(new Vector2(275, 100));
-        path.add(new Vector2(105, 150));
-        path.add(new Vector2(95, 300));
+        path.add(new Vector2(-200, 300));
+        path.add(new Vector2(100, 300));
         path.add(new Vector2(120, 350));
-        path.add(new Vector2(240, 350));
-        path.add(new Vector2(280, 450));
-        path.add(new Vector2(310, 550));
-        path.add(new Vector2(640, 550));
-        path.add(new Vector2(660, 500));
-        path.add(new Vector2(690, 450));
-        path.add(new Vector2(700, 300));
-        path.add(new Vector2(710, 270));
-        path.add(new Vector2(730, 190));
-        path.add(new Vector2(1300, 180));
+        path.add(new Vector2(700, 350));
+        path.add(new Vector2(900, 340));
+        path.add(new Vector2(910, 500));
+        path.add(new Vector2(920, 550));
+        path.add(new Vector2(1400, 550));
         return path;
-
     }
-
-    public static Array<Vector2> levelTwoTopPath(){
+    public static Array<Vector2> levelThreeBossTopPath(){
         path = new Array<Vector2>();
-        path.add(new Vector2(-200, 250));
-        path.add(new Vector2(45, 250));
-        path.add(new Vector2(75, 300));
-        path.add(new Vector2(130, 325));
-        path.add(new Vector2(155, 350));
-        path.add(new Vector2(275, 400));
-        path.add(new Vector2(285, 555));
-        path.add(new Vector2(650, 555));
-        path.add(new Vector2(655, 400));
-        path.add(new Vector2(875, 400));
-        path.add(new Vector2(900, 180));
-        path.add(new Vector2(1400, 180));
+        path.add(new Vector2(700, 350));
+        path.add(new Vector2(900, 340));
+        path.add(new Vector2(910, 500));
+        path.add(new Vector2(920, 550));
+        path.add(new Vector2(1400, 550));
         return path;
     }
-    public static Array<Vector2> levelTwoBottomPath(){
+    public static Array<Vector2> levelThreeBossBottomPath(){
         path = new Array<Vector2>();
-        path.add(new Vector2(275, -200));
-        path.add(new Vector2(275, 125));
-        path.add(new Vector2(325, 150));
-        path.add(new Vector2(400, 175));
-        path.add(new Vector2(1400, 165));
-        return path;
-    }
-    public static Array<Vector2> levelTwoTopRightPath(){
-        path = new Array<>();
-        path.add(new Vector2(900, 800));
-        path.add(new Vector2(925, 150));
-        path.add(new Vector2(960, 165));
-        path.add(new Vector2(1400, 165));
+        path.add(new Vector2(700, 350));
+        path.add(new Vector2(700, 350));
+        path.add(new Vector2(725, 50));
+        path.add(new Vector2(900, 85));
+        path.add(new Vector2(1400, 85));
         return path;
     }
 
-
+    public static Array<Vector2> levelThreeTopPath(){
+        path = new Array<Vector2>();
+        path.add(new Vector2(470, 800));
+        path.add(new Vector2(475, 340));
+        path.add(new Vector2(700, 340));
+        path.add(new Vector2(900, 340));
+        path.add(new Vector2(910, 500));
+        path.add(new Vector2(920, 550));
+        path.add(new Vector2(1400, 550));
+        return path;
+    }
+    public static Array<Vector2> levelThreeBottomPath(){
+        path = new Array<Vector2>();
+        path.add(new Vector2(525, -200));
+        path.add(new Vector2(525, 30));
+        path.add(new Vector2(475, 200));
+        path.add(new Vector2(475, 350));
+        path.add(new Vector2(700, 350));
+        path.add(new Vector2(725, 50));
+        path.add(new Vector2(900, 85));
+        path.add(new Vector2(1400, 85));
+        return path;
+    }
 }

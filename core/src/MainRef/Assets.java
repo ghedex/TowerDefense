@@ -35,7 +35,10 @@ public class Assets {
 
     //background / enemies -> level 3
     public static final String levelThreeBackground = "core/assets/level_3_background.png";
-    public static final String yetiBoss = ""; // yeti -> ice warrior
+    public static final String yetiEnemy = "core/assets/assetsPack/yetiEnemy/yetiEnemyPack.atlas";
+    public static final String magicianEnemy = "core/assets/assetsPack/magician/magicianEnemyPack.atlas";
+    public static final String yetiBossEnemy = "core/assets/assetsPack/levelThreeBoss/yetiBossEnemyPack.atlas";
+    public static final String iceWarriorBossEnemy = "core/assets/assetsPack/levelThreeBoss/iceWarriorBossPack.atlas";
 
     //HUD -> Ingame Buttons / Skins
     public static final String menuSkin = "core/assets/menuAssets/mainMenuAssets/menuSkin/menuSkin/menuSkin.atlas";
@@ -97,6 +100,10 @@ public class Assets {
         manager.load(snowPillarArcherPack, TextureAtlas.class);
         manager.load(fireAbilityPack, TextureAtlas.class);
         manager.load(levelThreeBackground, Texture.class);
+        manager.load(yetiEnemy, TextureAtlas.class);
+        manager.load(magicianEnemy, TextureAtlas.class);
+        manager.load(yetiBossEnemy, TextureAtlas.class);
+        manager.load(iceWarriorBossEnemy, TextureAtlas.class);
     }
     public static void dispose(){
         manager.dispose();
@@ -133,5 +140,9 @@ public class Assets {
         manager.unload(fireAbilityPack);
         manager.unload(levelThreeBackground);
         //unload enemies
+        manager.unload(yetiEnemy);
+        manager.unload(magicianEnemy);
+        manager.unload(yetiBossEnemy);
+        manager.unload(iceWarriorBossEnemy);
     }
 }

@@ -34,7 +34,13 @@ public class PathfindingEnemy extends Sprite {
         this.setPosition(path.first().x, path.first().y);
         this.setBounds(this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
-
+    public PathfindingEnemy(TextureRegion entity, Array<Vector2> path, float x, float y){
+        super(entity);
+        this.path = path;
+        this.setPosition(path.first().x, path.first().y);
+        this.setBounds(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+        this.setPosition(x, y);
+    }
 
     public PathfindingEnemy(TextureRegion entity, float x, float y){
         super(entity);
