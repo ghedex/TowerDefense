@@ -49,6 +49,21 @@ public class Entity extends Actor {
 
 
     }
+    public Entity(int WIDTH, int HEIGHT, float lifeCount, TextureAtlas textureAtlas) {
+
+        super.setSize(WIDTH, HEIGHT);
+
+        this.velocity = velocity;
+        //Anzahl Leben, später benötigt für den Schaden
+        this.lifeCount = lifeCount;
+        //Rectangle für Collision Detection
+        //bounds = new Rectangle(position.x, position.y, size.x, size.y);
+        //Atlas für die Darstellung der Entity
+        entityAtlas = textureAtlas;
+        //Animationsdarstellung bzw. Darstellung des Sprites
+        animation = new Animation(1 / 30f, entityAtlas.getRegions());
+
+    }
     public float getLifeCount() {
         return lifeCount;
     }

@@ -1,5 +1,6 @@
 package levels;
 
+import MainRef.Assets;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,7 +13,6 @@ import com.badlogic.gdx.utils.Array;
 public class LevelOne extends ApplicationAdapter {
 
     private static Array<Vector2> path;
-    public String LEVELPATH = "game_background_1.png";
     Texture levelBackground;
     SpriteBatch batch;
     Sprite img;
@@ -21,7 +21,7 @@ public class LevelOne extends ApplicationAdapter {
 
     public void createBackground() {
         batch = new SpriteBatch();
-        levelBackground = new Texture(Gdx.files.internal(LEVELPATH));
+        levelBackground = Assets.manager.get(Assets.levelOneBackground, Texture.class);
         // img = new Sprite(levelBackground, levelBackground.getWidth(), levelBackground.getHeight());
         img = new Sprite(levelBackground, levelBackground.getWidth(), levelBackground.getHeight());
     }

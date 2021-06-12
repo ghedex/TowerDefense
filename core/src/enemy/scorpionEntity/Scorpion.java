@@ -1,5 +1,6 @@
 package enemy.scorpionEntity;
 
+import MainRef.Assets;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Rectangle;
 import enemy.Entity;
@@ -12,7 +13,7 @@ public class Scorpion extends Entity {
 
 
     public Scorpion() {
-        super(WIDTH, HEIGHT, 20, "assetsPack/scorpions/scorpionRunning/scorpionPack.atlas");
+        super(WIDTH, HEIGHT, 20, Assets.manager.get(Assets.scorpionEnemy, TextureAtlas.class));
     }
 
     //TO DO: Skorpion muss schon animiert sein, damit ich nur den Skorpion callen muss

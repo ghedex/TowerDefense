@@ -1,0 +1,76 @@
+
+warriorWalking.png
+size: 1024, 128
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+1_enemies_1_RUN
+  rotate: false
+  xy: 2, 2
+  size: 120, 106
+  orig: 120, 106
+  offset: 0, 0
+  index: 9
+1_enemies_1_RUN
+  rotate: false
+  xy: 2, 2
+  size: 120, 106
+  orig: 120, 106
+  offset: 0, 0
+  index: 1
+1_enemies_1_RUN
+  rotate: false
+  xy: 124, 2
+  size: 120, 106
+  orig: 120, 106
+  offset: 0, 0
+  index: 6
+1_enemies_1_RUN
+  rotate: false
+  xy: 124, 2
+  size: 120, 106
+  orig: 120, 106
+  offset: 0, 0
+  index: 4
+1_enemies_1_RUN
+  rotate: false
+  xy: 246, 2
+  size: 120, 106
+  orig: 120, 106
+  offset: 0, 0
+  index: 3
+1_enemies_1_RUN
+  rotate: false
+  xy: 246, 2
+  size: 120, 106
+  orig: 120, 106
+  offset: 0, 0
+  index: 7
+1_enemies_1_RUN
+  rotate: false
+  xy: 368, 2
+  size: 120, 106
+  orig: 120, 106
+  offset: 0, 0
+  index: 8
+1_enemies_1_RUN
+  rotate: false
+  xy: 368, 2
+  size: 120, 106
+  orig: 120, 106
+  offset: 0, 0
+  index: 2
+1_enemies_1_RUN
+  rotate: false
+  xy: 490, 2
+  size: 120, 106
+  orig: 120, 106
+  offset: 0, 0
+  index: 0
+1_enemies_1_RUN
+  rotate: false
+  xy: 612, 2
+  size: 120, 106
+  orig: 120, 106
+  offset: 0, 0
+  index: 5

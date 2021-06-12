@@ -1,0 +1,146 @@
+
+bossWarriorWalking.png
+size: 2048, 256
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+0_boss_walk
+  rotate: false
+  xy: 2, 2
+  size: 151, 175
+  orig: 151, 175
+  offset: 0, 0
+  index: 11
+0_boss_walk
+  rotate: false
+  xy: 2, 2
+  size: 151, 175
+  orig: 151, 175
+  offset: 0, 0
+  index: 9
+0_boss_walk
+  rotate: false
+  xy: 155, 2
+  size: 151, 175
+  orig: 151, 175
+  offset: 0, 0
+  index: 3
+0_boss_walk
+  rotate: false
+  xy: 155, 2
+  size: 151, 175
+  orig: 151, 175
+  offset: 0, 0
+  index: 17
+0_boss_walk
+  rotate: false
+  xy: 308, 2
+  size: 151, 175
+  orig: 151, 175
+  offset: 0, 0
+  index: 16
+0_boss_walk
+  rotate: false
+  xy: 308, 2
+  size: 151, 175
+  orig: 151, 175
+  offset: 0, 0
+  index: 4
+0_boss_walk
+  rotate: false
+  xy: 461, 2
+  size: 151, 175
+  orig: 151, 175
+  offset: 0, 0
+  index: 8
+0_boss_walk
+  rotate: false
+  xy: 461, 2
+  size: 151, 175
+  orig: 151, 175
+  offset: 0, 0
+  index: 12
+0_boss_walk
+  rotate: false
+  xy: 614, 2
+  size: 151, 175
+  orig: 151, 175
+  offset: 0, 0
+  index: 0
+0_boss_walk
+  rotate: false
+  xy: 767, 2
+  size: 151, 175
+  orig: 151, 175
+  offset: 0, 0
+  index: 13
+0_boss_walk
+  rotate: false
+  xy: 767, 2
+  size: 151, 175
+  orig: 151, 175
+  offset: 0, 0
+  index: 7
+0_boss_walk
+  rotate: false
+  xy: 920, 2
+  size: 151, 175
+  orig: 151, 175
+  offset: 0, 0
+  index: 5
+0_boss_walk
+  rotate: false
+  xy: 920, 2
+  size: 151, 175
+  orig: 151, 175
+  offset: 0, 0
+  index: 15
+0_boss_walk
+  rotate: false
+  xy: 1073, 2
+  size: 151, 175
+  orig: 151, 175
+  offset: 0, 0
+  index: 18
+0_boss_walk
+  rotate: false
+  xy: 1073, 2
+  size: 151, 175
+  orig: 151, 175
+  offset: 0, 0
+  index: 2
+0_boss_walk
+  rotate: false
+  xy: 1226, 2
+  size: 151, 175
+  orig: 151, 175
+  offset: 0, 0
+  index: 10
+0_boss_walk
+  rotate: false
+  xy: 1379, 2
+  size: 151, 175
+  orig: 151, 175
+  offset: 0, 0
+  index: 1
+0_boss_walk
+  rotate: false
+  xy: 1379, 2
+  size: 151, 175
+  orig: 151, 175
+  offset: 0, 0
+  index: 19
+0_boss_walk
+  rotate: false
+  xy: 1532, 2
+  size: 151, 175
+  orig: 151, 175
+  offset: 0, 0
+  index: 14
+0_boss_walk
+  rotate: false
+  xy: 1532, 2
+  size: 151, 175
+  orig: 151, 175
+  offset: 0, 0
+  index: 6
