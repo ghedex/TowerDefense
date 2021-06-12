@@ -800,7 +800,7 @@ public class levelThreeGenerator implements Screen {
                 }
             }
             if(enemyCount == 0){
-                if (Intersector.overlaps(circle, bossPath.getBoundingRectangle())) {
+                if (Intersector.overlaps(circle, bossPath.getBoundingRectangle()) && bossPath.getX() >= 0) {
                     bossPath.setLifeCount(bossPath.getLifeCount() - 0.03f);
                 }
                 for (Iterator<PathfindingEnemy> iterator = iceWarriorLinkedList.iterator(); iterator.hasNext(); ) {
