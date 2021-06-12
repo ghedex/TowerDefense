@@ -318,7 +318,6 @@ public class levelThreeGenerator implements Screen {
             upgradeAbilityButtonArray.add(towerPlacementArcher);
             upgradeAbilityButtonArray.add(towerPlacementMagician);
             upgradeAbilityButtonArray.add(towerPlacementSupport);
-
             //--------------------------------------------------------AbilityMenuButtonFunctionality----------------------------------------------------//
             //fireAbility.addListener(new TextTooltip(fireAbilityToolTip, toolTipManager, uiSkin));
             fireAbility.addListener(new ClickListener(){
