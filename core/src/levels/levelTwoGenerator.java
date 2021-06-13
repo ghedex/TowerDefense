@@ -51,7 +51,7 @@ public class levelTwoGenerator implements Screen {
     Imp imp;
     Warrior warrior;
     LevelTwoBoss boss;
-    Ability fireBall, damage = new Ability();
+    Ability fireBall = new Ability(), damage = new Ability();
     Explosion explosion;
     private Array<Vector2> abilityPath;
     private boolean isPaused;
@@ -309,14 +309,10 @@ public class levelTwoGenerator implements Screen {
                             if(fireAbility.isChecked() && coins >= damage.getFireCost()) {
                                 super.clicked(event, x, y);
                                 coins -= damage.getFireCost();
-                                createAbility();
-                                setUpAbility(Gdx.input.getX() - fireBall.getWIDTH() / 2f, 720 - Gdx.input.getY() - fireBall.getHEIGHT() / 2f);
+                                createAbility(Gdx.input.getX() - fireBall.getWIDTH() / 2f, 720 - Gdx.input.getY() - fireBall.getHEIGHT() / 2f);
                                 Gdx.app.log("Mouse_X", String.valueOf(Gdx.input.getX()));
                                 Gdx.app.log("Mouse_Y", String.valueOf(Gdx.input.getY()));
                                 Gdx.app.log("Ability", abilityButtonArray.get(0).toString());
-                                fireAbility.setChecked(false);
-                                stage.removeListener(placementListener);
-                                rangeCircle = !rangeCircle;
                             }
                             else{
                                 rangeCircle = !rangeCircle;
@@ -525,37 +521,40 @@ public class levelTwoGenerator implements Screen {
                         tower.setVisible(!tower.isVisible());
                         Gdx.app.log("towerList: ", String.valueOf(finalI));
 
-                        if(towerList.get(0).isChecked()){
+                        if(towerList.get(0).isChecked() && coins >= 100){
                             towerList.get(0).setChecked(false);
                             towers.get(finalI).setStyle(styleTowerPlacementArcher);
                             towers.get(finalI).setPosition(towerLocation_x[finalI], towerLocation_y[finalI] + 16);
                             towers.get(finalI).clearListeners();
                             towers.get(finalI).addListener(towerListener);
-                            towers.get(finalI).setName("ArcherTower " + String.valueOf(finalI));
+                            towers.get(finalI).setName("ArcherTower");
                             towerCircleBool.set(finalI, true);
                             towerAttackCircle.get(finalI).set(towerLocation_x[finalI] + 54f, towerLocation_y[finalI] + 32f, 150f);
+                            coins -= 100;
                         }
-                        if(towerList.get(1).isChecked()){
+                        if(towerList.get(1).isChecked() && coins >= 250){
                             towerList.get(1).setChecked(false);
                             towers.get(finalI).setStyle(styleTowerPlacementMagician);
                             towers.get(finalI).setPosition(towerLocation_x[finalI], towerLocation_y[finalI] + 16);
                             towers.get(finalI).clearListeners();
                             towers.get(finalI).addListener(towerListener);
-                            towers.get(finalI).setName("MagicTower " + String.valueOf(finalI));
+                            towers.get(finalI).setName("MagicTower");
                             towerCircleBool.set(finalI, true);
                             towerAttackCircle.get(finalI).set(towerLocation_x[finalI] + 54f, towerLocation_y[finalI] + 32f, 150f);
+                            coins -= 250;
                         }
-                        if(towerList.get(2).isChecked()){
+                        if(towerList.get(2).isChecked() && coins >= 500){
                             towerList.get(2).setChecked(false);
                             towers.get(finalI).setStyle(styleTowerPlacementSupport);
                             towers.get(finalI).setPosition(towerLocation_x[finalI], towerLocation_y[finalI] + 16);
                             towers.get(finalI).clearListeners();
                             towers.get(finalI).addListener(towerListener);
-                            towers.get(finalI).setName("SupportTower " + String.valueOf(finalI));
+                            towers.get(finalI).setName("SupportTower");
                             Gdx.app.log("x", String.valueOf(towerLocation_x[finalI]));
                             Gdx.app.log("Y", String.valueOf(towerLocation_y[finalI]));
                             towerCircleBool.set(finalI, true);
                             towerAttackCircle.get(finalI).set(towerLocation_x[finalI] + 54f, towerLocation_y[finalI] + 32f, 150f);
+                            coins -= 500;
                         }
                     }
                 }
@@ -663,25 +662,55 @@ public class levelTwoGenerator implements Screen {
         }
     }
     //DO NOT TOUCH; DANGER IMMINENT
-    public void checkTowerRange(float delta){
-        for(Iterator<Circle> circleIterator = towerAttackCircle.iterator(); circleIterator.hasNext();){
+    public void checkTowerRange(float delta) {
+        Iterator<ImageButton> imageButton = towers.iterator();
+        for (Iterator<Circle> circleIterator = towerAttackCircle.iterator(); circleIterator.hasNext(); ) {
+            ImageButton tower = imageButton.next();
             Circle circle = circleIterator.next();
-            for(Iterator<PathfindingEnemy> iterator = impLinkedList.iterator(); iterator.hasNext();){
-                PathfindingEnemy enemy = iterator.next();
-                if (Intersector.overlaps(circle, enemy.getBoundingRectangle())) {
-                    enemy.setLifeCount(enemy.getLifeCount() - 0.05f);
+            if (imageButton.hasNext()) {
+                for (Iterator<PathfindingEnemy> iterator = impLinkedList.iterator(); iterator.hasNext(); ) {
+                    PathfindingEnemy enemy = iterator.next();
+                    if (Intersector.overlaps(circle, enemy.getBoundingRectangle()) && tower.getName().equals("ArcherTower")) {
+                        enemy.setLifeCount(enemy.getLifeCount() - 0.02f);
+                        Gdx.app.log("archer", String.valueOf(enemy.getLifeCount()));
+                    }
+                    if (Intersector.overlaps(circle, enemy.getBoundingRectangle()) && tower.getName().equals("MagicTower")) {
+                        enemy.setLifeCount(enemy.getLifeCount() - 0.03f);
+                        Gdx.app.log("magic", String.valueOf(enemy.getLifeCount()));
+                    }
+                    if (Intersector.overlaps(circle, enemy.getBoundingRectangle()) && tower.getName().equals("SupportTower")) {
+                        enemy.setLifeCount(enemy.getLifeCount() - 0.05f);
+                        Gdx.app.log("support", String.valueOf(enemy.getLifeCount()));
+                    }
                 }
-            }
-            for(Iterator<PathfindingEnemy> iterator = warriorLinkedList.iterator(); iterator.hasNext();){
-                PathfindingEnemy enemy2 = iterator.next();
-                if (Intersector.overlaps(circle, enemy2.getBoundingRectangle())) {
-                    Gdx.app.log(String.valueOf(enemy2), String.valueOf(enemy2.getLifeCount()));
-                    enemy2.setLifeCount(enemy2.getLifeCount() - 0.05f);
+                for (Iterator<PathfindingEnemy> iterator = warriorLinkedList.iterator(); iterator.hasNext(); ) {
+                    PathfindingEnemy enemy = iterator.next();
+                    if (Intersector.overlaps(circle, enemy.getBoundingRectangle()) && tower.getName().equals("ArcherTower")) {
+                        enemy.setLifeCount(enemy.getLifeCount() - 0.02f);
+                        Gdx.app.log("archer", String.valueOf(enemy.getLifeCount()));
+                    }
+                    if (Intersector.overlaps(circle, enemy.getBoundingRectangle()) && tower.getName().equals("MagicTower")) {
+                        enemy.setLifeCount(enemy.getLifeCount() - 0.03f);
+                        Gdx.app.log("magic", String.valueOf(enemy.getLifeCount()));
+                    }
+                    if (Intersector.overlaps(circle, enemy.getBoundingRectangle()) && tower.getName().equals("SupportTower")) {
+                        enemy.setLifeCount(enemy.getLifeCount() - 0.05f);
+                        Gdx.app.log("support", String.valueOf(enemy.getLifeCount()));
+                    }
                 }
-            }
-            if(enemyCount == 0){
-                if(Intersector.overlaps(circle, bossPath.getBoundingRectangle())){
-                    bossPath.setLifeCount(bossPath.getLifeCount() - 0.05f);
+                if (enemyCount == 0) {
+                    if (Intersector.overlaps(circle, bossPath.getBoundingRectangle()) && bossPath.getX() >= 0 && tower.getName().equals("ArcherTower")) {
+                        bossPath.setLifeCount(bossPath.getLifeCount() - 0.02f);
+                        Gdx.app.log("archer", String.valueOf(bossPath.getLifeCount()));
+                    }
+                    if (Intersector.overlaps(circle, bossPath.getBoundingRectangle()) && bossPath.getX() >= 0 && tower.getName().equals("MagicTower")) {
+                        bossPath.setLifeCount(bossPath.getLifeCount() - 0.03f);
+                        Gdx.app.log("magic", String.valueOf(bossPath.getLifeCount()));
+                    }
+                    if (Intersector.overlaps(circle, bossPath.getBoundingRectangle()) && bossPath.getX() >= 0 && tower.getName().equals("SupportTower")) {
+                        bossPath.setLifeCount(bossPath.getLifeCount() - 0.05f);
+                        Gdx.app.log("support", String.valueOf(bossPath.getLifeCount()));
+                    }
                 }
             }
         }
@@ -706,55 +735,45 @@ public class levelTwoGenerator implements Screen {
         towerList.get(2).addListener(new TextTooltip(supportTowerToolTip, toolTipManager, uiSkin));
     }
     public void checkAbilityCollision(PathfindingEnemy abl, float damage, int coin) {
-        if (!(abl == null)) {
-            Iterator<PathfindingEnemy> abilityIterator = ability.iterator();
-            //Gdx.app.log("Array Index",ability.toString());
+        for (Iterator<PathfindingEnemy> abilityIterator = ability.iterator(); abilityIterator.hasNext(); ) {
+            PathfindingEnemy fire = abilityIterator.next();
             for (Iterator<PathfindingEnemy> iterator = impLinkedList.iterator(); iterator.hasNext(); ) {
-                if (abilityIterator.hasNext()) {
-                    PathfindingEnemy enemy = iterator.next();
-                    if (enemy.getBoundingRectangle().overlaps(ability.get(0).getBoundingRectangle())) {
-                        enemy.setLifeCount(enemy.getLifeCount() - damage);
-                        enemy.timeOfDmgTaken = enemy.timeAlive;
-                        Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
-                        ability.removeValue(ability.get(0), true);
-                    }
-                    if (enemy.getLifeCount() <= 0) {
-                        iterator.remove();
-                        coins += coin;
-                        enemyCount -= 1;
-                    }
-                } else {
-                    break;
+                PathfindingEnemy enemy = iterator.next();
+                if (enemy.getBoundingRectangle().overlaps(fire.getBoundingRectangle())) {
+                    enemy.setLifeCount(enemy.getLifeCount() - damage);
+                    enemy.timeOfDmgTaken = enemy.timeAlive;
+                    Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
+                    abilityIterator.remove();
+                }
+                if (enemy.getLifeCount() <= 0) {
+                    iterator.remove();
+                    coins += coin;
+                    enemyCount -= 1;
                 }
             }
             for (Iterator<PathfindingEnemy> iterator = warriorLinkedList.iterator(); iterator.hasNext(); ) {
-                if (abilityIterator.hasNext()) {
-                    PathfindingEnemy enemy = iterator.next();
-                    if (enemy.getBoundingRectangle().overlaps(ability.get(0).getBoundingRectangle())) {
-                        enemy.setLifeCount(enemy.getLifeCount() - damage);
-                        enemy.timeOfDmgTaken = enemy.timeAlive;
-                        Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
-                        ability.removeValue(ability.get(0), true);
-                    }
-                    if (enemy.getLifeCount() <= 0) {
-                        iterator.remove();
-                        coins += coin;
-                        enemyCount -= 1;
-                    }
-                } else {
-                    break;
+                PathfindingEnemy enemy = iterator.next();
+                if (enemy.getBoundingRectangle().overlaps(fire.getBoundingRectangle())) {
+                    enemy.setLifeCount(enemy.getLifeCount() - damage);
+                    enemy.timeOfDmgTaken = enemy.timeAlive;
+                    Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
+                    abilityIterator.remove();
+                }
+                if (enemy.getLifeCount() <= 0) {
+                    iterator.remove();
+                    coins += coin;
+                    enemyCount -= 1;
                 }
             }
             if (enemyCount == 0) {
-                if (abilityIterator.hasNext()) {
-                    if (bossPath.getBoundingRectangle().overlaps(ability.get(0).getBoundingRectangle())) {
-                        bossPath.setLifeCount(bossPath.getLifeCount() - fireBall.getFireDamage());
-                        ability.removeValue(ability.get(0), true);
-                    }
+                if (bossPath.getBoundingRectangle().overlaps(fire.getBoundingRectangle())) {
+                    bossPath.setLifeCount(bossPath.getLifeCount() - fireBall.getFireDamage());
+                    abilityIterator.remove();
                 }
             }
         }
     }
+
     public void dealThunderDamage(){
         for (Iterator<PathfindingEnemy> iterator = impLinkedList.iterator(); iterator.hasNext(); ) {
             PathfindingEnemy enemy = iterator.next();
@@ -822,19 +841,12 @@ public class levelTwoGenerator implements Screen {
     public void drawRange(int i, float x, float y){
         towerAttackCircle.add(i, new Circle());
         towerAttackCircle.get(i).set(x + 54f, y + 32f,100f);
-        /*towerAttackRange.begin(ShapeRenderer.ShapeType.Filled);
-        towerAttackRange.setColor(1,1,1,0.2f);
-        //towerAttackRange.rect(x,y,150,150);
-        towerAttackRange.circle(x + 54f, y + 32f,150f);
-        towerAttackRange.end();
-        */
     }
-    //TODO outsource Abilities to their own files
-    public void createAbility(){
+    public void createAbility(float x, float y){
         for(ImageButton imageButton: abilityButtonArray){
             if(imageButton.isChecked()){
                 Gdx.app.log("Create Ability", abilityButtonArray.toString());
-                fireBall = new Ability();
+                ability.add(new PathfindingEnemy(fireBall.idleFrame(), abilityMovementPath(x,y),0, Gdx.graphics.getHeight() * 0.8f));
             }
         }
     }
