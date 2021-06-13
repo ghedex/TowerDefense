@@ -1,0 +1,27 @@
+{
+  com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
+    "archer_standard_menu":{
+      imageUp: archer_standard_menu,
+      imageOver: "archer_standard_menu_over"
+    }
+    "archer_strong_menu":{
+      imageUp: "archer_strong_menu"
+      imageOver: "archer_strong_menu_over"
+    },
+    "archer_crossbow_menu":{
+      imageUp: "archer_crossbow_menu"
+      imageOver: "archer_crossbow_menu_over"
+    }
+    "archer_standard":{
+      imageUp: "archer_standard"
+    }
+    "archer_strong":{
+      imageUp: "archer_strong"
+    },
+    "archer_crossbow":{
+      imageUp: "archer_crossbow_standard"
+    }
+    "default": {
+    }
+  }
+}

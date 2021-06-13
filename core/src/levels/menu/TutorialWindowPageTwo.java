@@ -8,10 +8,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import levels.levelOneGenerator;
 
@@ -45,13 +48,25 @@ public class TutorialWindowPageTwo implements Screen {
         menu = new mainMenu();
         resourceHandler.loadSound("menuAssets/mainMenuAssets/buttonAssets/buttonClick.mp3", "buttonClickSound");
         Gdx.input.setInputProcessor(stage);
-        backButton = new testActor(Assets.manager.get(Assets.menuReturnButton, Texture.class), Gdx.graphics.getWidth()/100*25, Gdx.graphics.getHeight()/100*20, 100, 100);
-        forwardButton = new testActor(Assets.manager.get(Assets.menuRightButton, Texture.class), Gdx.graphics.getWidth()/100*76, Gdx.graphics.getHeight()/100*20, 100, 100);
+        final ImageButton.ImageButtonStyle backButtonStyle = new ImageButton.ImageButtonStyle();
+        final ImageButton.ImageButtonStyle forwardButtonStyle = new ImageButton.ImageButtonStyle();
+        backButtonStyle.imageUp = new TextureRegionDrawable(Assets.manager.get(Assets.menuSkin, TextureAtlas.class).findRegion("button_left"));
+        backButtonStyle.imageOver = new TextureRegionDrawable(Assets.manager.get(Assets.menuSkin, TextureAtlas.class).findRegion("button_left_over"));
+
+        forwardButtonStyle.imageUp = new TextureRegionDrawable(Assets.manager.get(Assets.menuSkin, TextureAtlas.class).findRegion("button_right"));
+        forwardButtonStyle.imageOver = new TextureRegionDrawable(Assets.manager.get(Assets.menuSkin, TextureAtlas.class).findRegion("button_right_over"));
+
+        ImageButton backButton = new ImageButton(backButtonStyle);
+        backButton.setPosition(Gdx.graphics.getWidth()/100*25, Gdx.graphics.getHeight()/100*20);
+        ImageButton forwardButton = new ImageButton(forwardButtonStyle);
+        forwardButton.setPosition(Gdx.graphics.getWidth()/100*76, Gdx.graphics.getHeight()/100*20);
+        //backButton = new testActor(Assets.manager.get(Assets.menuReturnButton, Texture.class), Gdx.graphics.getWidth()/100*25, Gdx.graphics.getHeight()/100*20, 100, 100);
+        //forwardButton = new testActor(Assets.manager.get(Assets.menuRightButton, Texture.class), Gdx.graphics.getWidth()/100*76, Gdx.graphics.getHeight()/100*20, 100, 100);
         batch = new SpriteBatch();
         goBack(backButton);
         menu.createBackground(Assets.manager.get(Assets.tutorialBackground, Texture.class));
         stage.addActor(backButton);
-        stage.addActor(forwardButton);
+        //stage.addActor(forwardButton);
         font = new BitmapFont();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("core/assets/riffic-bold.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -82,7 +97,7 @@ public class TutorialWindowPageTwo implements Screen {
 
     }
 
-    public void goBack(testActor button){
+    public void goBack(ImageButton button){
         button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -94,7 +109,7 @@ public class TutorialWindowPageTwo implements Screen {
         });
     }
 
-    public void nextPage(testActor btn){
+    public void nextPage(ImageButton btn){
         btn.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {

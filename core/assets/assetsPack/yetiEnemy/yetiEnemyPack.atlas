@@ -1,0 +1,76 @@
+
+yetiEnemyPack.png
+size: 1024, 128
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+2_enemies_1_RUN
+  rotate: false
+  xy: 2, 2
+  size: 96, 106
+  orig: 96, 106
+  offset: 0, 0
+  index: 8
+2_enemies_1_RUN
+  rotate: false
+  xy: 100, 2
+  size: 96, 106
+  orig: 96, 106
+  offset: 0, 0
+  index: 0
+2_enemies_1_RUN
+  rotate: false
+  xy: 198, 2
+  size: 96, 106
+  orig: 96, 106
+  offset: 0, 0
+  index: 5
+2_enemies_1_RUN
+  rotate: false
+  xy: 296, 2
+  size: 96, 106
+  orig: 96, 106
+  offset: 0, 0
+  index: 2
+2_enemies_1_RUN
+  rotate: false
+  xy: 394, 2
+  size: 96, 106
+  orig: 96, 106
+  offset: 0, 0
+  index: 7
+2_enemies_1_RUN
+  rotate: false
+  xy: 492, 2
+  size: 96, 106
+  orig: 96, 106
+  offset: 0, 0
+  index: 4
+2_enemies_1_RUN
+  rotate: false
+  xy: 590, 2
+  size: 96, 106
+  orig: 96, 106
+  offset: 0, 0
+  index: 9
+2_enemies_1_RUN
+  rotate: false
+  xy: 688, 2
+  size: 96, 106
+  orig: 96, 106
+  offset: 0, 0
+  index: 1
+2_enemies_1_RUN
+  rotate: false
+  xy: 786, 2
+  size: 96, 106
+  orig: 96, 106
+  offset: 0, 0
+  index: 6
+2_enemies_1_RUN
+  rotate: false
+  xy: 884, 2
+  size: 96, 106
+  orig: 96, 106
+  offset: 0, 0
+  index: 3

@@ -15,7 +15,7 @@ public class DesktopLauncher {
 		config.resizable = false;
 		config.vSyncEnabled = true;
 		config.foregroundFPS = 60;
-		config.title = "Haha, CodeLias go brrrrr";
+		config.title = "Code mode, this is a code, I'm getting fecking old";
 		config.addIcon("icon_placeholder.png", Files.FileType.Internal);
 		new LwjglApplication(new TowerDefense(), config);
 	}
