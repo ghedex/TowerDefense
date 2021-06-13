@@ -319,13 +319,6 @@ public class levelOneGenerator implements Screen {
                                 super.clicked(event, x, y);
                                 coins -= damage.getFireCost();
                                 createAbility(Gdx.input.getX() - fireBall.getWIDTH() / 2f, 720 - Gdx.input.getY() - fireBall.getHEIGHT() / 2f);
-                                //setUpAbility(Gdx.input.getX() - fireBall.getWIDTH() / 2f, 720 - Gdx.input.getY() - fireBall.getHEIGHT() / 2f);
-                                //Gdx.app.log("Mouse_X", String.valueOf(Gdx.input.getX()));
-                                //Gdx.app.log("Mouse_Y", String.valueOf(Gdx.input.getY()));
-                                Gdx.app.log("Ability", abilityButtonArray.get(0).toString());
-                                fireAbility.setChecked(false);
-                                stage.removeListener(placementListener);
-                                rangeCircle = !rangeCircle;
                             }
                             else{
                                 rangeCircle = !rangeCircle;
