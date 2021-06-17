@@ -39,7 +39,7 @@ import java.util.*;
 public class levelOneGenerator implements Screen {
     final TowerDefense game;
     testActor pauseButtonActor, abilityButtonActor, upgradeAbilityButtonActor, towerMenueActor, backgroundHUD, backgroundHUD2;
-    Window pause, abilityList, tower, gameOverWindow, backgroundWindow, victoryWindow;
+    Window pause, abilityList, tower, gameOverWindow, backgroundWindow, victoryWindow, upgradeAbilityWindow;
     Stage stage;
     TooltipManager toolTipManager;
     ShapeRenderer shapeRenderer, towerAttackRange;
@@ -80,6 +80,7 @@ public class levelOneGenerator implements Screen {
     Array<PathfindingEnemy> abilityExplosion = new Array<>();
     Array<PathfindingEnemy> explosions = new Array<>();
     Array<ImageButton> abilityButtonArray = new Array();
+    Array<ImageButton> improveAbilityButtonArray = new Array();
 
     Array<ImageButton> upgradeAbilityButtonArray = new Array();
     private String fireAbilityToolTip, thunderAbilityToolTip, explosionAbilityToolTip;
@@ -88,6 +89,11 @@ public class levelOneGenerator implements Screen {
     private String magicianTowerToolTip = "Deals ??? Damage per second.\nCost: 500 OptiCoins";
     private String supportTowerToolTip = "Deals ? Damage per second.\nCost: 100 OptiCoins";
     private String upgradeAbilityToolTip = "Upgrades every ability. Cost: 500 OptiCoins";
+
+    private String improveFireAbilityToolTip = "+ 15 Fire damage permanently. \nCost: 100 OPC";
+    private String improveThunderAbilityTooltip = "+ 10 Thunder damage permanently. \nCost: 100 OPC";
+    private String improveExplosionAbilityTooltip = "-500 overall cost. \nCost: 1000 OPC";
+
     private int health = 100;
     float[] towerLocation_x = {
             Gdx.graphics.getWidth() * 0.035f,
@@ -254,6 +260,7 @@ public class levelOneGenerator implements Screen {
         abilityList.padBottom(5);
         abilityList.setPosition(stage.getWidth() / 2f, stage.getHeight());
         abilityList.setMovable(true);
+        upgradeAbilityWindow = new Window("Upgrade an ability", uiSkin);
         //--------------------------------------------------------AbilityMenuButtons----------------------------------------------------//
         final ImageButtonStyle style = new ImageButtonStyle();
         final ImageButtonStyle style2 = new ImageButtonStyle();
@@ -292,16 +299,29 @@ public class levelOneGenerator implements Screen {
         final ImageButton fireAbility = new ImageButton(style);
         final ImageButton thunderAbility = new ImageButton(style2);
         final ImageButton explosionAbilityArray = new ImageButton(styleExplosionAbility);
+
+        final ImageButton fireAbility2 = new ImageButton(style);
+        final ImageButton thunderAbility2 = new ImageButton(style2);
+        final ImageButton explosionAbilityArray2 = new ImageButton(styleExplosionAbility);
+
         final ImageButton towerPlacementArcher = new ImageButton(styleTowerPlacementArcher);
         final ImageButton towerPlacementMagician = new ImageButton(styleTowerPlacementMagician);
         final ImageButton towerPlacementSupport = new ImageButton(styleTowerPlacementSupport);
 
+        improveAbilityButtonArray.add(fireAbility2);
+        improveAbilityButtonArray.add(thunderAbility2);
+        improveAbilityButtonArray.add(explosionAbilityArray2);
+
         abilityButtonArray.add(fireAbility);
         abilityButtonArray.add(thunderAbility);
         abilityButtonArray.add(explosionAbilityArray);
+
+        /*
         upgradeAbilityButtonArray.add(towerPlacementArcher);
         upgradeAbilityButtonArray.add(towerPlacementMagician);
         upgradeAbilityButtonArray.add(towerPlacementSupport);
+
+         */
 
         //--------------------------------------------------------AbilityMenuButtonFunctionality----------------------------------------------------//
         fireAbility.addListener(new TextTooltip(fireAbilityToolTip, toolTipManager, uiSkin));
@@ -330,6 +350,22 @@ public class levelOneGenerator implements Screen {
                 }
             }
         });
+
+        fireAbility2.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                super.clicked(event, x, y);
+                Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
+                if(fireAbility2.isChecked() && coins >= 100){
+                    coins -= 100;
+                    damage.setFireDamage(damage.getFireDamage() + 15);
+                    updateToolTips();
+                    //Gdx.app.log("Ability", abilityButtonArray.get(1).toString());
+                    fireAbility2.setChecked(false);
+                }
+            }
+        });
         thunderAbility.addListener(new TextTooltip(thunderAbilityToolTip, toolTipManager, uiSkin));
         thunderAbility.addListener(new ClickListener(){
             @Override
@@ -344,13 +380,22 @@ public class levelOneGenerator implements Screen {
                 }
             }
         });
+        thunderAbility2.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
 
-        /*
-        TODO
-        -change Icon of ability
-        -set Position of explosion on clicked coordinate
+                super.clicked(event, x, y);
+                Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
+                if(thunderAbility2.isChecked() && coins >= 100){
+                    coins -= 100;
+                    damage.setThunderDamage(damage.getThunderDamage() + 10);
+                    updateToolTips();
+                    //Gdx.app.log("Ability", abilityButtonArray.get(1).toString());
+                    thunderAbility2.setChecked(false);
+                }
+            }
+        });
 
-         */
         explosionAbilityArray.addListener(new TextTooltip(explosionAbilityToolTip, toolTipManager, uiSkin));
         explosionAbilityArray.addListener(new ClickListener(){
             @Override
@@ -384,11 +429,15 @@ public class levelOneGenerator implements Screen {
             }
         });
 
-
         for (ImageButton imgButton : abilityButtonArray){
             abilityList.add(imgButton);
         }
 
+        for (ImageButton imgButton2 : improveAbilityButtonArray){
+            upgradeAbilityWindow.add(imgButton2);
+        }
+
+        upgradeAbilityWindow.pack();
         abilityList.pack();
         //----------------------------------------------------------GameplayButtons------------------------------------------------------//
         pauseButtonActor = new testActor(pauseButton, Gdx.graphics.getWidth()/100*1f, Gdx.graphics.getHeight()/100*89f, 90, 90);
@@ -418,20 +467,29 @@ public class levelOneGenerator implements Screen {
                 super.clicked(event, x, y);
                 Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
                 abilityList.setVisible(!abilityList.isVisible());
+                upgradeAbilityWindow.setVisible(false);
             }
         });
         //towerMenue = new testActor(towerMenueIcon, Gdx.graphics.getWidth()/100*11f, Gdx.graphics.getHeight()/100*89f, 90f, 90f);
 
         upgradeAbilityButtonActor = new testActor(upgradeAbilityButton, Gdx.graphics.getWidth()*0.21f, Gdx.graphics.getHeight()*0.865f, 90,90);
+
+        upgradeAbilityWindow.setVisible(false);
+        upgradeAbilityWindow.setMovable(false);
         upgradeAbilityButtonActor.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
+                /*
                 damage.setThunderDamage(damage.getThunderDamage() + 5f);
                 thunderAbilityToolTip = "Deals "+ (int)damage.getThunderDamage() + " Damage to all enemies\nCost: "+ (int)damage.getThunderCost();
                 enemyCount = 0;
                 Gdx.app.log("Thunder Damage", String.valueOf(damage.getThunderDamage()));
+
+                 */
+                upgradeAbilityWindow.setVisible(!upgradeAbilityWindow.isVisible());
+                abilityList.setVisible(false);
             }
         });
 
@@ -483,6 +541,12 @@ public class levelOneGenerator implements Screen {
         tower.setPosition(stage.getWidth() / 2 - tower.getWidth() / 2, stage.getHeight() / 2 - tower.getHeight() / 2);
         tower.add(continueButton2);
         tower.pack();
+
+        //upgradeAbilityWindow.padTop(64);
+        upgradeAbilityWindow.setSize(300, 100);
+        upgradeAbilityWindow.setPosition(stage.getWidth() / 2 - tower.getWidth() / 2, 720 - 50);
+        //upgradeAbilityWindow.add(continueButton2);
+        //upgradeAbilityWindow.pack();
         Gdx.input.setInputProcessor(stage);
 
         ImageButtonStyle placementStyle = new ImageButtonStyle();
@@ -598,6 +662,7 @@ public class levelOneGenerator implements Screen {
         stage.addActor(abilityList);
         stage.addActor(tower);
         stage.addActor(victoryWindow);
+        stage.addActor(upgradeAbilityWindow);
 
         scorpionLinkedList = new LinkedList<>();
         wizardLinkedList = new LinkedList<>();
@@ -800,6 +865,9 @@ public class levelOneGenerator implements Screen {
         abilityButtonArray.get(0).addListener(new TextTooltip(fireAbilityToolTip, toolTipManager, uiSkin));
         abilityButtonArray.get(1).addListener(new TextTooltip(thunderAbilityToolTip, toolTipManager, uiSkin));
         abilityButtonArray.get(2).addListener(new TextTooltip(explosionAbilityToolTip, toolTipManager, uiSkin));
+        improveAbilityButtonArray.get(0).addListener(new TextTooltip(improveFireAbilityToolTip, toolTipManager, uiSkin));
+        improveAbilityButtonArray.get(1).addListener(new TextTooltip(improveThunderAbilityTooltip, toolTipManager, uiSkin));
+        improveAbilityButtonArray.get(2).addListener(new TextTooltip(improveExplosionAbilityTooltip, toolTipManager, uiSkin));
         towerList.get(0).addListener(new TextTooltip(archerTowerToolTip, toolTipManager, uiSkin));
         towerList.get(1).addListener(new TextTooltip(magicianTowerToolTip, toolTipManager, uiSkin));
         towerList.get(2).addListener(new TextTooltip(supportTowerToolTip, toolTipManager, uiSkin));

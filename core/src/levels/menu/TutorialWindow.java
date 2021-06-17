@@ -88,7 +88,7 @@ public class TutorialWindow implements Screen {
         font.draw(batch, "1. Start one level you like.", 380, 500);
         font.draw(batch, "2. Once you click on a highlighted field, the \n tower menu opens. \n ", 380, 460);
         font.draw(batch, "3. The tower menu provides always three \n different towers:", 380, 390);
-        font.draw(batch, "-Magic Tower: Deals ?? damage\n-Arrow Tower: Deals ?? damage \n-SupportTower: Deals ?? damage ", 400, 320);
+        font.draw(batch, "-Magic Tower: Deals 3 damage\n-Archer Tower: Deals 2 damage \n-SupportTower: Deals 5 damage ", 400, 320);
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
         batch.end();

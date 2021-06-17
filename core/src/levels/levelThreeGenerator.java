@@ -38,8 +38,8 @@ import java.util.*;
 
 public class levelThreeGenerator implements Screen {
     final TowerDefense game;
-    testActor pauseButtonActor, abilityButtonActor, upgradeAbilityButtonActor;
-    Window pause, abilityList, tower, archerTower, gameOverWindow, victoryWindow;
+    testActor pauseButtonActor, abilityButtonActor, upgradeAbilityButtonActor, backgroundHUD;
+    Window pause, abilityList, tower, archerTower, gameOverWindow, victoryWindow, upgradeAbilityWindow;
     Stage stage;
     TooltipManager toolTipManager;
     ShapeRenderer shapeRenderer, towerAttackRange;
@@ -78,6 +78,8 @@ public class levelThreeGenerator implements Screen {
     Array<PathfindingEnemy> abilityExplosion = new Array<>();
     Array<PathfindingEnemy> explosions = new Array<>();
     Array<ImageButton> abilityButtonArray = new Array();
+    Array<ImageButton> improveAbilityButtonArray = new Array();
+
     Array<ImageButton> upgradeAbilityButtonArray = new Array();
     private String fireAbilityToolTip, thunderAbilityToolTip, explosionAbilityToolTip;
     //tower tooltips
@@ -85,6 +87,9 @@ public class levelThreeGenerator implements Screen {
     private String magicianTowerToolTip = "Deals ??? Damage per second.\nCost: 250 OptiCoins";
     private String supportTowerToolTip = "Deals ? Damage per second.\nCost: 500 OptiCoins";
     private String upgradeAbilityToolTip = "Upgrades every ability. Cost: 500 OptiCoins";
+    private String improveFireAbilityToolTip = "+ 15 Fire damage permanently. \nCost: 100 OPC";
+    private String improveThunderAbilityTooltip = "+ 10 Thunder damage permanently. \nCost: 100 OPC";
+    private String improveExplosionAbilityTooltip = "-500 overall cost. \nCost: 1000 OPC";
 
     private String pillarArcherStandardToolTip = "Deals ? Damage per seond.\nCost: 100 OptiCoins";
     private String pillarArcherStrongToolTip = "Deals ?? Damage per seond.\nCost: 250 OptiCoins";
@@ -263,6 +268,8 @@ public class levelThreeGenerator implements Screen {
         abilityList.padBottom(5);
         abilityList.setPosition(stage.getWidth() / 2f, stage.getHeight());
         abilityList.setMovable(true);
+        upgradeAbilityWindow = new Window("Upgrade an ability", uiSkin);
+
         //--------------------------------------------------------AbilityMenuButtons----------------------------------------------------//
         final ImageButtonStyle style = new ImageButtonStyle();
         final ImageButtonStyle style2 = new ImageButtonStyle();
@@ -322,9 +329,17 @@ public class levelThreeGenerator implements Screen {
         final ImageButton thunderAbility = new ImageButton(style2);
         final ImageButton explosionAbilityArray = new ImageButton(styleExplosionAbility);
 
+        final ImageButton fireAbility2 = new ImageButton(style);
+        final ImageButton thunderAbility2 = new ImageButton(style2);
+        final ImageButton explosionAbilityArray2 = new ImageButton(styleExplosionAbility);
+
         final ImageButton pillarPlacementMenuArcherStandard = new ImageButton(stylePillarPlacementArcherStandardMenu);
         final ImageButton pillarPlacementMenuArcherStrong = new ImageButton(stylePillarPlacementArcherStrongMenu);
         final ImageButton pillarPlacementMenuCrossbowMenu = new ImageButton(stylePillarPlacementCrossbowMenu);
+
+        improveAbilityButtonArray.add(fireAbility2);
+        improveAbilityButtonArray.add(thunderAbility2);
+        improveAbilityButtonArray.add(explosionAbilityArray2);
 
         final ImageButton towerPlacementArcher = new ImageButton(styleTowerPlacementArcher);
         final ImageButton towerPlacementMagician = new ImageButton(styleTowerPlacementMagician);
@@ -369,24 +384,57 @@ public class levelThreeGenerator implements Screen {
                 }
             }
         });
+        fireAbility2.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                super.clicked(event, x, y);
+                Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
+                if(fireAbility2.isChecked() && coins >= 100){
+                    coins -= 100;
+                    damage.setFireDamage(damage.getFireDamage() + 15);
+                    updateToolTips();
+                    //Gdx.app.log("Ability", abilityButtonArray.get(1).toString());
+                    fireAbility2.setChecked(false);
+                }
+            }
+        });
         thunderAbility.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+            super.clicked(event, x, y);
+            Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
+            if(thunderAbility.isChecked() && coins > damage.getThunderCost()){
+                coins -= damage.getThunderCost();
+                Gdx.app.log("Monetas", "Moneten: " + coins);
+                dealThunderDamage();
+                Gdx.app.log("Ability", abilityButtonArray.get(1).toString());
+                thunderAbility.setChecked(false);
+            }
+            }
+        });
+        thunderAbility2.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
                 super.clicked(event, x, y);
                 Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
-                if(thunderAbility.isChecked() && coins > damage.getThunderCost()){
-                    coins -= damage.getThunderCost();
-                    Gdx.app.log("Monetas", "Moneten: " + coins);
-                    dealThunderDamage();
-                    Gdx.app.log("Ability", abilityButtonArray.get(1).toString());
-                    thunderAbility.setChecked(false);
+                if(thunderAbility2.isChecked() && coins >= 100){
+                    coins -= 100;
+                    damage.setThunderDamage(damage.getThunderDamage() + 10);
+                    updateToolTips();
+                    //Gdx.app.log("Ability", abilityButtonArray.get(1).toString());
+                    thunderAbility2.setChecked(false);
                 }
             }
         });
         for (ImageButton imgButton : abilityButtonArray){
             abilityList.add(imgButton);
         }
-
+        for (ImageButton imgButton2 : improveAbilityButtonArray){
+            upgradeAbilityWindow.add(imgButton2);
+        }
+        upgradeAbilityWindow.pack();
         abilityList.pack();
         //----------------------------------------------------------GameplayButtons------------------------------------------------------//
         pauseButtonActor = new testActor(pauseButton, Gdx.graphics.getWidth()/100*1f, Gdx.graphics.getHeight()/100*89f, 90, 90);
@@ -399,6 +447,9 @@ public class levelThreeGenerator implements Screen {
                 pause.setVisible(!pause.isVisible());
             }
         });
+
+        backgroundHUD = new testActor(backgroundGameHUD, Gdx.graphics.getWidth()*0.01f, Gdx.graphics.getHeight()*0.62f, 270,175);
+
         continueButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -415,9 +466,12 @@ public class levelThreeGenerator implements Screen {
                 super.clicked(event, x, y);
                 Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
                 abilityList.setVisible(!abilityList.isVisible());
+                upgradeAbilityWindow.setVisible(false);
+
             }
         });
         //towerMenue = new testActor(towerMenueIcon, Gdx.graphics.getWidth()/100*11f, Gdx.graphics.getHeight()/100*89f, 90f, 90f);
+        upgradeAbilityWindow.setVisible(false);
 
         upgradeAbilityButtonActor = new testActor(upgradeAbilityButton, Gdx.graphics.getWidth()*0.21f, Gdx.graphics.getHeight()*0.865f, 90,90);
         upgradeAbilityButtonActor.addListener(new ClickListener(){
@@ -425,10 +479,9 @@ public class levelThreeGenerator implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
-                damage.setThunderDamage(damage.getThunderDamage() + 5f);
-                thunderAbilityToolTip = "Deals "+ (int)damage.getThunderDamage() + " Damage to all enemies\nCost: "+ (int)damage.getThunderCost();
-                enemyCount = 0;
-                Gdx.app.log("Thunder Damage", String.valueOf(damage.getThunderDamage()));
+                archerTower.setVisible(false);
+                upgradeAbilityWindow.setVisible(!upgradeAbilityWindow.isVisible());
+
             }
         });
 
@@ -514,6 +567,8 @@ public class levelThreeGenerator implements Screen {
         archerTower.pack();
         tower.add(continueButton2);
         tower.pack();
+        upgradeAbilityWindow.setSize(300, 100);
+        upgradeAbilityWindow.setPosition(0, 0);
         Gdx.input.setInputProcessor(stage);
 
         towerListener = new ClickListener() {
@@ -549,8 +604,10 @@ public class levelThreeGenerator implements Screen {
             //pillarArcherTower.get(i).setDebug(true);
             final int finalI = i;
             pillarArcherTower.get(i).addListener(pillarPlacementListener = new ClickListener() {
+
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    upgradeAbilityWindow.setVisible(false);
                     super.clicked(event, x, y);
                     Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
                     if(pillarArcherTower.get(finalI).isChecked()) {
@@ -653,8 +710,7 @@ public class levelThreeGenerator implements Screen {
         //font for coins, health etc.
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("core/assets/riffic-bold.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 36;
-        parameter.color = Color.RED;
+        parameter.size = 24;
         font12 = generator.generateFont(parameter);
         generator.dispose();
         font = new BitmapFont();
@@ -667,11 +723,12 @@ public class levelThreeGenerator implements Screen {
         stage.addActor(abilityButtonActor);
         stage.addActor(upgradeAbilityButtonActor);
         stage.addActor(pause);
+        stage.addActor(backgroundHUD);
         stage.addActor(abilityList);
         stage.addActor(tower);
         stage.addActor(archerTower);
         stage.addActor(victoryWindow);
-
+        stage.addActor(upgradeAbilityWindow);
         magicianLinkedList = new LinkedList<>();
         yetiLinkedList = new LinkedList<>();
         iceWarriorLinkedList = new LinkedList<>();
@@ -947,6 +1004,10 @@ public class levelThreeGenerator implements Screen {
         pillarList.get(0).addListener(new TextTooltip(pillarArcherStandardToolTip, toolTipManager, uiSkin));
         pillarList.get(1).addListener(new TextTooltip(pillarArcherStrongToolTip, toolTipManager, uiSkin));
         pillarList.get(2).addListener(new TextTooltip(pillarCrossbowToolTip, toolTipManager, uiSkin));
+
+        improveAbilityButtonArray.get(0).addListener(new TextTooltip(improveFireAbilityToolTip, toolTipManager, uiSkin));
+        improveAbilityButtonArray.get(1).addListener(new TextTooltip(improveThunderAbilityTooltip, toolTipManager, uiSkin));
+        improveAbilityButtonArray.get(2).addListener(new TextTooltip(improveExplosionAbilityTooltip, toolTipManager, uiSkin));
 
         towerList.get(0).addListener(new TextTooltip(archerTowerToolTip, toolTipManager, uiSkin));
         towerList.get(1).addListener(new TextTooltip(magicianTowerToolTip, toolTipManager, uiSkin));
