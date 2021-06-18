@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import levels.utils.Coin;
 
 
 public class MainMenuScreen implements Screen {
@@ -34,6 +35,7 @@ public class MainMenuScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         menu = new mainMenu();
         Gdx.input.setInputProcessor(stage);
+        Coin.COINS = 1000;
         final ImageButtonStyle startButtonStyle = new ImageButtonStyle();
         final ImageButtonStyle tutorialButtonStyle = new ImageButtonStyle();
         startButtonStyle.imageUp = new TextureRegionDrawable(Assets.manager.get(Assets.menuSkin, TextureAtlas.class).findRegion("button_play"));
