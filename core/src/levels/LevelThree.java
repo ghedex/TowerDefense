@@ -70,7 +70,10 @@ public class LevelThree extends ApplicationAdapter{
     public static Array<Vector2> levelThreeTopPath(){
         path = new Array<Vector2>();
         path.add(new Vector2(470, 800));
-        path.add(new Vector2(475, 340));
+        path.add(new Vector2(472, 700));
+        path.add(new Vector2(480, 600));
+        path.add(new Vector2(495, 500));
+        path.add(new Vector2(520, 450));
         path.add(new Vector2(700, 340));
         path.add(new Vector2(900, 340));
         path.add(new Vector2(910, 500));

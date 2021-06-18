@@ -33,8 +33,10 @@ public class Ability extends Entity {
     public float getFireDamage() {
         return fireDamage;
     }
-    public void setFireDamage(float fireDamage) {
-        this.fireDamage = fireDamage;
+
+    public void setFireDamage(float fireDMG) {
+        this.fireDamage += fireDMG;
+
     }
     public int getFireCost() {
         return fireCost;
