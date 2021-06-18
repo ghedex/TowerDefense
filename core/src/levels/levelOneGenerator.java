@@ -24,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
@@ -33,13 +34,17 @@ import enemy.scorpionEntity.Scorpion;
 import enemy.wizardEntity.Wizard;
 import levels.menu.testActor;
 import levels.menu.MainMenuScreen;
+import levels.utils.Coin;
+import modularAssets.TowerGeneration;
+
 import java.util.LinkedList;
 import java.util.*;
 
 public class levelOneGenerator implements Screen {
     final TowerDefense game;
     testActor pauseButtonActor, abilityButtonActor, upgradeAbilityButtonActor, towerMenueActor, backgroundHUD, backgroundHUD2;
-    Window pause, abilityList, tower, gameOverWindow, backgroundWindow, victoryWindow, upgradeAbilityWindow;
+    TowerGeneration towerGeneration = new TowerGeneration();
+    Window pause, abilityList, tower, gameOverWindow, backgroundWindow, victoryWindow, towerMenuList, upgradeAbilityWindow;
     Stage stage;
     TooltipManager toolTipManager;
     ShapeRenderer shapeRenderer, towerAttackRange;
@@ -56,25 +61,23 @@ public class levelOneGenerator implements Screen {
     private Array<Vector2> abilityPath;
     private boolean isPaused;
     private boolean gameOver;
-    private LinkedList<PathfindingEnemy> scorpionLinkedList, wizardLinkedList, saplingLinkedList;
+    private LinkedList<PathfindingEnemy> scorpionLinkedList, wizardLinkedList, treeLinkedList, saplingLinkedList;
     private float enemySpawnTimer, timeBetweenEnemySpawns = 3f;
     private float enemySpawnTimer2, timeBetweenEnemySpawns2 = 3f;
     private boolean rangeCircle = false;
-    LinkedList<ShapeRenderer> towerRangeShape;
     private String pauseButton = "menuAssets/mainMenuAssets/buttonAssets/button_pause.png";
     private String abilityButton = "core/assets/abilities/abilitesSkin/btton_abilities.png";
     private String upgradeAbilityButton = "core/assets/abilities/abilitesSkin/upgradeButton.png";
     private Skin uiSkin, fireAbilitySkin, thunderAbilitySkin, fireBallSkin, windowSkin, towerPlacementSkin, towerSkin, explosionAbilitySkin;
     private String backgroundGameHUD = "core/assets/normal_window.png";
-    private boolean towerIsPlaced;
-    private float coins = 1000;
     private int enemyCount = 50;
     private int saplingCount = 0;
     private int bossUpdate = 0;
     BitmapFont font12;
     //TODO
     LinkedList<ImageButton> towerList = new LinkedList<>();
-    LinkedList<PathfindingEnemy> enemyList = new LinkedList<>();
+    ArrayList<String> towerName;
+    LinkedList<LinkedList> enemyList = new LinkedList<>();
     Array<Array> saplingBossPath = new Array<>();
     Array<PathfindingEnemy> ability = new Array<>();
     Array<PathfindingEnemy> abilityExplosion = new Array<>();
@@ -131,10 +134,6 @@ public class levelOneGenerator implements Screen {
     Array<TextureAtlas.AtlasRegion> bossSaplingFrames = levelOneBossSapling.findRegions("0_boss_specialty_2");
     Array<TextureAtlas.AtlasRegion> bossWalkingFrames = levelOneBossWalking.findRegions("0_boss_walk");
     Array<TextureAtlas.AtlasRegion> explosionFrames = explosionAtlas.findRegions("explosion");
-    ArrayList<ImageButton> towers = new ArrayList<>();
-    Array<Float> towerCircle_x = new Array<>();
-    Array<Float> towerCircle_y = new Array<>();
-    private ArrayList<Boolean> towerCircleBool;
     private BitmapFont font;
 
     public levelOneGenerator(final TowerDefense game) {
@@ -146,7 +145,6 @@ public class levelOneGenerator implements Screen {
     @Override
     public void show() {
         Assets.manager.get(Assets.levelOneBackgroundMusic, Music.class).play();
-        //Assets.manager.get(Assets.bossLevelOneMusic, Music.class).play();
         stage = new Stage(new ScreenViewport());
         toolTipManager = new TooltipManager();
         toolTipManager.initialTime = 0.0f;
@@ -160,13 +158,12 @@ public class levelOneGenerator implements Screen {
         towerSkin = new Skin(Gdx.files.internal("core/assets/background/tower/towerPack/towerPack.json"), Assets.manager.get(Assets.towerPack, TextureAtlas.class));
         thunderAbilitySkin = new Skin(Gdx.files.internal("core/assets/abilities/abilitesSkin/thunder/thunderAbilitySkin.json") ,new TextureAtlas("core/assets/abilities/abilitesSkin/thunder/thunderAbility.atlas"));
         explosionAbilitySkin = new Skin(Gdx.files.internal("core/assets/abilities/abilitesSkin/explosion/explosionButton/explosionButton.json"), new TextureAtlas("core/assets/abilities/abilitesSkin/explosion/explosionButton/explosionButton.atlas"));
-        //thunderAbilitySkin = new Skin(Gdx.files.internal("abilities/abilitesSkin/fire/fireAbilitySkin.json"), new TextureAtlas("abilities/abilitesSkin/fire/fireAbilitySkin.atlas"));
         windowSkin = new Skin(Gdx.files.internal("menuAssets/mainMenuAssets/menuSkin/testWindowSkin/windowStyle.json"), new TextureAtlas("menuAssets/mainMenuAssets/menuSkin/testWindowSkin/windowStyle.atlas"));
         towerPlacementSkin = new Skin(Gdx.files.internal("background/tower/locations/towerPlacement.json"), new TextureAtlas("background/tower/locations/towerPlacement.atlas"));
         //----------------------------------------------------------PauseMenu------------------------------------------------------//
         //TODO outsource to a different file
-        Window.WindowStyle windowStyle = new Window.WindowStyle();
-        Window.WindowStyle windowStyle2 = new Window.WindowStyle();
+        WindowStyle windowStyle = new WindowStyle();
+        WindowStyle windowStyle2 = new WindowStyle();
         windowStyle.background = windowSkin.getDrawable("default-window");
         pause = new Window("Pause", uiSkin);
         pause.setVisible(false);
@@ -176,18 +173,18 @@ public class levelOneGenerator implements Screen {
         pause.setMovable(false);
         //----------------------------------------------------------PauseMenuButtons------------------------------------------------------//
         TextButton continueButton = new TextButton("Continue the Game",uiSkin);
-        TextButton exitButton = new TextButton("Exit to Main Menu", uiSkin);
-        TextButton exitButton2 = new TextButton("Exit to Main Menu", uiSkin);
+        TextButton menuExitButton = new TextButton("Exit to Main Menu", uiSkin);
+        TextButton gameOverExitButton = new TextButton("Exit to Main Menu", uiSkin);
         TextButton victoryExitButton = new TextButton("Exit to Main menu", uiSkin);
         continueButton.setSize(600f,600f);
-        exitButton.setSize(250f,250f);
-        exitButton2.setSize(250f,250f);
+        menuExitButton.setSize(250f,250f);
+        gameOverExitButton.setSize(250f,250f);
         victoryExitButton.setSize(500f, 500f);
         pause.add(continueButton).row();
-        pause.add(exitButton);
+        pause.add(menuExitButton);
 
         gameOverWindow = new Window("Game Over", uiSkin);
-        gameOverWindow.add(exitButton2);
+        gameOverWindow.add(gameOverExitButton);
         //gameOverWindow.pack();
         gameOverWindow.setVisible(true);
         gameOverWindow.setPosition(stage.getWidth() * 0.32f, stage.getHeight() * 0.3f);
@@ -211,7 +208,7 @@ public class levelOneGenerator implements Screen {
                 pause.setVisible(false);
             }
         });
-        exitButton.addListener(new ClickListener(){
+        ClickListener exitListener = new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -221,39 +218,12 @@ public class levelOneGenerator implements Screen {
                     System.out.println(Assets.manager.getProgress() * 100 + "%");
                 }
                 game.setScreen(new MainMenuScreen(game));
-                Assets.manager.get(Assets.levelOneBackgroundMusic, Music.class).stop();
-                dispose();
-
-            }
-        });
-        exitButton2.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
-                Assets.load();
-                while(!Assets.manager.update()){
-                    System.out.println(Assets.manager.getProgress() * 100 + "%");
-                }
-                game.setScreen(new MainMenuScreen(game));
-                Assets.manager.get(Assets.levelOneBackgroundMusic, Music.class).stop();
                 dispose();
             }
-        });
-        victoryExitButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
-                Assets.load();
-                while(!Assets.manager.update()){
-                    System.out.println(Assets.manager.getProgress() * 100 + "%");
-                }
-                game.setScreen(new MainMenuScreen(game));
-                Assets.manager.get(Assets.levelOneBackgroundMusic, Music.class).stop();
-                dispose();
-            }
-        });
+        };
+        menuExitButton.addListener(exitListener);
+        gameOverExitButton.addListener(exitListener);
+        victoryExitButton.addListener(exitListener);
         //--------------------------------------------------------AbilityMenu----------------------------------------------------//
         abilityList = new Window("Abilities", uiSkin);
         abilityList.setVisible(false);
@@ -272,7 +242,9 @@ public class levelOneGenerator implements Screen {
         style.imageOver = new TextureRegionDrawable(Assets.manager.get(Assets.fireAbilityPack, TextureAtlas.class).findRegion("fire_over"));
         style.imageChecked = new TextureRegionDrawable(Assets.manager.get(Assets.fireAbilityPack, TextureAtlas.class).findRegion("fire_checked"));
         //new TextureRegionDrawable(Assets.manager.get(Assets.towerPack, TextureAtlas.class).findRegion("archerTower_default"));
-
+        ImageButtonStyle placementStyle = new ImageButtonStyle();
+        placementStyle.imageUp = towerPlacementSkin.getDrawable("placement_up");
+        placementStyle.imageOver = towerPlacementSkin.getDrawable("placement_hover");
         styleTowerPlacementArcher.imageUp = new TextureRegionDrawable(Assets.manager.get(Assets.towerPack, TextureAtlas.class).findRegion("archerTower_default"));
         styleTowerPlacementMagician.imageUp = new TextureRegionDrawable(Assets.manager.get(Assets.towerPack, TextureAtlas.class).findRegion("magicianTower_default"));
         styleTowerPlacementSupport.imageUp = new TextureRegionDrawable(Assets.manager.get(Assets.towerPack, TextureAtlas.class).findRegion("supportTower_default"));
@@ -285,17 +257,16 @@ public class levelOneGenerator implements Screen {
 
 
         ImageButtonStyle[] towerSkins = {
+                styleTowerPlacementSupport,
                 styleTowerPlacementArcher,
-                styleTowerPlacementMagician,
-                styleTowerPlacementSupport
+                styleTowerPlacementMagician
         };
+        LinkedList<ImageButtonStyle> towerSkinsLinkedList = new LinkedList<>();
+        towerSkinsLinkedList.add(styleTowerPlacementSupport);
+        towerSkinsLinkedList.add(styleTowerPlacementArcher);
+        towerSkinsLinkedList.add(styleTowerPlacementMagician);
 
-        //styleExplosionAbility.imageUp = fireAbilitySkin.getDrawable("fire_up");
-        //styleTowerPlacementMenu.imageUp = towerSkins.getDrawable("supportTower");
-        /*
-        styleTowerPlacementMenu.supportTower = towerSkins.getDrawable("supportTower");
-        styleTowerPlacementMenu.magicianTower = towerSkins.getDrawable("magicianTower");
-         */
+
         final ImageButton fireAbility = new ImageButton(style);
         final ImageButton thunderAbility = new ImageButton(style2);
         final ImageButton explosionAbilityArray = new ImageButton(styleExplosionAbility);
@@ -335,9 +306,9 @@ public class levelOneGenerator implements Screen {
                     stage.addListener(placementListener = new ClickListener(Input.Buttons.LEFT) {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
-                            if(fireAbility.isChecked() && coins >= damage.getFireCost()) {
+                            if(fireAbility.isChecked() && Coin.COINS >= damage.getFireCost()) {
                                 super.clicked(event, x, y);
-                                coins -= damage.getFireCost();
+                                Coin.COINS -= damage.getFireCost();
                                 createAbility(Gdx.input.getX() - fireBall.getWIDTH() / 2f, 720 - Gdx.input.getY() - fireBall.getHEIGHT() / 2f);
                             }
                             else{
@@ -372,8 +343,8 @@ public class levelOneGenerator implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
-                if(thunderAbility.isChecked() && coins >= damage.getThunderCost()){
-                    coins -= damage.getThunderCost();
+                if(thunderAbility.isChecked() && Coin.COINS >= damage.getThunderCost()){
+                    Coin.COINS -= damage.getThunderCost();
                     dealThunderDamage();
                     Gdx.app.log("Ability", abilityButtonArray.get(1).toString());
                     thunderAbility.setChecked(false);
@@ -383,7 +354,6 @@ public class levelOneGenerator implements Screen {
         thunderAbility2.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
                 super.clicked(event, x, y);
                 Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
                 if(thunderAbility2.isChecked() && coins >= 100){
@@ -407,9 +377,9 @@ public class levelOneGenerator implements Screen {
                     stage.addListener(placementListener = new ClickListener(Input.Buttons.LEFT) {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
-                            if(explosionAbilityArray.isChecked() && coins >= damage.getExplosionCost()) {
+                            if(explosionAbilityArray.isChecked() && Coin.COINS >= damage.getExplosionCost()) {
                                 super.clicked(event, x, y);
-                                coins -= damage.getExplosionCost();
+                                Coin.COINS -= damage.getExplosionCost();
                                 //createAbility();
                                 createExplosionAbility();
                                 setUpAbilityTwo(Gdx.input.getX() - 40, 720 - Gdx.input.getY() - 50, Gdx.graphics.getDeltaTime());
@@ -470,7 +440,6 @@ public class levelOneGenerator implements Screen {
                 upgradeAbilityWindow.setVisible(false);
             }
         });
-        //towerMenue = new testActor(towerMenueIcon, Gdx.graphics.getWidth()/100*11f, Gdx.graphics.getHeight()/100*89f, 90f, 90f);
 
         upgradeAbilityButtonActor = new testActor(upgradeAbilityButton, Gdx.graphics.getWidth()*0.21f, Gdx.graphics.getHeight()*0.865f, 90,90);
 
@@ -506,141 +475,30 @@ public class levelOneGenerator implements Screen {
 
             }
         });
-        //Create Towers
-        towerList = new LinkedList<>();
 
-        //towers in opened menu
-        for(int i = 0; i <= 2; i++){
-            //towerList.add(i, new ImageButton(fireAbilitySkin));
-            towerList.add(i, new ImageButton(towerSkins[i]));
-            final int finalI = i;
-            towerList.get(i).addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    super.clicked(event, x, y);
-                    Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
-                    Gdx.app.log("towerList: ", String.valueOf(finalI));
-                }
-            });
-        }
+        ArrayList<Integer> coinCost = new ArrayList<>();
+        coinCost.add(100);
+        coinCost.add(250);
+        coinCost.add(500);
+        towerName = new ArrayList<>();
+        towerName.add("SupportTower");
+        towerName.add("ArcherTower");
+        towerName.add("MagicTower");
 
+        towerMenuList = towerGeneration.TowerMenuWindow(towerList, "towerList", towerSkins, stage);
+        towerGeneration.setTowerLocation(towerLocation_x, towerLocation_y);
+        towerGeneration.setTowerStyle(placementStyle);
+        towerGeneration.setTowerMenuList(towerList);
+        towerGeneration.createTowers(towerMenuList, 123, 70, coinCost, towerName, towerSkinsLinkedList, stage, 150f);
+        ArrayList<Float> towerDamage = new ArrayList<>();
+        towerDamage.add(0.02f);
+        towerDamage.add(0.05f);
+        towerDamage.add(0.07f);
+        towerGeneration.setTowerDamage(towerDamage);
 
-        for(ImageButton towerImage : towerList){
-            tower.add(towerImage);
-        }
-        towerCircleBool = new ArrayList<>();
-        for (int i = 0; i<= 8; i++){
-            towerCircleBool.add(i, false);
-        }
-        for(int i = 0; i <= towerLocation_x.length - 1; i++){
-            towerCircle_x.add(towerLocation_x[i]);
-            towerCircle_y.add(towerLocation_y[i]);
-        }
-
-        tower.padTop(64);
-        tower.setPosition(stage.getWidth() / 2 - tower.getWidth() / 2, stage.getHeight() / 2 - tower.getHeight() / 2);
-        tower.add(continueButton2);
-        tower.pack();
-
-        //upgradeAbilityWindow.padTop(64);
         upgradeAbilityWindow.setSize(300, 100);
         upgradeAbilityWindow.setPosition(stage.getWidth() / 2 - tower.getWidth() / 2, 720 - 50);
-        //upgradeAbilityWindow.add(continueButton2);
-        //upgradeAbilityWindow.pack();
         Gdx.input.setInputProcessor(stage);
-
-        ImageButtonStyle placementStyle = new ImageButtonStyle();
-        placementStyle.imageUp = towerPlacementSkin.getDrawable("placement_up");
-        placementStyle.imageOver = towerPlacementSkin.getDrawable("placement_hover");
-
-        towerListener = new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
-                Gdx.app.log("towerListener","");
-            }
-        };
-
-
-        towerAttackCircle = new LinkedList<>();
-        for(int i = 0; i <= towerLocation_x.length - 1; i++){
-            towerAttackCircle.add(i, new Circle());
-        }
-
-        towerRangeShape = new LinkedList<>();
-        for(int i = 0; i <= towerLocation_x.length - 1; i++){
-            towerRangeShape.add(i, new ShapeRenderer());
-        }
-
-        //this loop is for the tower ground
-        for (int i = 0; i <= 8; i++){
-            towers.add(i, new ImageButton(placementStyle));
-            towers.get(i).setPosition(towerLocation_x[i], towerLocation_y[i]);
-            towers.get(i).setSize(123.5f,70f);
-
-            //towers.get(i).setDebug(true);
-            final int finalI = i;
-            towers.get(i).addListener(towerPlacementListener = new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    super.clicked(event, x, y);
-                    Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
-                    if(towers.get(finalI).isChecked()) {
-                        towers.get(finalI).setChecked(false);
-                        tower.setVisible(!tower.isVisible());
-                        Gdx.app.log("towerList: ", String.valueOf(finalI));
-
-                        if(towerList.get(0).isChecked()){
-                            towerList.get(0).setChecked(false);
-                            towers.get(finalI).setStyle(styleTowerPlacementArcher);
-                            towers.get(finalI).setPosition(towerLocation_x[finalI], towerLocation_y[finalI]);
-                            towers.get(finalI).clearListeners();
-                            towers.get(finalI).addListener(towerListener);
-                            towers.get(finalI).setName("ArcherTower");
-                            towerCircleBool.set(finalI, true);
-                            towerAttackCircle.get(finalI).set(towerLocation_x[finalI] + 54f, towerLocation_y[finalI] + 32f, 150f);
-                            coins -= 250;
-                        }
-                        if(towerList.get(1).isChecked() && coins >= 500){
-                            towerList.get(1).setChecked(false);
-                            towers.get(finalI).setStyle(styleTowerPlacementMagician);
-                            towers.get(finalI).setPosition(towerLocation_x[finalI], towerLocation_y[finalI]);
-                            towers.get(finalI).clearListeners();
-                            towers.get(finalI).addListener(towerListener);
-                            towers.get(finalI).setName("MagicTower");
-                            towerCircleBool.set(finalI, true);
-                            towerAttackCircle.get(finalI).set(towerLocation_x[finalI] + 54f, towerLocation_y[finalI] + 32f, 150f);
-                            coins -= 500;
-                        }
-                        if(towerList.get(2).isChecked() && coins >= 100){
-                            towerList.get(2).setChecked(false);
-                            towers.get(finalI).setStyle(styleTowerPlacementSupport);
-                            towers.get(finalI).clearListeners();
-                            towers.get(finalI).addListener(towerListener);
-                            towers.get(finalI).setName("SupportTower");
-                            towerCircleBool.set(finalI, true);
-                            towerAttackCircle.get(finalI).set(towerLocation_x[finalI] + 54f, towerLocation_y[finalI] + 32f, 150f);
-                            coins -= 100;
-                        }
-                    }
-                }
-            });
-        }
-
-        towerListener = new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                for(int i = 0; i <= towerLocation_x.length - 1; i++){
-                    if(towers.get(i).getStyle() == style){
-                        towerCircleBool.set(i, !towerCircleBool.get(i));
-                    }
-                }
-            };
-        };
-
 
         //font for coins, health etc.
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("core/assets/riffic-bold.ttf"));
@@ -653,7 +511,6 @@ public class levelOneGenerator implements Screen {
         batch = new SpriteBatch();
         level = new LevelOne();
         level.createBackground();
-        addBuildingPlacesToStage();
         stage.addActor(pauseButtonActor);
         stage.addActor(abilityButtonActor);
         stage.addActor(upgradeAbilityButtonActor);
@@ -663,10 +520,14 @@ public class levelOneGenerator implements Screen {
         stage.addActor(tower);
         stage.addActor(victoryWindow);
         stage.addActor(upgradeAbilityWindow);
-
         scorpionLinkedList = new LinkedList<>();
         wizardLinkedList = new LinkedList<>();
+        treeLinkedList = new LinkedList<>();
         saplingLinkedList = new LinkedList<>();
+        enemyList.add(scorpionLinkedList);
+        enemyList.add(wizardLinkedList);
+        enemyList.add(treeLinkedList);
+        enemyList.add(saplingLinkedList);
         createAllEnemies();
         updateToolTips();
         //Gdx.app.log("ArrBoolSi", towerCircleBool.toString());
@@ -700,11 +561,11 @@ public class levelOneGenerator implements Screen {
         }*/
         batch.begin();
         if (!isPaused){
-            checkTowerRange(delta);
+            towerGeneration.checkTowerRange(enemyList, towerName);
             if(enemyCount > 0) {
                 spawnEnemies(Gdx.graphics.getDeltaTime());
-                makeT1EnemiesMove(delta);
-                makeT2EnemiesMove(delta);
+                makeEnemiesMove(delta, scorpionLinkedList, LevelOne.levelOneBottomPath(), currentFrame, 3);
+                makeEnemiesMove(delta, wizardLinkedList, LevelOne.levelOneTopPath(), currentFrame2, 5);
             }
             else{
                 clearEnemies();
@@ -725,16 +586,16 @@ public class levelOneGenerator implements Screen {
         if(rangeCircle){
             drawCircle();
         }
-        drawCollCircl();
+        towerGeneration.drawTowerCollisionCircle(150f);
         Gdx.gl.glDisable(GL20.GL_BLEND);
         stage.draw();
-        font12.draw(batch, "Coins: " + (int)coins, 25, 590);
+        font12.draw(batch, "Coins: " + Coin.COINS, 25, 590);
         font12.draw(batch, "Health: " + health, 25, 550);
         if(enemyCount == 0){
             Assets.manager.get(Assets.levelOneBackgroundMusic, Music.class).stop();
             Assets.manager.get(Assets.bossLevelOneMusic, Music.class).play();
             if(bossUpdate == 0){
-                font12.draw(batch, "Boss HP: " + (int)bossPath.getLifeCount(), 25, 510);
+                font12.draw(batch, "Boss HP: " + (int)treeLinkedList.get(0).getLifeCount(), 25, 510);
             }else{
                 int y = 510;
                 stage.addActor(backgroundHUD2);
@@ -757,107 +618,6 @@ public class levelOneGenerator implements Screen {
 
     }
 
-    public void drawCollCircl(){
-        Iterator<Float> circleIterator_x = towerCircle_x.iterator();
-        Iterator<Float> circleIterator_y = towerCircle_y.iterator();
-        Iterator<Circle> circleIterator = towerAttackCircle.iterator();
-        Iterator<ShapeRenderer> shapeRendererIterator = towerRangeShape.iterator();
-        Iterator<ImageButton> towerIterator = towers.iterator();
-        for(Iterator<Boolean> iterator = towerCircleBool.iterator(); iterator.hasNext();){
-            if(circleIterator.hasNext()) {
-                Boolean bool = iterator.next();
-                Float circle_x = circleIterator_x.next();
-                Float circle_y = circleIterator_y.next();
-                Circle circle = circleIterator.next();
-                ShapeRenderer shape = shapeRendererIterator.next();
-                if (bool) {
-                    shape.begin(ShapeRenderer.ShapeType.Filled);
-                    shape.setColor(1,1,1,0.2f);
-                    shape.circle(circle_x + 54f, circle_y + 32f, 150f);
-                    shape.end();
-                }
-            }
-        }
-    }
-    //DO NOT TOUCH; DANGER IMMINENT
-    public void checkTowerRange(float delta){
-        Iterator<ImageButton> imageButton = towers.iterator();
-        for (Iterator<Circle> circleIterator = towerAttackCircle.iterator(); circleIterator.hasNext(); ) {
-            ImageButton tower = imageButton.next();
-            Circle circle = circleIterator.next();
-            if (imageButton.hasNext()) {
-                for (Iterator<PathfindingEnemy> iterator = scorpionLinkedList.iterator(); iterator.hasNext(); ) {
-                    PathfindingEnemy enemy = iterator.next();
-                    if (Intersector.overlaps(circle, enemy.getBoundingRectangle()) && tower.getName().equals("ArcherTower")) {
-                        enemy.setLifeCount(enemy.getLifeCount() - 0.02f);
-                        Gdx.app.log("archer", String.valueOf(enemy.getLifeCount()));
-                    }
-                    if (Intersector.overlaps(circle, enemy.getBoundingRectangle()) && tower.getName().equals("MagicTower")) {
-                        enemy.setLifeCount(enemy.getLifeCount() - 0.03f);
-                        Gdx.app.log("magic", String.valueOf(enemy.getLifeCount()));
-                    }
-                    if (Intersector.overlaps(circle, enemy.getBoundingRectangle()) && tower.getName().equals("SupportTower")) {
-                        enemy.setLifeCount(enemy.getLifeCount() - 0.05f);
-                        Gdx.app.log("support", String.valueOf(enemy.getLifeCount()));
-                    }
-                }
-                for (Iterator<PathfindingEnemy> iterator = wizardLinkedList.iterator(); iterator.hasNext(); ) {
-                    PathfindingEnemy wizard = iterator.next();
-                    if (Intersector.overlaps(circle, wizard.getBoundingRectangle()) && tower.getName().equals("ArcherTower")) {
-                        wizard.setLifeCount(wizard.getLifeCount() - 0.02f);
-                        Gdx.app.log("archer", String.valueOf(wizard.getLifeCount()));
-                    }
-                    if (Intersector.overlaps(circle, wizard.getBoundingRectangle()) && tower.getName().equals("MagicTower")) {
-                        wizard.setLifeCount(wizard.getLifeCount() - 0.03f);
-                        Gdx.app.log("magic", String.valueOf(wizard.getLifeCount()));
-                    }
-                    if (Intersector.overlaps(circle, wizard.getBoundingRectangle()) && tower.getName().equals("SupportTower")) {
-                        wizard.setLifeCount(wizard.getLifeCount() - 0.05f);
-                        Gdx.app.log("support", String.valueOf(wizard.getLifeCount()));
-                    }
-                }
-                if (enemyCount == 0) {
-                    if (bossUpdate == 0) {
-                        if (Intersector.overlaps(circle, bossPath.getBoundingRectangle()) && bossPath.getX() >= 0 && tower.getName().equals("ArcherTower")) {
-                            bossPath.setLifeCount(bossPath.getLifeCount() - 0.02f);
-                            Gdx.app.log("archer", String.valueOf(bossPath.getLifeCount()));
-                        }
-                        if (Intersector.overlaps(circle, bossPath.getBoundingRectangle()) && bossPath.getX() >= 0 && tower.getName().equals("MagicTower")) {
-                            bossPath.setLifeCount(bossPath.getLifeCount() - 0.03f);
-                            Gdx.app.log("magic", String.valueOf(bossPath.getLifeCount()));
-                        }
-                        if (Intersector.overlaps(circle, bossPath.getBoundingRectangle()) && bossPath.getX() >= 0 && tower.getName().equals("SupportTower")) {
-                            bossPath.setLifeCount(bossPath.getLifeCount() - 0.05f);
-                            Gdx.app.log("support", String.valueOf(bossPath.getLifeCount()));
-                        }
-                    } else {
-                        for (Iterator<PathfindingEnemy> iterator = saplingLinkedList.iterator(); iterator.hasNext(); ) {
-                            PathfindingEnemy sapling = iterator.next();
-                            if (Intersector.overlaps(circle, sapling.getBoundingRectangle()) && tower.getName().equals("ArcherTower")) {
-                                sapling.setLifeCount(sapling.getLifeCount() - 0.02f);
-                                Gdx.app.log("archer", String.valueOf(sapling.getLifeCount()));
-                            }
-                            if (Intersector.overlaps(circle, sapling.getBoundingRectangle()) && tower.getName().equals("MagicTower")) {
-                                sapling.setLifeCount(sapling.getLifeCount() - 0.03f);
-                                Gdx.app.log("magic", String.valueOf(sapling.getLifeCount()));
-                            }
-                            if (Intersector.overlaps(circle, sapling.getBoundingRectangle()) && tower.getName().equals("SupportTower")) {
-                                sapling.setLifeCount(sapling.getLifeCount() - 0.05f);
-                                Gdx.app.log("support", String.valueOf(sapling.getLifeCount()));
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
-    public void addBuildingPlacesToStage(){
-        for(ImageButton placeTower: towers){
-            stage.addActor(placeTower);
-        }
-    }
     public void updateToolTips(){
         fireAbilityToolTip = "Deals "+ (int)damage.getFireDamage() + " Damage against 1 Enemy\nCost: "+ (int)damage.getFireCost() + " OptiCoins";
         thunderAbilityToolTip = "Deals "+ (int)damage.getThunderDamage() + " Damage to all enemies\nCost: "+ (int)damage.getThunderCost() + " OptiCoins";
@@ -868,9 +628,8 @@ public class levelOneGenerator implements Screen {
         improveAbilityButtonArray.get(0).addListener(new TextTooltip(improveFireAbilityToolTip, toolTipManager, uiSkin));
         improveAbilityButtonArray.get(1).addListener(new TextTooltip(improveThunderAbilityTooltip, toolTipManager, uiSkin));
         improveAbilityButtonArray.get(2).addListener(new TextTooltip(improveExplosionAbilityTooltip, toolTipManager, uiSkin));
-        towerList.get(0).addListener(new TextTooltip(archerTowerToolTip, toolTipManager, uiSkin));
-        towerList.get(1).addListener(new TextTooltip(magicianTowerToolTip, toolTipManager, uiSkin));
-        towerList.get(2).addListener(new TextTooltip(supportTowerToolTip, toolTipManager, uiSkin));
+        towerGeneration.updateTowerToolTips(supportTowerToolTip, archerTowerToolTip, magicianTowerToolTip, toolTipManager);
+
     }
     public void checkAbilityCollision(PathfindingEnemy abl, float damage, int coin) {
         for (Iterator<PathfindingEnemy> abilityIterator = ability.iterator(); abilityIterator.hasNext(); ) {
@@ -885,7 +644,7 @@ public class levelOneGenerator implements Screen {
                 }
                 if (enemy.getLifeCount() <= 0) {
                     iterator.remove();
-                    coins += coin;
+                    Coin.COINS += coin;
                     enemyCount -= 1;
                 }
             }
@@ -899,13 +658,14 @@ public class levelOneGenerator implements Screen {
                 }
                 if (enemy.getLifeCount() <= 0) {
                     iterator.remove();
-                    coins += coin;
+                    Coin.COINS += coin;
                     enemyCount -= 1;
                 }
             }
             if(enemyCount == 0){
-                if(bossPath.getBoundingRectangle().overlaps(fire.getBoundingRectangle())){
-                    bossPath.setLifeCount(bossPath.getLifeCount() - (damage + 150));
+                if(treeLinkedList.get(0).getBoundingRectangle().overlaps(fire.getBoundingRectangle())){
+                    treeLinkedList.get(0).setLifeCount(treeLinkedList.get(0).getLifeCount() - (damage + 10));
+                    abilityIterator.remove();
                 }
                 for (Iterator<PathfindingEnemy> iterator = saplingLinkedList.iterator(); iterator.hasNext(); ) {
                     PathfindingEnemy sapling = iterator.next();
@@ -917,7 +677,7 @@ public class levelOneGenerator implements Screen {
                     if (sapling.getLifeCount() <= 0) {
                         iterator.remove();
                         saplingCount += 1;
-                        coins += coin;
+                        Coin.COINS += coin;
                     }
                 }
             }
@@ -931,7 +691,7 @@ public class levelOneGenerator implements Screen {
             Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
             if (enemy.getLifeCount() <= 0) {
                 iterator.remove();
-                coins += 10;
+                Coin.COINS += 10;
                 enemyCount -= 1;
             }
         }
@@ -943,7 +703,7 @@ public class levelOneGenerator implements Screen {
             Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
             if (enemy.getLifeCount() <= 0) {
                 iterator.remove();
-                coins += 10;
+                Coin.COINS += 10;
                 enemyCount -= 1;
             }
         }
@@ -957,7 +717,7 @@ public class levelOneGenerator implements Screen {
             Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
             if (enemy.getLifeCount() <= 0) {
                 iterator.remove();
-                coins += 10;
+                Coin.COINS += 10;
             }
         }
 
@@ -968,7 +728,7 @@ public class levelOneGenerator implements Screen {
             Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
             if (enemy.getLifeCount() <= 0) {
                 iterator.remove();
-                coins += 10;
+                Coin.COINS += 10;
             }
         }
         for (Iterator<PathfindingEnemy> iterator = saplingLinkedList.iterator(); iterator.hasNext();){
@@ -976,7 +736,7 @@ public class levelOneGenerator implements Screen {
             sapling.setLifeCount(sapling.getLifeCount() - (damage.getThunderDamage() + 50));
             if (sapling.getLifeCount() <= 0) {
                 iterator.remove();
-                coins += 10;
+                Coin.COINS += 10;
                 saplingCount += 1;
             }
         }
@@ -1049,48 +809,27 @@ public class levelOneGenerator implements Screen {
         }
     }
 
-    public void makeT2EnemiesMove(float delta) {
-        for (Iterator<PathfindingEnemy> iterator = scorpionLinkedList.iterator(); iterator.hasNext(); ) {
-            PathfindingEnemy s = iterator.next();
-            s.updateAnimation(batch, LevelOne.levelOneBottomPath(), delta, currentFrame);
+    public void makeEnemiesMove(float delta, LinkedList<PathfindingEnemy> enemy ,Array<Vector2> path,TextureRegion frame, int damage) {
+        for (Iterator<PathfindingEnemy> iterator = enemy.iterator(); iterator.hasNext();) {
+            PathfindingEnemy monster = iterator.next();
+            monster.updateAnimation(batch, path, delta, frame);
             //remove entity if life is less than 0, and add 100 coins
-            if (s.getLifeCount() <= 0 ) {
-
+            if (monster.getLifeCount() <= 0) {
                 iterator.remove();
-                coins += 100;
+                Coin.COINS += 100;
                 enemyCount -= 1;
             }
             //remove entity if is out of bounds, and get player damage
-            if(s.getX() > Gdx.graphics.getWidth()){
+            if(monster.getX() > Gdx.graphics.getWidth()){
                 iterator.remove();
-                health -= 1;
-                enemyCount -= 1;
-            }
-
-        }
-    }
-    public void makeT1EnemiesMove(float delta){
-        for (Iterator<PathfindingEnemy> iteratorBoss = wizardLinkedList.iterator(); iteratorBoss.hasNext(); ) {
-            PathfindingEnemy wizard = iteratorBoss.next();
-            wizard.updateAnimation(batch, LevelOne.levelOneTopPath(), delta, currentFrame2);
-            //remove entity if life is less than 0, and add 100 coins
-            if (wizard.getLifeCount() <= 0 ) {
-                iteratorBoss.remove();
-                coins += 100;
-                enemyCount -= 1;
-            }
-            //remove entity if is otu of bounds, and get player damage
-            else if(wizard.getX() >= Gdx.graphics.getWidth()){
-
-                iteratorBoss.remove();
-                health -= 5;
+                health -= damage;
                 enemyCount -= 1;
             }
         }
     }
     public void moveBoss(float delta){
-        if(bossPath.getX() > 500 || bossPath.getLifeCount() <= 0){
-                bossPath.setBossPosition(-250f, 0);
+        if(treeLinkedList.get(0).getX() > 500 || treeLinkedList.get(0).getLifeCount() <= 0){
+            treeLinkedList.get(0).setBossPosition(-250f, 0);
                 saplingLinkedList.add(new PathfindingEnemy(boss.idleFrame(), 600, LevelOne.levelOneTopBossPath()));
                 saplingLinkedList.add(new PathfindingEnemy(boss.idleFrame(), 600, LevelOne.levelOneBottomBossPath()));
                 saplingBossPath.add(LevelOne.levelOneTopBossPath());
@@ -1098,7 +837,7 @@ public class levelOneGenerator implements Screen {
                 bossUpdate +=1;
         }
         else {
-            bossPath.updateBossAnimation(batch, LevelOne.levelOneTopPath(), delta, currentFrameBoss, 35);
+            treeLinkedList.get(0).updateBossAnimation(batch, LevelOne.levelOneTopPath(), delta, currentFrameBoss, 35);
         }
     }
     public void moveSaplingBoss(float delta){
@@ -1110,7 +849,7 @@ public class levelOneGenerator implements Screen {
             if (sapling.getLifeCount() <= 0) {
                 iterator.remove();
                 pathIterator.remove();
-                coins += 1000;
+                Coin.COINS += 1000;
                 saplingCount += 1;
             }
             if (sapling.getX() > Gdx.graphics.getWidth()) {
@@ -1165,7 +904,7 @@ public class levelOneGenerator implements Screen {
         }
     }
     public void spawnBoss(){
-        bossPath = new PathfindingEnemy(boss.idleFrame(), 1000, LevelOne.levelOneTopPath());
+        treeLinkedList.add(new PathfindingEnemy(boss.idleFrame(), 1000, LevelOne.levelOneTopPath()));
     }
 
 

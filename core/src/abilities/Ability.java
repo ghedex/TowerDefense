@@ -18,10 +18,10 @@ public class Ability extends Entity {
     private float explosionDamage = 100f;
     private float timeDamage = 400f;
     //abilitycost
-    private float fireCost = 50f;
-    private float thunderCost = 500f;
-    private float explosionCost = 1000f;
-    private float timeCost = 2000f;
+    private int fireCost = 50;
+    private int thunderCost = 500;
+    private int explosionCost = 1000;
+    private int timeCost = 1500;
 
 
 
@@ -33,13 +33,15 @@ public class Ability extends Entity {
     public float getFireDamage() {
         return fireDamage;
     }
+
     public void setFireDamage(float fireDMG) {
         this.fireDamage += fireDMG;
+
     }
-    public float getFireCost() {
+    public int getFireCost() {
         return fireCost;
     }
-    public void setFireCost(float fireCost) {
+    public void setFireCost(int fireCost) {
         this.fireCost = fireCost;
     }
 
@@ -47,10 +49,10 @@ public class Ability extends Entity {
     public void setThunderDamage(float thunderDamage) {
         this.thunderDamage = thunderDamage;
     }
-    public float getThunderCost() {
+    public int getThunderCost() {
         return thunderCost;
     }
-    public void setThunderCost(float thunderCost) {
+    public void setThunderCost(int thunderCost) {
         this.thunderCost = thunderCost;
     }
 
@@ -60,8 +62,8 @@ public class Ability extends Entity {
     public void setExplosionDamage(float explosionDamage) {
         this.explosionDamage = explosionDamage;
     }
-    public float getExplosionCost() { return explosionCost; }
-    public void setExplosionCost(float explosionCost) {
+    public int getExplosionCost() { return explosionCost; }
+    public void setExplosionCost(int explosionCost) {
         this.explosionCost = explosionCost;
     }
 
@@ -71,8 +73,8 @@ public class Ability extends Entity {
     public void setTimeDamage(float timeDamage) {
         this.timeDamage = timeDamage;
     }
-    public float getTimeCost() { return timeCost; }
-    public void setTimeCost(float timeCost) {
+    public int getTimeCost() { return timeCost; }
+    public void setTimeCost(int timeCost) {
         this.timeCost = timeCost;
     }
 
