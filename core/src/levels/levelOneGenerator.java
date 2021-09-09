@@ -193,7 +193,7 @@ public class levelOneGenerator implements Screen {
 
         victoryWindow = new Window("VICTORY", uiSkin);
         if(prefs.getLevelsFinished() < 1){
-            victoryWindow.add("Unlocked Level 2");
+            victoryWindow.add("Unlocked Level 2").bottom();
         }
         victoryWindow.add(victoryExitButton);
         victoryWindow.setVisible(false);
