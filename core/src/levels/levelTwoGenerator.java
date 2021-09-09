@@ -468,7 +468,7 @@ public class levelTwoGenerator implements Screen {
 
 
         upgradeAbilityWindow.setSize(300, 100);
-        upgradeAbilityWindow.setPosition(stage.getWidth() / 2 - tower.getWidth() / 2, 720 - 50);
+        upgradeAbilityWindow.setPosition(stage.getWidth() / 2 - stage.getWidth() / 2, 720 - 50);
         Gdx.input.setInputProcessor(stage);
 
         ImageButtonStyle placementStyle = new ImageButtonStyle();

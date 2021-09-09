@@ -1,6 +1,7 @@
 package levels.menu;
 
 import MainRef.Assets;
+import MainRef.Prefs;
 import MainRef.TowerDefense;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -25,6 +26,7 @@ public class LevelSelectionScreen implements Screen {
     final TowerDefense game;
     mainMenu menu;
     public Stage stage;
+    Prefs prefs = new Prefs();
 
     public LevelSelectionScreen(final TowerDefense game) {
         this.game = game;
@@ -59,7 +61,7 @@ public class LevelSelectionScreen implements Screen {
         levelTwoButton.setPosition(Gdx.graphics.getWidth()/100*48, Gdx.graphics.getHeight()/100*45);
         ImageButton levelThreeButton = new ImageButton(levelThreeStyle);
         levelThreeButton.setPosition(Gdx.graphics.getWidth()/100*64, Gdx.graphics.getHeight()/100*45);
-
+        Gdx.app.log("levelsFinished", String.valueOf(prefs.getLevelsFinished()));
         Assets.manager.get(Assets.levelOneBackgroundMusic, Music.class).setVolume(0.02f);
         Assets.manager.get(Assets.bossLevelOneMusic, Music.class).setVolume(0.2f);
 
@@ -76,33 +78,36 @@ public class LevelSelectionScreen implements Screen {
                 Assets.menuDispose();
             }
         });
-
-        levelTwoButton.addListener(new ClickListener(){
-            @Override
-            public void clicked (InputEvent event, float x, float y){
-                super.clicked(event, x, y);
-                Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
-                Assets.loadLevelTwo();
-                while(!Assets.manager.update()){
-                    System.out.println(Assets.manager.getProgress() * 100 + "%");
+        if(prefs.getLevelsFinished() >= 1) {
+            levelTwoButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+                    Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
+                    Assets.loadLevelTwo();
+                    while (!Assets.manager.update()) {
+                        System.out.println(Assets.manager.getProgress() * 100 + "%");
+                    }
+                    game.setScreen(new levelTwoGenerator(game));
+                    Assets.menuDispose();
                 }
-                game.setScreen(new levelTwoGenerator(game));
-                Assets.menuDispose();
-            }
-        });
-        levelThreeButton.addListener(new ClickListener(){
-            @Override
-            public void clicked (InputEvent event, float x, float y){
-                super.clicked(event, x, y);
-                Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
-                Assets.loadLevelThree();
-                while(!Assets.manager.update()){
-                    System.out.println(Assets.manager.getProgress() * 100 + "%");
+            });
+        }
+        if(prefs.getLevelsFinished() >= 2){
+            levelThreeButton.addListener(new ClickListener(){
+                @Override
+                public void clicked (InputEvent event, float x, float y){
+                    super.clicked(event, x, y);
+                    Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
+                    Assets.loadLevelThree();
+                    while(!Assets.manager.update()){
+                        System.out.println(Assets.manager.getProgress() * 100 + "%");
+                    }
+                    game.setScreen(new levelThreeGenerator(game));
+                    Assets.menuDispose();
                 }
-                game.setScreen(new levelThreeGenerator(game));
-                Assets.menuDispose();
-            }
-        });
+            });
+        }
         backButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {

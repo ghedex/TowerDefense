@@ -1,6 +1,7 @@
 package levels;
 
 import MainRef.Assets;
+import MainRef.Prefs;
 import MainRef.TowerDefense;
 import abilities.Ability;
 import abilities.Explosion;
@@ -16,7 +17,6 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 
 
@@ -42,6 +42,7 @@ import java.util.*;
 
 public class levelOneGenerator implements Screen {
     final TowerDefense game;
+    Prefs prefs = new Prefs();
     testActor pauseButtonActor, abilityButtonActor, upgradeAbilityButtonActor, towerMenueActor, backgroundHUD, backgroundHUD2;
     TowerGeneration towerGeneration = new TowerGeneration();
     Window pause, abilityList, tower, gameOverWindow, backgroundWindow, victoryWindow, towerMenuList, upgradeAbilityWindow;
@@ -191,6 +192,9 @@ public class levelOneGenerator implements Screen {
         gameOverWindow.setSize(stage.getWidth() / 2.5f, stage.getHeight() / 2.5f);
 
         victoryWindow = new Window("VICTORY", uiSkin);
+        if(prefs.getLevelsFinished() < 1){
+            victoryWindow.add("Unlocked Level 2");
+        }
         victoryWindow.add(victoryExitButton);
         victoryWindow.setVisible(false);
         victoryWindow.setPosition(stage.getWidth() / 2 - pause.getWidth() / 2, stage.getHeight() / 2 - pause.getHeight() / 2);
@@ -306,9 +310,9 @@ public class levelOneGenerator implements Screen {
                     stage.addListener(placementListener = new ClickListener(Input.Buttons.LEFT) {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
-                            if(fireAbility.isChecked() && Coin.COINS >= damage.getFireCost()) {
+                            if(fireAbility.isChecked() && towerGeneration.getCoins() >= damage.getFireCost()) {
                                 super.clicked(event, x, y);
-                                Coin.COINS -= damage.getFireCost();
+                                towerGeneration.setCoins(towerGeneration.getCoins() - damage.getFireCost());
                                 createAbility(Gdx.input.getX() - fireBall.getWIDTH() / 2f, 720 - Gdx.input.getY() - fireBall.getHEIGHT() / 2f);
                             }
                             else{
@@ -328,8 +332,8 @@ public class levelOneGenerator implements Screen {
 
                 super.clicked(event, x, y);
                 Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
-                if(fireAbility2.isChecked() && coins >= 100){
-                    coins -= 100;
+                if(fireAbility2.isChecked() && towerGeneration.getCoins() >= 100){
+                    towerGeneration.setCoins(towerGeneration.getCoins() - 100);
                     damage.setFireDamage(damage.getFireDamage() + 15);
                     updateToolTips();
                     //Gdx.app.log("Ability", abilityButtonArray.get(1).toString());
@@ -343,8 +347,8 @@ public class levelOneGenerator implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
-                if(thunderAbility.isChecked() && Coin.COINS >= damage.getThunderCost()){
-                    Coin.COINS -= damage.getThunderCost();
+                if(thunderAbility.isChecked() && towerGeneration.getCoins()>= damage.getThunderCost()){
+                    towerGeneration.setCoins(towerGeneration.getCoins() - damage.getThunderCost());
                     dealThunderDamage();
                     Gdx.app.log("Ability", abilityButtonArray.get(1).toString());
                     thunderAbility.setChecked(false);
@@ -356,8 +360,8 @@ public class levelOneGenerator implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
-                if(thunderAbility2.isChecked() && coins >= 100){
-                    coins -= 100;
+                if(thunderAbility2.isChecked() && towerGeneration.getCoins() >= 100){
+                    towerGeneration.setCoins(towerGeneration.getCoins() - 100);
                     damage.setThunderDamage(damage.getThunderDamage() + 10);
                     updateToolTips();
                     //Gdx.app.log("Ability", abilityButtonArray.get(1).toString());
@@ -377,9 +381,9 @@ public class levelOneGenerator implements Screen {
                     stage.addListener(placementListener = new ClickListener(Input.Buttons.LEFT) {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
-                            if(explosionAbilityArray.isChecked() && Coin.COINS >= damage.getExplosionCost()) {
+                            if(explosionAbilityArray.isChecked() && towerGeneration.getCoins()>= damage.getExplosionCost()) {
                                 super.clicked(event, x, y);
-                                Coin.COINS -= damage.getExplosionCost();
+                                towerGeneration.setCoins(towerGeneration.getCoins() - damage.getExplosionCost());
                                 //createAbility();
                                 createExplosionAbility();
                                 setUpAbilityTwo(Gdx.input.getX() - 40, 720 - Gdx.input.getY() - 50, Gdx.graphics.getDeltaTime());
@@ -589,7 +593,7 @@ public class levelOneGenerator implements Screen {
         towerGeneration.drawTowerCollisionCircle(150f);
         Gdx.gl.glDisable(GL20.GL_BLEND);
         stage.draw();
-        font12.draw(batch, "Coins: " + Coin.COINS, 25, 590);
+        font12.draw(batch, "Coins: " + towerGeneration.getCoins(), 25, 590);
         font12.draw(batch, "Health: " + health, 25, 550);
         if(enemyCount == 0){
             Assets.manager.get(Assets.levelOneBackgroundMusic, Music.class).stop();
@@ -644,7 +648,7 @@ public class levelOneGenerator implements Screen {
                 }
                 if (enemy.getLifeCount() <= 0) {
                     iterator.remove();
-                    Coin.COINS += coin;
+                    towerGeneration.setCoins(towerGeneration.getCoins() + coin);
                     enemyCount -= 1;
                 }
             }
@@ -658,7 +662,7 @@ public class levelOneGenerator implements Screen {
                 }
                 if (enemy.getLifeCount() <= 0) {
                     iterator.remove();
-                    Coin.COINS += coin;
+                    towerGeneration.setCoins(towerGeneration.getCoins() + coin);
                     enemyCount -= 1;
                 }
             }
@@ -677,7 +681,7 @@ public class levelOneGenerator implements Screen {
                     if (sapling.getLifeCount() <= 0) {
                         iterator.remove();
                         saplingCount += 1;
-                        Coin.COINS += coin;
+                        towerGeneration.setCoins(towerGeneration.getCoins() + coin);
                     }
                 }
             }
@@ -691,7 +695,7 @@ public class levelOneGenerator implements Screen {
             Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
             if (enemy.getLifeCount() <= 0) {
                 iterator.remove();
-                Coin.COINS += 10;
+                towerGeneration.setCoins(towerGeneration.getCoins() + 10);
                 enemyCount -= 1;
             }
         }
@@ -703,7 +707,7 @@ public class levelOneGenerator implements Screen {
             Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
             if (enemy.getLifeCount() <= 0) {
                 iterator.remove();
-                Coin.COINS += 10;
+                towerGeneration.setCoins(towerGeneration.getCoins() + 10);
                 enemyCount -= 1;
             }
         }
@@ -717,7 +721,7 @@ public class levelOneGenerator implements Screen {
             Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
             if (enemy.getLifeCount() <= 0) {
                 iterator.remove();
-                Coin.COINS += 10;
+                towerGeneration.setCoins(towerGeneration.getCoins() + 10);
             }
         }
 
@@ -728,7 +732,7 @@ public class levelOneGenerator implements Screen {
             Gdx.app.log(String.valueOf(enemy), String.valueOf(enemy.getLifeCount()));
             if (enemy.getLifeCount() <= 0) {
                 iterator.remove();
-                Coin.COINS += 10;
+                towerGeneration.setCoins(towerGeneration.getCoins() + 10);
             }
         }
         for (Iterator<PathfindingEnemy> iterator = saplingLinkedList.iterator(); iterator.hasNext();){
@@ -736,7 +740,7 @@ public class levelOneGenerator implements Screen {
             sapling.setLifeCount(sapling.getLifeCount() - (damage.getThunderDamage() + 50));
             if (sapling.getLifeCount() <= 0) {
                 iterator.remove();
-                Coin.COINS += 10;
+                towerGeneration.setCoins(towerGeneration.getCoins() + 10);
                 saplingCount += 1;
             }
         }
@@ -816,7 +820,7 @@ public class levelOneGenerator implements Screen {
             //remove entity if life is less than 0, and add 100 coins
             if (monster.getLifeCount() <= 0) {
                 iterator.remove();
-                Coin.COINS += 100;
+                towerGeneration.setCoins(towerGeneration.getCoins() + 100);
                 enemyCount -= 1;
             }
             //remove entity if is out of bounds, and get player damage
@@ -849,7 +853,7 @@ public class levelOneGenerator implements Screen {
             if (sapling.getLifeCount() <= 0) {
                 iterator.remove();
                 pathIterator.remove();
-                Coin.COINS += 1000;
+                towerGeneration.setCoins(towerGeneration.getCoins() + 1000);
                 saplingCount += 1;
             }
             if (sapling.getX() > Gdx.graphics.getWidth()) {
@@ -863,6 +867,7 @@ public class levelOneGenerator implements Screen {
             Assets.manager.get(Assets.bossLevelOneMusic, Music.class).stop();
             isPaused = true;
             victoryWindow.setVisible(true);
+            prefs.setLevelsFinished(1);
             Assets.manager.get(Assets.victorySound, Sound.class).play(2f);
             Gdx.app.log("Game Won", "Sapling");
         }else{
