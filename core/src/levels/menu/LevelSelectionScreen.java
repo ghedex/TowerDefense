@@ -1,6 +1,7 @@
 package levels.menu;
 
 import MainRef.Assets;
+import MainRef.Configuration.GameState;
 import MainRef.Prefs;
 import MainRef.TowerDefense;
 import com.badlogic.gdx.Gdx;
@@ -33,6 +34,7 @@ public class LevelSelectionScreen implements Screen {
     }
     @Override
     public void show() {
+
         stage = new Stage(new ScreenViewport());
         menu = new mainMenu();
         Gdx.input.setInputProcessor(stage);

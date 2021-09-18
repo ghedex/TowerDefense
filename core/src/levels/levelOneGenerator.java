@@ -34,7 +34,6 @@ import enemy.scorpionEntity.Scorpion;
 import enemy.wizardEntity.Wizard;
 import levels.menu.testActor;
 import levels.menu.MainMenuScreen;
-import levels.utils.Coin;
 import modularAssets.TowerGeneration;
 
 import java.util.LinkedList;
@@ -386,7 +385,7 @@ public class levelOneGenerator implements Screen {
                                 towerGeneration.setCoins(towerGeneration.getCoins() - damage.getExplosionCost());
                                 //createAbility();
                                 createExplosionAbility();
-                                setUpAbilityTwo(Gdx.input.getX() - 40, 720 - Gdx.input.getY() - 50, Gdx.graphics.getDeltaTime());
+                                setUpAbilityTwo(Gdx.input.getX() - 40, 720 - Gdx.input.getY() - 50);
                                 dealExplosionDamage();
                                 explosionAbilityArray.setChecked(false);
                                 stage.removeListener(placementListener);
@@ -585,13 +584,7 @@ public class levelOneGenerator implements Screen {
             checkAbilityCollision(fireBallAbility, damage.getFireDamage(), 50);
             checkAbilityCollision(fireBallAbility2, damage.getExplosionDamage(), 100);
         }
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        if(rangeCircle){
-            drawCircle();
-        }
-        towerGeneration.drawTowerCollisionCircle(150f);
-        Gdx.gl.glDisable(GL20.GL_BLEND);
+        showRangeCircle();
         stage.draw();
         font12.draw(batch, "Coins: " + towerGeneration.getCoins(), 25, 590);
         font12.draw(batch, "Health: " + health, 25, 550);
@@ -621,11 +614,19 @@ public class levelOneGenerator implements Screen {
         currentFrame2 = (TextureRegion) explosionAbility.getKeyFrame(elapsed_time);
 
     }
-
+public void showRangeCircle(){
+    Gdx.gl.glEnable(GL20.GL_BLEND);
+    Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+    if(rangeCircle){
+        drawCircle();
+    }
+    towerGeneration.drawTowerCollisionCircle(150f);
+    Gdx.gl.glDisable(GL20.GL_BLEND);
+}
     public void updateToolTips(){
-        fireAbilityToolTip = "Deals "+ (int)damage.getFireDamage() + " Damage against 1 Enemy\nCost: "+ (int)damage.getFireCost() + " OptiCoins";
-        thunderAbilityToolTip = "Deals "+ (int)damage.getThunderDamage() + " Damage to all enemies\nCost: "+ (int)damage.getThunderCost() + " OptiCoins";
-        explosionAbilityToolTip = "Immediately kills one enemy.\nCost: " + (int)damage.getExplosionCost() + " OptiCoins";
+        fireAbilityToolTip = "Deals "+ damage.getFireDamage() + " Damage against 1 Enemy\nCost: "+ damage.getFireCost() + " OptiCoins";
+        thunderAbilityToolTip = "Deals "+ damage.getThunderDamage() + " Damage to all enemies\nCost: "+ damage.getThunderCost() + " OptiCoins";
+        explosionAbilityToolTip = "Immediately kills one enemy.\nCost: " + damage.getExplosionCost() + " OptiCoins";
         abilityButtonArray.get(0).addListener(new TextTooltip(fireAbilityToolTip, toolTipManager, uiSkin));
         abilityButtonArray.get(1).addListener(new TextTooltip(thunderAbilityToolTip, toolTipManager, uiSkin));
         abilityButtonArray.get(2).addListener(new TextTooltip(explosionAbilityToolTip, toolTipManager, uiSkin));
@@ -780,7 +781,7 @@ public class levelOneGenerator implements Screen {
     }
 
     public Array<Vector2> abilityMovementPath(float x, float y){
-        abilityPath = new Array<Vector2>();
+        abilityPath = new Array<>();
         abilityPath.add(new Vector2(x, y));
         return abilityPath;
     }
@@ -790,7 +791,7 @@ public class levelOneGenerator implements Screen {
         fireBallAbility.setPosition(0, Gdx.graphics.getHeight() * 0.8f);
         ability.add(fireBallAbility);
     }
-    public void setUpAbilityTwo(float x, float y, float delta){
+    public void setUpAbilityTwo(float x, float y){
         ability = new Array<>();
         fireBallAbility2 = new PathfindingEnemy(explosion.idleFrame(), abilityMovementPath(x, y));
         fireBallAbility2.setPosition(0, Gdx.graphics.getHeight() * 0.8f);

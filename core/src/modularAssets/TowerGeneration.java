@@ -137,7 +137,7 @@ public class TowerGeneration {
                             ImageButtonStyle imageStyle = styleIterator.next();
                             Integer price = coinIterator.next();
                             String towerName = nameIterator.next();
-                            if (towerIerator.isChecked() && Coin.COINS >= price) {
+                            if (towerIerator.isChecked() && coins >= price) {
                                 towerIerator.setChecked(false);
                                 towerArrayList.get(finalI).setStyle(imageStyle);
                                 towerArrayList.get(finalI).setPosition(towerLocation_x[finalI], towerLocation_y[finalI]);
