@@ -20,11 +20,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class TowerGeneration {
-    Window tower, archerTower;
+    Window tower;
     ClickListener towerPlacementListener, towerListener;
     LinkedList<ImageButton> towerList = new LinkedList<>();
-    ArrayList<ImageButton> pillarTower = new ArrayList<>();
-    private ArrayList<Boolean> towerCircleBool = new ArrayList<>();
+    Coin utilCoins = new Coin();
+    private int coins = utilCoins.getCoin();
     private ImageButtonStyle towerStyle;
     private float[] towerLocation_x;
     private float[] towerLocation_y;
@@ -137,7 +137,7 @@ public class TowerGeneration {
                             ImageButtonStyle imageStyle = styleIterator.next();
                             Integer price = coinIterator.next();
                             String towerName = nameIterator.next();
-                            if (towerIerator.isChecked() && Coin.COINS >= price) {
+                            if (towerIerator.isChecked() && coins >= price) {
                                 towerIerator.setChecked(false);
                                 towerArrayList.get(finalI).setStyle(imageStyle);
                                 towerArrayList.get(finalI).setPosition(towerLocation_x[finalI], towerLocation_y[finalI]);
@@ -146,7 +146,7 @@ public class TowerGeneration {
                                 towerArrayList.get(finalI).setName(towerName);
                                 doesCircleExist.set(finalI, true);
                                 towerCollisionCircle.get(finalI).set(towerLocation_x[finalI] + 48f, towerLocation_y[finalI] + 48f, radius);
-                                Coin.COINS -= price;
+                                coins -= price;
                             }
                         }
                     }
@@ -187,6 +187,12 @@ public class TowerGeneration {
 
     public void setTowerDamage(ArrayList<Float> towerDamage) {
         this.towerDamage = towerDamage;
+    }
+    public void setCoins(int coins){
+        this.coins = coins;
+    }
+    public int getCoins(){
+        return coins;
     }
 
     public void checkTowerRange(LinkedList<LinkedList> enemyList, ArrayList<String> name) {

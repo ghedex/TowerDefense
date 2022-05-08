@@ -1,33 +1,33 @@
 
 menuSkin.png
-size: 1024, 512
+size: 2048, 512
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
 button_close
   rotate: false
-  xy: 890, 228
+  xy: 1904, 303
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 button_close_over
   rotate: false
-  xy: 890, 126
+  xy: 712, 228
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 button_left
   rotate: false
-  xy: 788, 228
+  xy: 1904, 405
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 button_left_over
   rotate: false
-  xy: 282, 26
+  xy: 916, 228
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
@@ -46,16 +46,30 @@ button_play_over
   orig: 200, 200
   offset: 0, 0
   index: -1
+button_restart
+  rotate: false
+  xy: 1192, 330
+  size: 176, 175
+  orig: 176, 175
+  offset: 0, 0
+  index: -1
+button_restart_hover
+  rotate: false
+  xy: 1370, 330
+  size: 176, 175
+  orig: 176, 175
+  offset: 0, 0
+  index: -1
 button_right
   rotate: false
-  xy: 788, 126
+  xy: 610, 203
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 button_right_over
   rotate: false
-  xy: 180, 26
+  xy: 814, 228
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
@@ -69,14 +83,21 @@ levelOne
   index: -1
 levelOne_over
   rotate: false
-  xy: 254, 128
+  xy: 1014, 330
   size: 176, 175
   orig: 176, 175
   offset: 0, 0
   index: -1
 levelThree
   rotate: false
-  xy: 610, 128
+  xy: 254, 128
+  size: 176, 175
+  orig: 176, 175
+  offset: 0, 0
+  index: -1
+levelThreeLocked
+  rotate: false
+  xy: 432, 128
   size: 176, 175
   orig: 176, 175
   offset: 0, 0
@@ -90,7 +111,14 @@ levelThree_over
   index: -1
 levelTwo
   rotate: false
-  xy: 432, 128
+  xy: 1726, 330
+  size: 176, 175
+  orig: 176, 175
+  offset: 0, 0
+  index: -1
+levelTwoLocked
+  rotate: false
+  xy: 1548, 330
   size: 176, 175
   orig: 176, 175
   offset: 0, 0

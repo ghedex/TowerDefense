@@ -1,22 +1,15 @@
 package abilities;
 
-import MainRef.TowerDefense;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import enemy.Entity;
 
 public class Ability extends Entity {
-    Rectangle bounds;
-    BodyDef bdef = new BodyDef();
+
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;
-    private float fireDamage = 5f;
-    private float thunderDamage = 50f;
-    private float explosionDamage = 100f;
-    private float timeDamage = 400f;
+    private int fireDamage = 5;
+    private int thunderDamage = 50;
+    private int explosionDamage = 100;
+    private int timeDamage = 400;
     //abilitycost
     private int fireCost = 50;
     private int thunderCost = 500;
@@ -30,14 +23,14 @@ public class Ability extends Entity {
         super(WIDTH, HEIGHT, 1, "abilities/abilitesSkin/abilitiesSkin.atlas");
     }
 
-    public float getFireDamage() {
+    public int getFireDamage() {
         return fireDamage;
     }
 
-    public void setFireDamage(float fireDMG) {
-        this.fireDamage += fireDMG;
-
+    public void setFireDamage(int fireDamage) {
+        this.fireDamage = fireDamage;
     }
+
     public int getFireCost() {
         return fireCost;
     }
@@ -45,8 +38,8 @@ public class Ability extends Entity {
         this.fireCost = fireCost;
     }
 
-    public float getThunderDamage() { return thunderDamage; }
-    public void setThunderDamage(float thunderDamage) {
+    public int getThunderDamage() { return thunderDamage; }
+    public void setThunderDamage(int thunderDamage) {
         this.thunderDamage = thunderDamage;
     }
     public int getThunderCost() {
@@ -56,10 +49,10 @@ public class Ability extends Entity {
         this.thunderCost = thunderCost;
     }
 
-    public float getExplosionDamage() {
+    public int getExplosionDamage() {
         return explosionDamage;
     }
-    public void setExplosionDamage(float explosionDamage) {
+    public void setExplosionDamage(int explosionDamage) {
         this.explosionDamage = explosionDamage;
     }
     public int getExplosionCost() { return explosionCost; }
@@ -67,10 +60,10 @@ public class Ability extends Entity {
         this.explosionCost = explosionCost;
     }
 
-    public float getTimeDamage() {
+    public int getTimeDamage() {
         return timeDamage;
     }
-    public void setTimeDamage(float timeDamage) {
+    public void setTimeDamage(int timeDamage) {
         this.timeDamage = timeDamage;
     }
     public int getTimeCost() { return timeCost; }

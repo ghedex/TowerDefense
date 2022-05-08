@@ -24,13 +24,23 @@
       imageUp: "levelTwo"
       imageOver: "levelTwo_over"
     }
+    "levelTwoLocked":{
+      imageUp: "levelTwoLocked"
+    }
     "levelThree":{
       imageUp: "levelThree"
       imageOver: "levelThree_over"
     }
+    "levelThreeLocked":{
+      imageUp: "levelThreeLocked"
+    }
     "tutorialButton":{
       imageUp: "tutorialButton"
       imageOver: "tutorialButton_over"
+    }
+    "reset":{
+      imageUp: "button_restart"
+      imageOver: "button_restart_hover"
     }
     "default": {
     }

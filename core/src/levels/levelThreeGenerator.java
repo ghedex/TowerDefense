@@ -373,8 +373,8 @@ public class levelThreeGenerator implements Screen {
 
                 super.clicked(event, x, y);
                 Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
-                if(fireAbility2.isChecked() && coins >= 100){
-                    coins -= 100;
+                if(fireAbility2.isChecked() && Coin.COINS >= 100){
+                    Coin.COINS -= 100;
                     damage.setFireDamage(damage.getFireDamage() + 15);
                     updateToolTips();
                     //Gdx.app.log("Ability", abilityButtonArray.get(1).toString());
@@ -387,10 +387,10 @@ public class levelThreeGenerator implements Screen {
             public void clicked(InputEvent event, float x, float y) {
             super.clicked(event, x, y);
             Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
-            if(thunderAbility.isChecked() && coins > damage.getThunderCost()){
-                coins -= damage.getThunderCost();
-                Gdx.app.log("Monetas", "Moneten: " + coins);
-                dealThunderDamage();
+            if(thunderAbility.isChecked() && Coin.COINS > damage.getThunderCost()){
+                Coin.COINS -= damage.getThunderCost();
+                Gdx.app.log("Monetas", "Moneten: " + Coin.COINS);
+                dealThunderDamage(enemyList);
                 Gdx.app.log("Ability", abilityButtonArray.get(1).toString());
                 thunderAbility.setChecked(false);
             }
@@ -402,8 +402,8 @@ public class levelThreeGenerator implements Screen {
 
                 super.clicked(event, x, y);
                 Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
-                if(thunderAbility2.isChecked() && coins >= 100){
-                    coins -= 100;
+                if(thunderAbility2.isChecked() && Coin.COINS >= 100){
+                    Coin.COINS -= 100;
                     damage.setThunderDamage(damage.getThunderDamage() + 10);
                     updateToolTips();
                     //Gdx.app.log("Ability", abilityButtonArray.get(1).toString());
@@ -465,7 +465,7 @@ public class levelThreeGenerator implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 Assets.manager.get(Assets.buttonClickSound, Sound.class).play(0.5f);
-                archerTower.setVisible(false);
+                //archerTower.setVisible(false);
                 upgradeAbilityWindow.setVisible(!upgradeAbilityWindow.isVisible());
 
             }
